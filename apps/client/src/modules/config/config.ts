@@ -1,6 +1,7 @@
 export const buildTimeConfig = {
   baseUrl: (import.meta.env.VITE_BASE_URL ?? window.location.origin) as string,
   baseApiUrl: (import.meta.env.VITE_BASE_API_URL ?? window.location.origin) as string,
+  vitrineBaseUrl: (import.meta.env.VITE_VITRINE_BASE_URL ?? 'https://owlrelay.email') as string,
   auth: {
     isRegistrationEnabled: import.meta.env.VITE_AUTH_IS_REGISTRATION_ENABLED !== 'false',
     isPasswordResetEnabled: import.meta.env.VITE_AUTH_IS_PASSWORD_RESET_ENABLED !== 'false',
