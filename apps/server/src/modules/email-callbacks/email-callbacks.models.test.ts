@@ -13,8 +13,8 @@ describe('email-callbacks models', () => {
         webhookSecret: '1234567890',
         allowedOrigins: [],
         isEnabled: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: new Date('2025-01-01'),
+        updatedAt: new Date('2025-01-01'),
         userId: '1',
       };
 
@@ -26,8 +26,8 @@ describe('email-callbacks models', () => {
         webhookSecret: '************************',
         allowedOrigins: [],
         isEnabled: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        createdAt: new Date('2025-01-01'),
+        updatedAt: new Date('2025-01-01'),
         userId: '1',
       });
     });
