@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "1549332e-4ddb-4640-9ad8-48ecf300e36b",
+  "id": "835f3a89-9feb-4f56-a95b-6f47ffea9d00",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "emails_callbacks": {
@@ -94,7 +94,7 @@
             "domain",
             "username"
           ],
-          "isUnique": false
+          "isUnique": true
         }
       },
       "foreignKeys": {

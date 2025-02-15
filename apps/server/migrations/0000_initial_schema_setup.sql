@@ -13,7 +13,7 @@ CREATE TABLE `emails_callbacks` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `emails_callbacks_username_unique` ON `emails_callbacks` (`username`);--> statement-breakpoint
-CREATE INDEX `emails_callbacks_domain_username_index` ON `emails_callbacks` (`domain`,`username`);--> statement-breakpoint
+CREATE UNIQUE INDEX `emails_callbacks_domain_username_index` ON `emails_callbacks` (`domain`,`username`);--> statement-breakpoint
 CREATE TABLE `users` (
 	`id` text PRIMARY KEY NOT NULL,
 	`created_at` integer NOT NULL,
