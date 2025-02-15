@@ -1,6 +1,5 @@
 import type { Address } from 'postal-mime';
 import type { EmailCallback } from './email-callbacks.types';
-import { Config } from '../config/config.types';
 
 export function formatEmailCallbackForApi({ emailCallback }: { emailCallback: EmailCallback }) {
   return {

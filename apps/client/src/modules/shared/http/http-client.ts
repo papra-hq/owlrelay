@@ -1,5 +1,4 @@
 import type { FetchOptions, ResponseType } from 'ofetch';
-import { buildTimeConfig } from '@/modules/config/config';
 import { ofetch } from 'ofetch';
 
 export { ResponseType };

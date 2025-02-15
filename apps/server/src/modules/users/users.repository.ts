@@ -1,9 +1,7 @@
 import type { Database } from '../app/database/database.types';
-import type { DbInsertableUser } from './users.types';
 import { injectArguments } from '@corentinth/chisels';
 import { eq } from 'drizzle-orm';
-import { isUniqueConstraintError } from '../shared/db/constraints.models';
-import { createUserAlreadyExistsError, createUsersNotFoundError } from './users.errors';
+import { createUsersNotFoundError } from './users.errors';
 import { usersTable } from './users.table';
 
 export { createUsersRepository };

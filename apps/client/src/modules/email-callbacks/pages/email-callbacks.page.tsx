@@ -1,29 +1,25 @@
 import type { DialogTriggerProps } from '@kobalte/core/dialog';
 import type { EmailCallback } from '../email-callbacks.types';
 import { useConfig } from '@/modules/config/config.provider';
-import { useConfirmModal } from '@/modules/shared/confirm';
 import { createForm } from '@/modules/shared/form/form';
-import { isHttpErrorWithCode, isHttpErrorWithStatusCode } from '@/modules/shared/http/http-errors';
-import { queryClient } from '@/modules/shared/query/query-client';
+import { isHttpErrorWithCode } from '@/modules/shared/http/http-errors';
 import { cn } from '@/modules/shared/style/cn';
-import { Alert, AlertDescription, AlertTitle } from '@/modules/ui/components/alert';
 import { Button } from '@/modules/ui/components/button';
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/modules/ui/components/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/modules/ui/components/dropdown-menu';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/modules/ui/components/select';
-import { Separator } from '@/modules/ui/components/separator';
 import { TextField, TextFieldLabel, TextFieldRoot } from '@/modules/ui/components/textfield';
 import { safely } from '@corentinth/chisels';
 import { generateId } from '@corentinth/friendly-ids';
-import { FormError, getError, getValue, setValue } from '@modular-forms/solid';
+import { getError, setValue } from '@modular-forms/solid';
 import { A } from '@solidjs/router';
 import { createQuery } from '@tanstack/solid-query';
-import { type Component, createSignal, For, type JSX, Match, Show, Switch } from 'solid-js';
+import { type Component, createSignal, For, type JSX, Match, Switch } from 'solid-js';
 import * as v from 'valibot';
 import { useCreateEmailCallback, useDeleteEmailCallback, useUpdateEmailCallback } from '../email-callbacks.composables';
 import { emailUsernameRegex } from '../email-callbacks.constants';
 import { generateEmailCallbackSecret } from '../email-callbacks.models';
-import { createEmailCallback, deleteEmailCallback, getEmailCallbacks } from '../email-callbacks.services';
+import { getEmailCallbacks } from '../email-callbacks.services';
 
 const EmailCallbackModal: Component<{
   emailCallback?: EmailCallback;

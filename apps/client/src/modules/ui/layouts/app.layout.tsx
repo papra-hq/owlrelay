@@ -1,18 +1,12 @@
 import type { DropdownMenuTriggerProps } from '@kobalte/core/dropdown-menu';
-import type { TooltipTriggerProps } from '@kobalte/core/tooltip';
-import { signOut } from '@/modules/auth/auth.services';
-
-import { useConfig } from '@/modules/config/config.provider';
 
 import { useI18n } from '@/modules/i18n/i18n.provider';
 import { cn } from '@/modules/shared/style/cn';
 import { Button } from '@/modules/ui/components/button';
 import { useThemeStore } from '@/modules/ui/theme/theme.store';
-import { A, useNavigate, useParams } from '@solidjs/router';
-import { type Component, type ComponentProps, type JSX, type ParentComponent, Show, Suspense } from 'solid-js';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from '../components/dropdown-menu';
-import { Sheet, SheetContent, SheetTrigger } from '../components/sheet';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../components/tooltip';
+import { A } from '@solidjs/router';
+import { type Component, type ParentComponent, Show } from 'solid-js';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../components/dropdown-menu';
 
 export const ThemeSwitcher: Component = () => {
   const themeStore = useThemeStore();

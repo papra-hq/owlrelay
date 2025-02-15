@@ -2,7 +2,7 @@ import type { Email } from 'postal-mime';
 import PostalMime from 'postal-mime';
 import { setupDatabase } from '../app/database/database';
 import { parseConfig } from '../config/config';
-import { filterEmailAddressesCandidates, getIsFromAllowedAddress, parseEmailAddress } from './email-callbacks.models';
+import { filterEmailAddressesCandidates, getIsFromAllowedAddress } from './email-callbacks.models';
 import { createEmailCallbacksRepository } from './email-callbacks.repository';
 
 async function parseEmail({ rawMessage }: { rawMessage: ReadableStream<Uint8Array> }) {
