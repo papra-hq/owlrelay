@@ -35,9 +35,9 @@ function setupCreateEmailCallbackRoute({ app }: { app: ServerInstance }) {
     validateJsonBody(
       z.object({
         domain: z.string().min(1),
-        username: z.string().regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i).min(3),
+        username: z.string().regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i).min(3).max(32),
         webhookUrl: z.string().url(),
-        webhookSecret: z.string().min(16),
+        webhookSecret: z.string().min(16).max(128),
         allowedOrigins: z.array(z.string().url()).optional().default([]),
       }),
     ),
@@ -94,10 +94,10 @@ function setupUpdateEmailCallbackRoute({ app }: { app: ServerInstance }) {
       z.object({
         isEnabled: z.boolean().optional(),
         domain: z.string().optional(),
-        username: z.string().optional(),
+        username: z.string().regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i).min(3).max(32).optional(),
         allowedOrigins: z.array(z.string().url()).optional(),
         webhookUrl: z.string().url().optional(),
-        webhookSecret: z.string().min(16).optional(),
+        webhookSecret: z.string().min(16).max(128).optional(),
       }),
     ),
     async (context) => {
