@@ -54,6 +54,8 @@ Join the community on [Papra's Discord server](https://discord.gg/8UPjzsrBNF) to
 This project is crafted with ❤️ by [Corentin Thomasset](https://corentin.tech).
 If you find this project helpful, please consider [supporting my work](https://buymeacoffee.com/cthmsst).
 
+OwlRelay icon is the [Owl Rounded icon](https://icones.js.org/collection/all?icon=material-symbols:owl-rounded) from [Material Symbols set](https://github.com/google/material-design-icons), licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
 ## Contact Information
 
 Please use the issue tracker on GitHub for any questions or feedback.
