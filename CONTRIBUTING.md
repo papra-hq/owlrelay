@@ -10,7 +10,7 @@ This project adheres to the [Contributor Covenant](https://www.contributor-coven
 
 ### Reporting Issues
 
-If you find a bug, have a feature request, or need help, feel free to open an issue in the [GitHub Issue Tracker](https://github.com/papra-hq/owl-relay/issues). You're also welcome to comment on existing issues.
+If you find a bug, have a feature request, or need help, feel free to open an issue in the [GitHub Issue Tracker](https://github.com/papra-hq/owlrelay/issues). You're also welcome to comment on existing issues.
 
 ### Submitting Pull Requests
 
@@ -77,7 +77,7 @@ We recommend running the app locally for development. Follow these steps:
 1. Clone the repository and navigate inside the project directory.
 
    ```bash
-   git clone https://github.com/papra-hq/owl-relay.git
+   git clone https://github.com/papra-hq/owlrelay.git
    cd owlrealy
    ```
 
@@ -159,7 +159,7 @@ To start the documentation server for local development:
 
 ## Issue Labels
 
-Look out for issues tagged as [**good first issue**](https://github.com/papra-hq/owl-relay/issues?q=sort%3Aupdated-desc%20is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22) or [**PR welcome**](https://github.com/papra-hq/owl-relay/issues?q=sort%3Aupdated-desc+is%3Aissue+state%3Aopen+label%3A%22PR+welcome%22) for tasks that are well-suited for new contributors. Feel free to comment on existing issues or create new ones.
+Look out for issues tagged as [**good first issue**](https://github.com/papra-hq/owlrelay/issues?q=sort%3Aupdated-desc%20is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22) or [**PR welcome**](https://github.com/papra-hq/owlrelay/issues?q=sort%3Aupdated-desc+is%3Aissue+state%3Aopen+label%3A%22PR+welcome%22) for tasks that are well-suited for new contributors. Feel free to comment on existing issues or create new ones.
 
 ## License
 
