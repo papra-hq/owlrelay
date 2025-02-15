@@ -7,7 +7,7 @@
 </p>
 
 <h1 align="center">
-  OwlRelay - Email to Webhook Relay
+  OwlRelay - Email to HTTP
 </h1>
 <p align="center">
   Trigger your webhooks or APIs by sending emails to generated addresses.
