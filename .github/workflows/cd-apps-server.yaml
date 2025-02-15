@@ -24,6 +24,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Run migrations
+        working-directory: apps/server
+        run: pnpm migrate:up
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
+
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
