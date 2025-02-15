@@ -1,0 +1,35 @@
+auth:
+  login:
+    title: Login to OwlRelay
+    description: Enter your email or use social login to access your OwlRelay account.
+    login-with-provider: Login with {{ provider }}
+    no-account: Don't have an account?
+    register: Register
+  email-validation-required:
+    title: Verify your email
+    description: A verification email has been sent to your email address. Please verify your email address by clicking the link in the email.
+  legal-links:
+    description: By continuing, you acknowledge that you understand and agree to the {{ terms }} and {{ privacy }}.
+    terms: Terms of Service
+    privacy: Privacy Policy
+
+tags:
+  no-tags:
+    title: No tags yet
+    description: This organization has no tags yet. Tags are used to categorize documents. You can add tags to your documents to make them easier to find and organize.
+    create-tag: Create tag
+
+layout:
+  menu:
+    home: Home
+    documents: Documents
+    tags: Tags
+    integrations: Integrations
+    deleted-documents: Deleted documents
+    organization-settings: Organization settings
+
+demo:
+  popup:
+    description: This is a demo environment, all data is save to your browser local storage.
+    reset: Reset demo data
+    hide: Hide

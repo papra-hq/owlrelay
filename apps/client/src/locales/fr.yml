@@ -1,0 +1,35 @@
+auth:
+  login:
+    title: Connexion à OwlRelay
+    description: Entrez votre adresse e-mail ou utilisez un service tiers pour accéder à votre compte OwlRelay.
+    login-with-provider: Connexion via {{ provider }}
+    no-account: Vous n'avez pas de compte ?
+    register: S'inscrire
+  email-validation-required:
+    title: Vérifiez votre adresse e-mail
+    description: Un e-mail de vérification a été envoyé à votre adresse. Veuillez vérifier votre adresse en cliquant sur le lien dans l'e-mail.
+  legal-links:
+    description: En continuant, vous reconnaissez que vous comprenez et acceptez les {{ terms }} et la {{ privacy }}.
+    terms: Conditions d'utilisation
+    privacy: Politique de confidentialité
+
+tags:
+  no-tags:
+    title: Aucun tag pour le moment
+    description: Cette organisation n'a pas encore de tags. Les tags sont utilisés pour catégoriser les documents. Vous pouvez ajouter des tags à vos documents pour les rendre plus faciles à trouver et à organiser.
+    create-tag: Créer un tag
+
+layout:
+  menu:
+    home: Accueil
+    documents: Documents
+    tags: Tags
+    integrations: Intégrations
+    deleted-documents: Documents supprimés
+    organization-settings: Paramètres de l'organisation
+
+demo:
+  popup:
+    description: Ceci est un environnement de démo, toutes les données sont enregistrées dans le local storage de votre navigateur.
+    reset: Réinitialiser la démo
+    hide: Masquer

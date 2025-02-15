@@ -1,0 +1,15 @@
+{
+  "name": "@owlrelay/root",
+  "version": "0.0.0",
+  "packageManager": "pnpm@9.15.4",
+  "description": "Email to http relay monorepo root",
+  "author": "Corentin Thomasset <corentinth@proton.me> (https://corentin.tech)",
+  "license": "AGPL-3.0-or-later",
+  "keywords": [],
+  "scripts": {
+    "release": "bumpp --commit --tag --push --recursive"
+  },
+  "dependencies": {
+    "bumpp": "^9.10.0"
+  }
+}

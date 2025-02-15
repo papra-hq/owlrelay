@@ -1,0 +1,18 @@
+// name = "owlrelay-app-server"
+// main = "src/index.ts"
+// compatibility_date = "2025-02-14"
+
+// [[ d1_databases ]]
+// binding = "db"
+// database_name = "owlrelay"
+// database_id = "YOUR_DB_ID"
+// migrations_dir = "drizzle/migrations"
+
+{
+  "name": "owlrelay-app-server",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-02-14",
+  "compatibility_flags": [
+    "nodejs_als"
+  ]
+}
