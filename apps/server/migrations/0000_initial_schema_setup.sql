@@ -14,6 +14,23 @@ CREATE TABLE `emails_callbacks` (
 --> statement-breakpoint
 CREATE UNIQUE INDEX `emails_callbacks_username_unique` ON `emails_callbacks` (`username`);--> statement-breakpoint
 CREATE UNIQUE INDEX `emails_callbacks_domain_username_index` ON `emails_callbacks` (`domain`,`username`);--> statement-breakpoint
+CREATE TABLE `email_processings` (
+	`id` text PRIMARY KEY NOT NULL,
+	`created_at` integer NOT NULL,
+	`updated_at` integer NOT NULL,
+	`email_callback_id` text NOT NULL,
+	`user_id` text NOT NULL,
+	`status` text NOT NULL,
+	`error` text,
+	`from_address` text NOT NULL,
+	`subject` text NOT NULL,
+	`webhook_url` text,
+	`webhook_response_status_code` integer,
+	FOREIGN KEY (`email_callback_id`) REFERENCES `emails_callbacks`(`id`) ON UPDATE cascade ON DELETE cascade,
+	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE cascade ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE INDEX `email_processings_created_at_emailCallbackId_index` ON `email_processings` (`created_at`,`email_callback_id`);--> statement-breakpoint
 CREATE TABLE `users` (
 	`id` text PRIMARY KEY NOT NULL,
 	`created_at` integer NOT NULL,

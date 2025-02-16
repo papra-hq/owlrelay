@@ -9,3 +9,15 @@ export type EmailCallback = {
   webhookUrl: string;
   webhookSecret: string;
 };
+
+export type EmailProcessing = {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+  error?: string;
+  fromAddress: string;
+  subject: string;
+  webhookUrl?: string;
+  webhookResponseStatusCode?: number;
+};

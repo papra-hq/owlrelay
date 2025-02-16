@@ -1,10 +1,11 @@
-import type { RouteDefinition } from '@solidjs/router';
+import { Navigate, type RouteDefinition } from '@solidjs/router';
 import { createProtectedPage } from './modules/auth/middleware/protected-page.middleware';
 import { EmailValidationRequiredPage } from './modules/auth/pages/email-validation-required.page';
 import { LoginPage } from './modules/auth/pages/login.page';
 import { RegisterPage } from './modules/auth/pages/register.page';
 import { RequestPasswordResetPage } from './modules/auth/pages/request-password-reset.page';
 import { ResetPasswordPage } from './modules/auth/pages/reset-password.page';
+import { EmailCallbackPage } from './modules/email-callbacks/pages/email-callback.page';
 import { EmailsPage } from './modules/email-callbacks/pages/email-callbacks.page';
 import { NotFoundPage } from './modules/shared/pages/not-found.page';
 import { AppLayout } from './modules/ui/layouts/app.layout';
@@ -17,7 +18,15 @@ export const routes: RouteDefinition[] = [
     children: [
       {
         path: '/',
+        component: () => <Navigate href="/email-callbacks" />,
+      },
+      {
+        path: '/email-callbacks',
         component: createProtectedPage({ authType: 'private', component: EmailsPage }),
+      },
+      {
+        path: '/email-callbacks/:emailCallbackId',
+        component: EmailCallbackPage,
       },
       {
         path: '/settings',

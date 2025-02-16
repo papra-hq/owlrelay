@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "835f3a89-9feb-4f56-a95b-6f47ffea9d00",
+  "id": "7ef5a7b8-a43f-4d33-8913-700a4251c9f8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "emails_callbacks": {
@@ -101,6 +101,129 @@
         "emails_callbacks_user_id_users_id_fk": {
           "name": "emails_callbacks_user_id_users_id_fk",
           "tableFrom": "emails_callbacks",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "email_processings": {
+      "name": "email_processings",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "email_callback_id": {
+          "name": "email_callback_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "error": {
+          "name": "error",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "from_address": {
+          "name": "from_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "subject": {
+          "name": "subject",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "webhook_url": {
+          "name": "webhook_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "webhook_response_status_code": {
+          "name": "webhook_response_status_code",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "email_processings_created_at_emailCallbackId_index": {
+          "name": "email_processings_created_at_emailCallbackId_index",
+          "columns": [
+            "created_at",
+            "email_callback_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "email_processings_email_callback_id_emails_callbacks_id_fk": {
+          "name": "email_processings_email_callback_id_emails_callbacks_id_fk",
+          "tableFrom": "email_processings",
+          "tableTo": "emails_callbacks",
+          "columnsFrom": [
+            "email_callback_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "email_processings_user_id_users_id_fk": {
+          "name": "email_processings_user_id_users_id_fk",
+          "tableFrom": "email_processings",
           "tableTo": "users",
           "columnsFrom": [
             "user_id"

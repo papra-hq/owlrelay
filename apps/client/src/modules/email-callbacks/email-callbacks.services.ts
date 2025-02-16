@@ -1,4 +1,4 @@
-import type { EmailCallback } from './email-callbacks.types';
+import type { EmailCallback, EmailProcessing } from './email-callbacks.types';
 import { apiClient } from '../shared/http/api-client';
 import { coerceDates } from '../shared/http/http-client.models';
 
@@ -71,5 +71,30 @@ export async function getEmailCallback({ emailCallbackId }: { emailCallbackId: s
 
   return {
     emailCallback: coerceDates(emailCallback),
+  };
+}
+
+export async function getEmailProcessings({ emailCallbackId, pageIndex, pageSize }: { emailCallbackId: string; pageIndex: number; pageSize: number }) {
+  const {
+    emailProcessings,
+    emailProcessingsCount,
+    pageIndex: apiPageIndex,
+    pageSize: apiPageSize,
+  } = await apiClient<{
+    emailProcessings: EmailProcessing[];
+    emailProcessingsCount: number;
+    pageIndex: number;
+    pageSize: number;
+  }>({
+    path: `/api/email-callbacks/${emailCallbackId}/processings`,
+    method: 'GET',
+    query: { pageIndex, pageSize },
+  });
+
+  return {
+    emailProcessings: emailProcessings.map(coerceDates),
+    emailProcessingsCount,
+    pageIndex: apiPageIndex,
+    pageSize: apiPageSize,
   };
 }

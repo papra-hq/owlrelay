@@ -25,7 +25,8 @@
     "clean:db": "rm db.sqlite",
     "clean:storage": "rm -rf local-documents",
     "clean:all": "pnpm clean:db && pnpm clean:storage",
-    "dev:reset": "pnpm clean:all && pnpm migrate:push"
+    "dev:reset": "pnpm clean:all && pnpm migrate:push",
+    "seed:processings": "tsx --env-file-if-exists=.env src/scripts/seed-processings.script.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.722.0",
@@ -51,6 +52,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
+    "@bomb.sh/args": "^0.3.0",
     "@cloudflare/workers-types": "^4.20250214.0",
     "@crowlog/pretty": "^1.1.1",
     "@total-typescript/ts-reset": "^0.6.1",
