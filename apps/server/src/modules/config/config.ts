@@ -19,14 +19,8 @@ export const configDefinition = {
     baseUrl: {
       doc: 'The base URL of the server',
       schema: z.string().url(),
-      default: 'http://localhost:1221',
+      default: 'http://localhost:1222',
       env: 'SERVER_BASE_URL',
-    },
-    port: {
-      doc: 'The port to listen on when using node server',
-      schema: z.coerce.number().min(1024).max(65535),
-      default: 1221,
-      env: 'PORT',
     },
     routeTimeoutMs: {
       doc: 'The maximum time in milliseconds for a route to complete before timing out',
@@ -42,17 +36,6 @@ export const configDefinition = {
       ]).transform(value => (typeof value === 'string' ? value.split(',') : value)),
       default: ['http://localhost:3000'],
       env: 'SERVER_CORS_ORIGINS',
-    },
-    servePublicDir: {
-      doc: 'Whether to serve the public directory',
-      schema: z
-        .string()
-        .trim()
-        .toLowerCase()
-        .transform(x => x === 'true')
-        .pipe(z.boolean()),
-      default: 'false',
-      env: 'SERVER_SERVE_PUBLIC_DIR',
     },
   },
   client: {
