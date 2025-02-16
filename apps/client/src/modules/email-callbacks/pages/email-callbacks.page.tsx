@@ -18,7 +18,7 @@ import { type Component, createSignal, For, type JSX, Match, Switch } from 'soli
 import * as v from 'valibot';
 import { useCreateEmailCallback, useDeleteEmailCallback, useUpdateEmailCallback } from '../email-callbacks.composables';
 import { emailUsernameRegex } from '../email-callbacks.constants';
-import { generateEmailCallbackSecret } from '../email-callbacks.models';
+import { formatEmailAddress, generateEmailCallbackSecret } from '../email-callbacks.models';
 import { getEmailCallbacks } from '../email-callbacks.services';
 
 const EmailCallbackModal: Component<{
@@ -182,12 +182,14 @@ const EmailCallbackModal: Component<{
             )}
           </Field>
 
-          <div class="mt-6 flex justify-end gap-2">
-            <Button variant="ghost" onClick={() => setIsModalOpen(false)}>Cancel</Button>
-            <Button type="submit">Create email</Button>
-          </div>
+          <div class="flex gap-2 mt-4 justify-between">
+            <div class="text-red-500 text-sm mt-2">{form.response.message}</div>
 
-          <div class="text-red-500 text-sm mt-2">{form.response.message}</div>
+            <div>
+              <Button variant="ghost" onClick={() => setIsModalOpen(false)}>Cancel</Button>
+              <Button type="submit">Create email</Button>
+            </div>
+          </div>
 
         </Form>
 
@@ -269,7 +271,7 @@ export const EmailsPage: Component = () => {
 
                     <div>
                       <span class="flex flex-row gap-2 items-center">
-                        <A href={`/email-callbacks/${emailCallback.id}`} class="leading-tight font-medium hover:underline">{`${emailCallback.username}@${emailCallback.domain}`}</A>
+                        <A href={`/email-callbacks/${emailCallback.id}`} class="leading-tight font-medium hover:underline">{formatEmailAddress(emailCallback)}</A>
                         {!emailCallback.isEnabled && <div class="text-xs text-muted-foreground">(Disabled)</div>}
                       </span>
                       <div class="text-xs text-muted-foreground">{emailCallback.webhookUrl}</div>

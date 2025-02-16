@@ -13,12 +13,6 @@ auth:
     terms: Conditions d'utilisation
     privacy: Politique de confidentialité
 
-tags:
-  no-tags:
-    title: Aucun tag pour le moment
-    description: Cette organisation n'a pas encore de tags. Les tags sont utilisés pour catégoriser les documents. Vous pouvez ajouter des tags à vos documents pour les rendre plus faciles à trouver et à organiser.
-    create-tag: Créer un tag
-
 layout:
   menu:
     home: Accueil
@@ -28,8 +22,13 @@ layout:
     deleted-documents: Documents supprimés
     organization-settings: Paramètres de l'organisation
 
-demo:
-  popup:
-    description: Ceci est un environnement de démo, toutes les données sont enregistrées dans le local storage de votre navigateur.
-    reset: Réinitialiser la démo
-    hide: Masquer
+processing:
+  status:
+    success: Succès
+    error: Erreur
+    not-processed: Non traité
+
+  error:
+    from-address-not-allowed: Adresse e-mail non autorisée
+    webhook-failed: Webhook échoué lors de l'envoi de la requête POST
+    unknown: Erreur inconnue

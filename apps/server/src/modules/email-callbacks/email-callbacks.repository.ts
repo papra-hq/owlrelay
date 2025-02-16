@@ -17,6 +17,7 @@ export function createEmailCallbacksRepository({ db }: { db: Database }) {
       createUserEmailCallback,
       updateUserEmailCallback,
       getEmailCallbackByUsernameAndDomain,
+      getUserEmailCallback,
     },
     { db },
   );
@@ -104,6 +105,20 @@ async function getEmailCallbackByUsernameAndDomain({ username, domain, db }: { u
       and(
         eq(emailsCallbacksTable.username, username),
         eq(emailsCallbacksTable.domain, domain),
+      ),
+    );
+
+  return { emailCallback };
+}
+
+async function getUserEmailCallback({ userId, emailCallbackId, db }: { userId: string; emailCallbackId: string; db: Database }) {
+  const [emailCallback] = await db
+    .select()
+    .from(emailsCallbacksTable)
+    .where(
+      and(
+        eq(emailsCallbacksTable.id, emailCallbackId),
+        eq(emailsCallbacksTable.userId, userId),
       ),
     );
 

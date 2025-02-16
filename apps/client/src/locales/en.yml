@@ -13,12 +13,6 @@ auth:
     terms: Terms of Service
     privacy: Privacy Policy
 
-tags:
-  no-tags:
-    title: No tags yet
-    description: This organization has no tags yet. Tags are used to categorize documents. You can add tags to your documents to make them easier to find and organize.
-    create-tag: Create tag
-
 layout:
   menu:
     home: Home
@@ -28,8 +22,13 @@ layout:
     deleted-documents: Deleted documents
     organization-settings: Organization settings
 
-demo:
-  popup:
-    description: This is a demo environment, all data is save to your browser local storage.
-    reset: Reset demo data
-    hide: Hide
+processing:
+  status:
+    success: Success
+    error: Error
+    not-processed: Not processed
+
+  error:
+    from-address-not-allowed: From address not allowed
+    webhook-failed: Webhook failed when sending email POST request
+    unknown: Unknown error

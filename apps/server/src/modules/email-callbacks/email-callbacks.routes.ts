@@ -2,7 +2,10 @@ import type { ServerInstance } from '../app/server.types';
 import { z } from 'zod';
 import { getUser } from '../app/auth/auth.models';
 import { getDb } from '../app/database/database.models';
-import { validateJsonBody, validateParams } from '../shared/validation/validation';
+import { createEmailProcessingsRepository } from '../email-processings/email-processings.repository';
+import { assert } from '../shared/errors/assert';
+import { validateJsonBody, validateParams, validateQuery } from '../shared/validation/validation';
+import { emailCallbackNotFoundError } from './email-callbacks.errors';
 import { formatEmailCallbackForApi } from './email-callbacks.models';
 import { createEmailCallbacksRepository } from './email-callbacks.repository';
 import { emailCallbackIdSchema } from './email-callbacks.schemas';
@@ -12,6 +15,8 @@ export async function registerEmailCallbacksPrivateRoutes({ app }: { app: Server
   setupCreateEmailCallbackRoute({ app });
   setupDeleteEmailCallbackRoute({ app });
   setupUpdateEmailCallbackRoute({ app });
+  setupGetEmailCallbackRoute({ app });
+  setupGetEmailProcessingsRoute({ app });
 }
 
 function setupGetEmailCallbacksRoute({ app }: { app: ServerInstance }) {
@@ -123,6 +128,67 @@ function setupUpdateEmailCallbackRoute({ app }: { app: ServerInstance }) {
 
       return context.json({
         emailCallback: formatEmailCallbackForApi({ emailCallback }),
+      });
+    },
+  );
+}
+
+function setupGetEmailCallbackRoute({ app }: { app: ServerInstance }) {
+  app.get(
+    '/api/email-callbacks/:emailCallbackId',
+    validateParams(
+      z.object({
+        emailCallbackId: emailCallbackIdSchema,
+      }),
+    ),
+    async (context) => {
+      const { emailCallbackId } = context.req.valid('param');
+      const { userId } = getUser({ context });
+      const { db } = getDb({ context });
+
+      const emailCallbacksRepository = createEmailCallbacksRepository({ db });
+
+      const { emailCallback } = await emailCallbacksRepository.getUserEmailCallback({ userId, emailCallbackId });
+
+      assert(emailCallback, emailCallbackNotFoundError);
+
+      return context.json({ emailCallback: formatEmailCallbackForApi({ emailCallback }) });
+    },
+  );
+}
+
+function setupGetEmailProcessingsRoute({ app }: { app: ServerInstance }) {
+  app.get(
+    '/api/email-callbacks/:emailCallbackId/processings',
+    validateParams(
+      z.object({
+        emailCallbackId: emailCallbackIdSchema,
+      }),
+    ),
+    validateQuery(
+      z.object({
+        pageIndex: z.coerce.number().min(0).int().optional().default(0),
+        pageSize: z.coerce.number().min(1).max(100).int().optional().default(100),
+      }),
+    ),
+    async (context) => {
+      const { emailCallbackId } = context.req.valid('param');
+      const { userId } = getUser({ context });
+      const { db } = getDb({ context });
+      const { pageIndex, pageSize } = context.req.valid('query');
+
+      const emailProcessingsRepository = createEmailProcessingsRepository({ db });
+
+      const [{ emailProcessings }, { emailProcessingsCount }] = await Promise.all([
+        emailProcessingsRepository.getEmailProcessings({ emailCallbackId, userId, pageIndex, pageSize }),
+        emailProcessingsRepository.countEmailProcessings({ emailCallbackId, userId }),
+      ]);
+
+      return context.json({
+        emailProcessings,
+        emailProcessingsCount,
+        pageIndex,
+        pageSize,
       });
     },
   );
