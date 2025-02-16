@@ -17,7 +17,7 @@ export const buildTimeConfig = {
     },
   },
   emailCallbacks: {
-    availableDomains: import.meta.env.VITE_EMAIL_CALLBACKS_AVAILABLE_DOMAINS?.split(',') ?? ['example.com', 'example.org'],
+    availableDomains: import.meta.env.VITE_EMAIL_CALLBACKS_AVAILABLE_DOMAINS?.split(',') ?? [],
   },
 } as const;
 
