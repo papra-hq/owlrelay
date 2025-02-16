@@ -10,6 +10,8 @@ export const EMAIL_PROCESSING_STATUS = {
 export const EMAIL_PROCESSING_ERRORS = {
   FROM_ADDRESS_NOT_ALLOWED: 'from-address-not-allowed',
   WEBHOOK_FAILED: 'webhook-failed',
+  NOT_ENABLED: 'not-enabled',
+  UNKNOWN: 'unknown',
 } as const;
 
 export type EmailProcessingError = keyof typeof EMAIL_PROCESSING_ERRORS;
