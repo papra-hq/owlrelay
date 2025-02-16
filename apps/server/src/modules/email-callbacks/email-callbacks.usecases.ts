@@ -1,7 +1,11 @@
+import type { Logger } from '@crowlog/logger';
 import type { Email } from 'postal-mime';
+import type { EmailCallbacksRepository } from './email-callbacks.repository';
+import { safely } from '@corentinth/chisels';
 import PostalMime from 'postal-mime';
 import { setupDatabase } from '../app/database/database';
 import { parseConfig } from '../config/config';
+import { createLogger } from '../shared/logger/logger';
 import { filterEmailAddressesCandidates, getIsFromAllowedAddress } from './email-callbacks.models';
 import { createEmailCallbacksRepository } from './email-callbacks.repository';
 
@@ -48,7 +52,56 @@ async function signBody({ body, secret }: { body: FormData; secret: string }) {
   return { signature };
 }
 
-export function createEmailHandler() {
+async function processEmail({
+  email,
+  username,
+  domain,
+  emailCallbacksRepository,
+  logger = createLogger({ namespace: 'email-callbacks' }),
+}: {
+  email: Email;
+  username: string;
+  domain: string;
+  emailCallbacksRepository: EmailCallbacksRepository;
+  logger?: Logger;
+}) {
+  const { emailCallback } = await emailCallbacksRepository.getEmailCallbackByUsernameAndDomain({
+    username,
+    domain,
+  });
+
+  if (!emailCallback) {
+    logger.info({ username, domain }, 'No email callback found');
+    return;
+  }
+
+  const isEnabled = emailCallback.isEnabled;
+
+  if (!isEnabled) {
+    logger.info({ username, domain }, 'Email callback is not enabled');
+    return;
+  }
+
+  const isFromAllowedAddress = getIsFromAllowedAddress({
+    fromAddress: email.from.address,
+    allowedOrigins: emailCallback.allowedOrigins,
+  });
+
+  if (!isFromAllowedAddress) {
+    logger.info({ username, domain }, 'From address not allowed');
+    return;
+  }
+
+  const { webhookUrl, webhookSecret } = emailCallback;
+
+  const [, error] = await safely(triggerWebhook({ email, webhookUrl, webhookSecret }));
+
+  if (error) {
+    logger.error({ error }, 'Error triggering webhook');
+  }
+}
+
+export function createEmailHandler({ logger = createLogger({ namespace: 'email-callbacks' }) }: { logger?: Logger } = {}) {
   return async (message: ForwardableEmailMessage, env: Record<string, string | undefined>) => {
     const { config } = parseConfig({ env });
     const { db } = setupDatabase(config.database);
@@ -62,33 +115,11 @@ export function createEmailHandler() {
     });
 
     for (const { username, domain } of emailAddresses) {
-      const { emailCallback } = await emailCallbacksRepository.getEmailCallbackByUsernameAndDomain({
-        username,
-        domain,
-      });
+      const [, error] = await safely(processEmail({ email, username, domain, emailCallbacksRepository }));
 
-      if (!emailCallback) {
-        continue;
+      if (error) {
+        logger.error({ error }, 'Error processing email');
       }
-
-      const isFromAllowedAddress = getIsFromAllowedAddress({
-        fromAddress: email.from.address,
-        allowedOrigins: emailCallback.allowedOrigins,
-      });
-
-      if (!isFromAllowedAddress) {
-        continue;
-      }
-
-      const isEnabled = emailCallback.isEnabled;
-
-      if (!isEnabled) {
-        continue;
-      }
-
-      const { webhookUrl, webhookSecret } = emailCallback;
-
-      await triggerWebhook({ email, webhookUrl, webhookSecret });
     }
   };
 }

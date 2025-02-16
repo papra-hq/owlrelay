@@ -7,6 +7,8 @@ import { isUniqueConstraintError } from '../shared/db/constraints.models';
 import { createError } from '../shared/errors/errors';
 import { emailsCallbacksTable } from './email-callbacks.table';
 
+export type EmailCallbacksRepository = ReturnType<typeof createEmailCallbacksRepository>;
+
 export function createEmailCallbacksRepository({ db }: { db: Database }) {
   return injectArguments(
     {
