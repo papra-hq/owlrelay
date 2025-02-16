@@ -2,22 +2,10 @@ import type { ConfigDefinition } from 'figue';
 import { z } from 'zod';
 
 export const databaseConfig = {
-  url: {
-    doc: 'The URL of the database',
-    schema: z.string().url(),
-    default: 'http://127.0.0.1:8080',
-    env: 'DATABASE_URL',
-  },
-  authToken: {
-    doc: 'The auth token for the database',
-    schema: z.string().optional(),
-    default: undefined,
-    env: 'DATABASE_AUTH_TOKEN',
-  },
-  encryptionKey: {
-    doc: 'The encryption key for the database. If not provided, the database will not be encrypted. Use with caution as if lost, the data will be unrecoverable.',
-    schema: z.string().optional(),
-    default: undefined,
-    env: 'DATABASE_ENCRYPTION_KEY',
+  d1BindingName: {
+    doc: 'The Cloudflare D1 database binding name',
+    schema: z.string(),
+    default: 'DB',
+    env: 'DATABASE_D1_BINDING_NAME',
   },
 } as const satisfies ConfigDefinition;

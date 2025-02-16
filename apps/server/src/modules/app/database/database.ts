@@ -1,23 +1,27 @@
+import type { Context } from '../server.types';
 import { createClient } from '@libsql/client';
-import { drizzle } from 'drizzle-orm/libsql';
+import { drizzle } from 'drizzle-orm/d1';
+import { createError } from '../../shared/errors/errors';
 
 export { setupDatabase };
 
 function setupDatabase({
-  url,
-  authToken,
-  encryptionKey,
+  binding,
 }: {
-  url: string;
-  authToken?: string;
-  encryptionKey?: string;
+  binding?: D1Database;
 }) {
-  const client = createClient({ url, authToken, encryptionKey });
+  if (!binding) {
+    throw createError({
+      message: 'Database binding not found',
+      code: 'server.database.binding_not_found',
+      statusCode: 500,
+      isInternal: true,
+    });
+  }
 
-  const db = drizzle(client);
+  const db = drizzle(binding);
 
   return {
     db,
-    client,
   };
 }

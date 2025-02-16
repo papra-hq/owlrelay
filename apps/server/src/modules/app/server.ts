@@ -28,7 +28,7 @@ export function createServer({
 
   app.use((context, next) => {
     const config = overrideConfig ?? parseConfig({ env: context.env as Record<string, string | undefined> }).config;
-    const db = overrideDb ?? setupDatabase(config.database).db;
+    const db = overrideDb ?? setupDatabase({ binding: context.env.DB }).db;
     const auth = overrideAuth ?? getAuth({ db, config }).auth;
 
     context.set('config', config);

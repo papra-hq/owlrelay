@@ -11,6 +11,10 @@ export type ServerInstanceGenerics = {
     user: Auth['$Infer']['Session']['user'] | null;
     session: Auth['$Infer']['Session']['session'] | null;
   };
+  Bindings: {
+    DB: D1Database;
+    [key: string]: unknown;
+  };
 };
 
 export type Context = BaseContext<ServerInstanceGenerics>;

@@ -4,5 +4,13 @@
   "compatibility_date": "2025-02-14",
   "compatibility_flags": [
     "nodejs_als"
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "owlrelay",
+      "database_id": "ac8754af-c076-4b96-8d39-0fc6e6a33cfd",
+      "migrations_dir": "migrations"
+    }
   ]
 }

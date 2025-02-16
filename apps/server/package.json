@@ -53,15 +53,19 @@
     "@antfu/eslint-config": "catalog:",
     "@cloudflare/workers-types": "^4.20250214.0",
     "@crowlog/pretty": "^1.1.1",
+    "@miniflare/d1": "^2.14.4",
+    "@miniflare/shared": "^2.14.4",
     "@total-typescript/ts-reset": "^0.6.1",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.10.2",
     "@types/node-cron": "^3.0.11",
     "@vitest/coverage-v8": "catalog:",
+    "better-sqlite3": "^11.8.1",
     "esbuild": "^0.24.2",
     "eslint": "catalog:",
+    "miniflare": "^3.20250204.1",
     "typescript": "catalog:",
-    "vitest": "catalog:",
+    "vitest": "^3.0.5",
     "wrangler": "^3.109.1"
   }
 }

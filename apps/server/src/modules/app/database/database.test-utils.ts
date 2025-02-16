@@ -1,4 +1,7 @@
 import type { Database } from './database.types';
+import { D1Database, D1DatabaseAPI } from '@miniflare/d1';
+import { createSQLiteDB } from '@miniflare/shared';
+
 import { usersTable } from '../../users/users.table';
 import { setupDatabase } from './database';
 import { runMigrations } from './database.services';
@@ -14,7 +17,10 @@ type SeedTables = {
 };
 
 async function createInMemoryDatabase(seedOptions: SeedTables | undefined = {}) {
-  const { db } = setupDatabase({ url: ':memory:' });
+  const sqliteDb = await createSQLiteDB(':memory:');
+  const binding = new D1Database(new D1DatabaseAPI(sqliteDb));
+
+  const { db } = setupDatabase({ binding });
 
   await runMigrations({ db });
 

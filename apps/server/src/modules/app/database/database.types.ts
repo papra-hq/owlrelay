@@ -1,3 +1,3 @@
-import type { LibSQLDatabase } from 'drizzle-orm/libsql';
+import type { DrizzleD1Database } from 'drizzle-orm/d1';
 
-export type Database = LibSQLDatabase<Record<string, never>>;
+export type Database = DrizzleD1Database<Record<string, never>>;
