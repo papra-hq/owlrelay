@@ -4,6 +4,7 @@ import { useConfig } from '@/modules/config/config.provider';
 import { createForm } from '@/modules/shared/form/form';
 import { isHttpErrorWithCode } from '@/modules/shared/http/http-errors';
 import { cn } from '@/modules/shared/style/cn';
+import { CopyIconButton } from '@/modules/shared/utils/copy';
 import { Button } from '@/modules/ui/components/button';
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/modules/ui/components/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/modules/ui/components/dropdown-menu';
@@ -272,6 +273,7 @@ export const EmailsPage: Component = () => {
                     <div>
                       <span class="flex flex-row gap-2 items-center">
                         <A href={`/email-callbacks/${emailCallback.id}`} class="leading-tight font-medium hover:underline">{formatEmailAddress(emailCallback)}</A>
+                        <CopyIconButton text={formatEmailAddress(emailCallback)} class="text-muted-foreground size-4.5" toast="Email copied to clipboard" tooltip="Copy email address" />
                         {!emailCallback.isEnabled && <div class="text-xs text-muted-foreground">(Disabled)</div>}
                       </span>
                       <div class="text-xs text-muted-foreground">{emailCallback.webhookUrl}</div>
@@ -283,6 +285,11 @@ export const EmailsPage: Component = () => {
                       <div class="i-tabler-dots-vertical size-4"></div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
+
+                      <DropdownMenuItem as={A} href={`/email-callbacks/${emailCallback.id}`} class="flex flex-row gap-2 cursor-pointer">
+                        <div class="i-tabler-history size-4"></div>
+                        View history
+                      </DropdownMenuItem>
 
                       <DropdownMenuItem
                         onClick={() => emailCallback.isEnabled

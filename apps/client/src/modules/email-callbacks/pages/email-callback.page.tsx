@@ -3,6 +3,7 @@ import type { EmailCallback } from '../email-callbacks.types';
 import { useI18n } from '@/modules/i18n/i18n.provider';
 import { timeAgo } from '@/modules/shared/date/time-ago';
 import { cn } from '@/modules/shared/style/cn';
+import { CopyIconButton } from '@/modules/shared/utils/copy';
 import { Button } from '@/modules/ui/components/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/modules/ui/components/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/modules/ui/components/table';
@@ -292,8 +293,10 @@ export const EmailCallbackPage: Component = () => {
                   </div>
 
                   <div>
-                    <div class="text-base font-medium">
+                    <div class="text-base font-medium flex flex-row gap-2 items-center">
                       {formatEmailAddress(getEmailCallback())}
+                      <CopyIconButton text={formatEmailAddress(getEmailCallback())} class="text-muted-foreground size-5 text-base" toast="Email copied to clipboard" tooltip="Copy email address" />
+
                     </div>
 
                     <div class="text-muted-foreground">
