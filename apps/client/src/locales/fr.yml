@@ -31,4 +31,5 @@ processing:
   error:
     from-address-not-allowed: Adresse e-mail non autorisée
     webhook-failed: Webhook échoué lors de l'envoi de la requête POST
+    not-enabled: Email désactivé
     unknown: Erreur inconnue

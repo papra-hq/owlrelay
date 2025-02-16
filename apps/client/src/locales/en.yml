@@ -31,4 +31,5 @@ processing:
   error:
     from-address-not-allowed: From address not allowed
     webhook-failed: Webhook failed when sending email POST request
+    not-enabled: Email disabled
     unknown: Unknown error

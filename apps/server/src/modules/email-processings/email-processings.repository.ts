@@ -5,6 +5,8 @@ import { and, count, desc, eq } from 'drizzle-orm';
 import { withPagination } from '../shared/db/pagination';
 import { emailProcessingsTable } from './email-processings.table';
 
+export type EmailProcessingsRepository = ReturnType<typeof createEmailProcessingsRepository>;
+
 export function createEmailProcessingsRepository({ db }: { db: Database }) {
   return injectArguments(
     {
