@@ -1,0 +1,11 @@
+---
+
+const plausibleDomain: string | undefined = import.meta.env.PLAUSIBLE_DOMAIN;
+const plausibleScriptSrc: string | undefined = import.meta.env.PLAUSIBLE_SCRIPT_SRC;
+
+const hasPlausible = plausibleDomain && plausibleScriptSrc;
+---
+
+{hasPlausible && (
+  <script is:inline defer data-domain={plausibleDomain} src={plausibleScriptSrc}></script>
+)}

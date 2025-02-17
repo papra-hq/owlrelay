@@ -1,0 +1,88 @@
+---
+import BentoCard from './BentoCard.astro';
+---
+
+<div class="py-32 bg-card p-6">
+  <h2 class="text-3xl font-semibold text-pretty mb-2 text-center">Some Features</h2>
+  <p class="text-base text-muted-foreground text-center max-w-500px mx-auto mb-24">Manage your emails and webhooks with ease.</p>
+
+  <div class="max-w-1000px mx-auto flex flex-col sm:flex-row gap-4 items-start">
+    <div class="flex flex-col gap-4 w-full">
+      <BentoCard
+        title="Personalized email addresses"
+        description="Generate unique email addresses for your webhooks. We'll trigger your webhooks when an email is sent to your addresses."
+        icon="i-tabler-mail"
+      >
+        <div class="text-center mt-10 mb-6">
+          <span class="font-medium font-mono text-xl text-muted-foreground flex items-center justify-center leading-tight">
+            <span id="email-address">jane.doe@callback.email</span><span class="text-foreground">|</span>
+          </span>
+        </div>
+      </BentoCard>
+
+      <BentoCard
+        title="Body signature"
+        description="Ensure we are the one triggering your webhooks by setting a secret for your webhook. We'll sign our requests with the secret so you know it's us."
+        icon="i-tabler-signature"
+      >
+        <div class="mt-6"></div>
+      </BentoCard>
+    </div>
+
+    <div class="flex flex-col gap-4 w-full">
+      <BentoCard title="Every email details" description="Your webhook will receive the full email details, including the subject, from, to, cc, body, and attachments." icon="i-tabler-at">
+        <div class="flex items-start justify-center pt-8 relative max-w-350px px-6 mx-auto">
+          <div class="bg-background sm:min-w-64 border rounded-lg p-4 mb--80px">
+            <div class="font-semibold mb-2">Invoice for February 2025</div>
+            <div><span class="inline-block w-50px">From:</span> <span class="font-mono">invoices@mycompany.com</span></div>
+            <div><span class="inline-block w-50px">To:</span> <span class="font-mono">john.doe@callback.email</span></div>
+            <div class="border-b pb-2 mb-2 mt-2">
+              <span class="border py-1 px-2 rounded-lg text-foreground text-xs inline-flex items-center gap-2">
+                <span class="i-tabler-paperclip inline-block"></span>
+                invoice.pdf
+              </span>
+            </div>
+
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores, expedita animi nulla praesentium aliquam numquam illo cum dolorem tempora dicta assumenda sunt beatae? Aut tempore
+            ratione laboriosam fugiat voluptatem rerum.
+          </div>
+        </div>
+      </BentoCard>
+
+      <BentoCard title="Integrations" description="Integrate with your favorite tools and services like Zapier, n8n, NodeRed, and more." icon="i-tabler-blocks">
+        <div class="mt-6"></div>
+      </BentoCard>
+    </div>
+  </div>
+</div>
+
+<script>
+  const emailAddressElement = document.getElementById('email-address')!;
+  const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+  const isReducedAnimation = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const usernames = ['jane.doe', 'foo-bar', 'the_doctor', 'ada.lovelace', 'spongebob', 'larry_potter', 'frodo.baggins', 'super-hacker', 'batman', 'precious-cat', 'pocky', 'ahsoka', 'lorem'];
+  let index = 0;
+
+  function getEmailAddress() {
+    index = (index + 1) % usernames.length;
+    return `${usernames[index]}@callback.email`;
+  }
+
+  async function startAnimation() {
+    while (true) {
+      const emailAddress = getEmailAddress();
+
+      for (let i = 0; i < emailAddress.length; i++) {
+        emailAddressElement.textContent = emailAddress.substring(0, i + 1);
+        await sleep(50);
+      }
+
+      await sleep(1000);
+    }
+  }
+
+  if (!isReducedAnimation) {
+    startAnimation();
+  }
+</script>

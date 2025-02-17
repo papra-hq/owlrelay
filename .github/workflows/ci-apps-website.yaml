@@ -1,0 +1,38 @@
+name: CI - App Website
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  ci-apps-website:
+    name: CI - Website
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/website
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Run linters
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Build the app
+        run: pnpm build
