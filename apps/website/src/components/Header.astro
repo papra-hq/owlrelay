@@ -43,7 +43,7 @@ const navigation: { name: string; url: string }[] = [];
     <div class="hidden md:flex items-center gap-4">
       {
         socials.map(social => (
-          <a href={social.url} target="_blank" rel="noopener noreferrer" class=" hover:text-primary transition" aria-label={social.name}>
+          <a href={social.url} target="_blank" rel="noopener noreferrer" class=" hover:text-foreground/60 transition" aria-label={social.name}>
             <div class={cn('size-5', social.icon)} />
           </a>
         ))

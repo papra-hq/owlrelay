@@ -8,36 +8,39 @@ import BentoCard from './BentoCard.astro';
 
   <div class="max-w-1000px mx-auto flex flex-col sm:flex-row gap-4 items-start">
     <div class="flex flex-col gap-4 w-full">
-      <BentoCard
-        title="Personalized email addresses"
-        description="Generate unique email addresses for your webhooks. We'll trigger your webhooks when an email is sent to your addresses."
-        icon="i-tabler-mail"
-      >
-        <div class="text-center mt-10 mb-6">
-          <span class="font-medium font-mono text-xl text-muted-foreground flex items-center justify-center leading-tight">
-            <span id="email-address">jane.doe@callback.email</span><span class="text-foreground">|</span>
-          </span>
+      <BentoCard title="Trigger your webhooks" description="Generate a unique email address for your webhook. Your webhook will receive the email details when an email is sent to your address.">
+        <div class="flex items-center flex-1 pt-8 pb-10 px-10">
+          <div class="bg-background border rounded-lg p-4 z-10 flex items-center">
+            <div class="i-tabler-mail text-2xl" aria-hidden="true"></div>
+          </div>
+
+          <div
+            class="flex-basis-20px h-2px flex-1 bg-border/80 relative before:(bg-foreground content-[''] rounded-full size-4px left--12px top--1px block absolute animate-iteration-infinite animate-name-slideRight animate-duration-1.5s animate-ease-in-out z-8) z-9"
+          >
+          </div>
+          <div class="bg-background border rounded-lg py-4 px-6 z-10 flex items-center">
+            <div class="i-custom-owl size-6 mr-2" aria-hidden="true"></div>
+
+            <div class="text-base mt-1 font-semibold">OwlRelay</div>
+          </div>
+          <div
+            class="flex-basis-20px h-2px flex-1 bg-border/80 relative before:(bg-foreground content-[''] rounded-full size-4px left--12px top--1px block absolute animate-iteration-infinite animate-name-slideRight animate-duration-1.5s animate-ease-in-out z-8 animate-delay-0.75s) z-9"
+          >
+          </div>
+          <div class="bg-background border rounded-lg p-4 z-10 flex items-center">
+            <div class="i-tabler-server text-2xl" aria-hidden="true"></div>
+          </div>
         </div>
       </BentoCard>
 
-      <BentoCard
-        title="Body signature"
-        description="Ensure we are the one triggering your webhooks by setting a secret for your webhook. We'll sign our requests with the secret so you know it's us."
-        icon="i-tabler-signature"
-      >
-        <div class="mt-6"></div>
-      </BentoCard>
-    </div>
-
-    <div class="flex flex-col gap-4 w-full">
-      <BentoCard title="Every email details" description="Your webhook will receive the full email details, including the subject, from, to, cc, body, and attachments." icon="i-tabler-at">
+      <BentoCard title="Every email details" description="Your webhook will receive the full email details, including the subject, from, to, cc, body, and attachments.">
         <div class="flex items-start justify-center pt-8 relative max-w-350px px-6 mx-auto">
-          <div class="bg-background sm:min-w-64 border rounded-lg p-4 mb--80px">
+          <div class="bg-card sm:min-w-64 border rounded-lg p-4 mb--80px">
             <div class="font-semibold mb-2">Invoice for February 2025</div>
             <div><span class="inline-block w-50px">From:</span> <span class="font-mono">invoices@mycompany.com</span></div>
             <div><span class="inline-block w-50px">To:</span> <span class="font-mono">john.doe@callback.email</span></div>
             <div class="border-b pb-2 mb-2 mt-2">
-              <span class="border py-1 px-2 rounded-lg text-foreground text-xs inline-flex items-center gap-2">
+              <span class="border bg-background py-1 px-2 rounded-lg text-foreground text-xs inline-flex items-center gap-2">
                 <span class="i-tabler-paperclip inline-block"></span>
                 invoice.pdf
               </span>
@@ -48,8 +51,26 @@ import BentoCard from './BentoCard.astro';
           </div>
         </div>
       </BentoCard>
+    </div>
+
+    <div class="flex flex-col gap-4 w-full">
+      <BentoCard title="Personalized email addresses" description="Generate unique email addresses for your webhooks. We'll trigger your webhooks when an email is sent to your addresses.">
+        <div class="text-center mt-10 mb-6">
+          <span class="font-medium font-mono text-xl text-muted-foreground flex items-center justify-center leading-tight">
+            <span id="email-address">jane.doe@callback.email</span><span class="text-foreground">|</span>
+          </span>
+        </div>
+      </BentoCard>
 
       <BentoCard title="Integrations" description="Integrate with your favorite tools and services like Zapier, n8n, NodeRed, and more." icon="i-tabler-blocks">
+        <div class="mt-6"></div>
+      </BentoCard>
+
+      <BentoCard
+        title="Body signature"
+        description="Ensure we are the one triggering your webhooks by setting a secret for your webhook. We'll sign our requests with the secret so you know it's us."
+        icon="i-tabler-signature"
+      >
         <div class="mt-6"></div>
       </BentoCard>
     </div>
