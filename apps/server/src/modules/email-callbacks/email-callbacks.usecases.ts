@@ -1,6 +1,8 @@
 import type { Logger } from '@crowlog/logger';
 import type { Email } from 'postal-mime';
 import type { EmailProcessingsRepository } from '../email-processings/email-processings.repository';
+import type { PlansRepository } from '../plans/plans.respository';
+import type { UsersRepository } from '../users/users.repository';
 import type { EmailCallbacksRepository } from './email-callbacks.repository';
 import { safely } from '@corentinth/chisels';
 import PostalMime from 'postal-mime';
@@ -8,9 +10,44 @@ import { setupDatabase } from '../app/database/database';
 import { parseConfig } from '../config/config';
 import { EMAIL_PROCESSING_ERRORS, EMAIL_PROCESSING_STATUS } from '../email-processings/email-processings.constants';
 import { createEmailProcessingsRepository } from '../email-processings/email-processings.repository';
+import { createError } from '../shared/errors/errors';
 import { createLogger } from '../shared/logger/logger';
 import { filterEmailAddressesCandidates, getIsFromAllowedAddress } from './email-callbacks.models';
 import { createEmailCallbacksRepository } from './email-callbacks.repository';
+
+export async function canUserCreateEmailCallback({
+  userId,
+  usersRepository,
+  plansRepository,
+  emailCallbacksRepository,
+}: {
+  userId: string;
+  usersRepository: UsersRepository;
+  plansRepository: PlansRepository;
+  emailCallbacksRepository: EmailCallbacksRepository;
+}) {
+  const { user } = await usersRepository.getUserByIdOrThrow({ userId });
+  const { maxEmails } = await plansRepository.getPlanMaxEmails({ planId: user.planId });
+  const { emailCallbacksCount } = await emailCallbacksRepository.getUserEmailCallbacksCount({ userId });
+
+  if (emailCallbacksCount >= maxEmails) {
+    return false;
+  }
+
+  return true;
+}
+
+export async function checkUserCanCreateEmailCallback({ userId, usersRepository, plansRepository, emailCallbacksRepository }: { userId: string; usersRepository: UsersRepository; plansRepository: PlansRepository; emailCallbacksRepository: EmailCallbacksRepository }) {
+  const userCanCreateEmailCallback = await canUserCreateEmailCallback({ userId, usersRepository, plansRepository, emailCallbacksRepository });
+
+  if (!userCanCreateEmailCallback) {
+    throw createError({
+      message: 'User cannot create email callback',
+      statusCode: 429,
+      code: 'email_callbacks.limit_reached',
+    });
+  }
+}
 
 async function parseEmail({ rawMessage }: { rawMessage: ReadableStream<Uint8Array> }) {
   const rawEmail = new Response(rawMessage);

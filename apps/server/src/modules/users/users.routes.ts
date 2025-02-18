@@ -33,6 +33,7 @@ function setupGetCurrentUserRoute({ app }: { app: ServerInstance }) {
           'name',
           'createdAt',
           'updatedAt',
+          'planId',
         ],
       ),
     });

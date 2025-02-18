@@ -1,6 +1,7 @@
 import type { ServerInstance } from './server.types';
 import { registerConfigPublicRoutes } from '../config/config.routes';
 import { registerEmailCallbacksPrivateRoutes } from '../email-callbacks/email-callbacks.routes';
+import { registerPrivatePaymentsRoutes, registerPublicPaymentsRoutes } from '../payments/payments.routes';
 import { registerUsersPrivateRoutes } from '../users/users.routes';
 import { createUnauthorizedError } from './auth/auth.errors';
 import { getSession } from './auth/auth.models';
@@ -17,6 +18,7 @@ export function registerRoutes({ app }: { app: ServerInstance }) {
 function registerPublicRoutes({ app }: { app: ServerInstance }) {
   registerConfigPublicRoutes({ app });
   registerHealthCheckRoutes({ app });
+  registerPublicPaymentsRoutes({ app });
 }
 
 function registerPrivateRoutes({ app }: { app: ServerInstance }) {
@@ -32,4 +34,5 @@ function registerPrivateRoutes({ app }: { app: ServerInstance }) {
 
   registerUsersPrivateRoutes({ app });
   registerEmailCallbacksPrivateRoutes({ app });
+  registerPrivatePaymentsRoutes({ app });
 }

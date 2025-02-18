@@ -76,6 +76,12 @@ const EmailCallbackModal: Component<{
         });
       }
 
+      if (isHttpErrorWithCode({ error, code: 'email_callbacks.limit_reached' })) {
+        throw createFormError({
+          message: 'You have reached the maximum number of emails you can create, please upgrade your plan to create more emails.',
+        });
+      }
+
       if (error) {
         throw createFormError({
           message: 'An error has occurred, please try again',
@@ -183,10 +189,10 @@ const EmailCallbackModal: Component<{
             )}
           </Field>
 
-          <div class="flex gap-2 mt-4 justify-between">
+          <div class="flex gap-2 mt-4 justify-between items-center">
             <div class="text-red-500 text-sm mt-2">{form.response.message}</div>
 
-            <div>
+            <div class="flex gap-2 flex-shrink-0">
               <Button variant="ghost" onClick={() => setIsModalOpen(false)}>Cancel</Button>
               <Button type="submit">Create email</Button>
             </div>
