@@ -1,7 +1,7 @@
 /* @refresh reload */
 
 import type { ConfigColorMode } from '@kobalte/core/color-mode';
-import { ColorModeProvider, ColorModeScript, createLocalStorageManager } from '@kobalte/core/color-mode';
+import { ColorModeProvider } from '@kobalte/core/color-mode';
 import { Router } from '@solidjs/router';
 import { QueryClientProvider } from '@tanstack/solid-query';
 
@@ -19,8 +19,8 @@ import './app.css';
 render(
   () => {
     const initialColorMode: ConfigColorMode = 'light';
-    const colorModeStorageKey = 'owlrelay_color_mode';
-    const localStorageManager = createLocalStorageManager(colorModeStorageKey);
+    // const colorModeStorageKey = 'owlrelay_color_mode';
+    // const localStorageManager = createLocalStorageManager(colorModeStorageKey);
 
     return (
       <Router
@@ -30,10 +30,10 @@ render(
             <Suspense>
               <I18nProvider>
                 <ConfirmModalProvider>
-                  <ColorModeScript storageType={localStorageManager.type} storageKey={colorModeStorageKey} initialColorMode={initialColorMode} />
+                  {/* <ColorModeScript storageType={localStorageManager.type} storageKey={colorModeStorageKey} initialColorMode={initialColorMode} /> */}
                   <ColorModeProvider
                     initialColorMode={initialColorMode}
-                    storageManager={localStorageManager}
+                    // storageManager={localStorageManager}
                   >
                     <ConfigProvider>
                       <div class="min-h-screen font-sans text-sm font-normal">
