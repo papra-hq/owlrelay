@@ -1,0 +1,77 @@
+---
+const plans = [
+    {
+        name: 'Free forever',
+        price: 0,
+        features: ['10 emails', 'Unlimited ingestion', '30 days log retention', 'Fair use policy', 'No credit card required'],
+    },
+
+    {
+        name: 'Pro',
+        price: 10,
+        features: ['100 emails', 'Unlimited ingestion', '90 days log retention', 'Email support', 'Request features'],
+    },
+
+    {
+        name: 'Enterprise',
+        price: 'Custom',
+        features: ['Unlimited emails', 'Unlimited ingestion', 'Tailored features', 'Dedicated instances', 'Custom domains'],
+    },
+];
+---
+
+<div class="bg-card py-24">
+    <h2 class="text-3xl font-semibold text-pretty mb-2 text-center">Pricing</h2>
+    <p class="text-base text-muted-foreground text-center max-w-500px mx-auto mb-24">We offer a free-forever, no credit card required plan with all features for starters.</p>
+
+    <div class="max-w-800px mx-auto flex flex-col sm:flex-row gap-4 items-start">
+        {
+            plans.map(plan => (
+                <div class="flex flex-col gap-4 w-full">
+                    <div class="bg-background border rounded-lg p-6">
+                        <h3 class="text-lg font-semibold">{plan.name}</h3>
+
+                        <div class="flex items-baseline gap-1">
+                            {typeof plan.price === 'string'
+? (
+                                <div class="text-2xl font-bold">{plan.price}</div>
+                            )
+: (
+                                <>
+                                    <div class="text-2xl font-bold">${plan.price}</div>
+                                    <div class="text-muted-foreground">/ month</div>
+                                </>
+                            )}
+                        </div>
+
+                        <hr class="my-6" />
+
+                        <ul>
+                            {plan.features.map(feature => (
+                                <li class="flex items-center gap-2 text-sm my-2">
+                                    <div class="i-tabler-check size-3.5 text-muted-foreground" />
+                                    {feature}
+                                </li>
+                            ))}
+                        </ul>
+
+                        {plan.name === 'Enterprise'
+? (
+                            <a href="/contact" class="mt-6 block bg-primary text-center text-sm font-semibold hover:(bg-foreground text-background) transition rounded-lg px-4 py-2">
+                                Contact us
+                            </a>
+                        )
+: (
+                            <a
+                              href="https://app.owlrelay.email/register"
+                              class="mt-6 block bg-foreground text-white text-center text-sm font-medium hover:(bg-foreground/90 text-background) transition rounded-lg px-4 py-2"
+                            >
+                                Get started
+                            </a>
+                        )}
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</div>
