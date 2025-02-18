@@ -1,10 +1,13 @@
 import type { DropdownMenuTriggerProps } from '@kobalte/core/dropdown-menu';
 
 import { useI18n } from '@/modules/i18n/i18n.provider';
+import { getCheckoutUrl } from '@/modules/payments/payments.services';
 import { cn } from '@/modules/shared/style/cn';
 import { Button } from '@/modules/ui/components/button';
 import { useThemeStore } from '@/modules/ui/theme/theme.store';
+import { fetchCurrentUser } from '@/modules/users/users.services';
 import { A } from '@solidjs/router';
+import { createQuery } from '@tanstack/solid-query';
 import { type Component, type ParentComponent, Show } from 'solid-js';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../components/dropdown-menu';
 
@@ -57,6 +60,18 @@ export const LanguageSwitcher: Component = () => {
 };
 
 export const AppLayout: ParentComponent = (props) => {
+  const query = createQuery(() => ({
+    queryKey: ['users', 'me'],
+    queryFn: fetchCurrentUser,
+  }));
+
+  const getIsUserOnFreePlan = () => query.data?.user.planId === 'free';
+
+  const openCheckout = async () => {
+    const { checkoutUrl } = await getCheckoutUrl({ planId: 'pro' });
+    window.open(checkoutUrl, '_blank');
+  };
+
   return (
     <div class="flex flex-col min-h-screen">
 
@@ -69,7 +84,13 @@ export const AppLayout: ParentComponent = (props) => {
             </span>
           </A>
 
-          <div>
+          <div class="flex flex-row items-center gap-2">
+            <Show when={getIsUserOnFreePlan()}>
+              <Button variant="secondary" onClick={openCheckout}>
+                Upgrade to Pro
+              </Button>
+            </Show>
+
             <DropdownMenu>
               <DropdownMenuTrigger as={(props: DropdownMenuTriggerProps) => (
                 <Button variant="ghost" size="icon" {...props}>

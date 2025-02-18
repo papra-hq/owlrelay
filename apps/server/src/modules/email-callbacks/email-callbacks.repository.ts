@@ -1,7 +1,7 @@
 import type { Database } from '../app/database/database.types';
 import type { DbInsertableEmailCallback } from './email-callbacks.types';
 import { injectArguments, safely } from '@corentinth/chisels';
-import { and, eq } from 'drizzle-orm';
+import { and, count, eq } from 'drizzle-orm';
 import { pick } from 'lodash-es';
 import { isUniqueConstraintError } from '../shared/db/constraints.models';
 import { createError } from '../shared/errors/errors';
@@ -18,6 +18,7 @@ export function createEmailCallbacksRepository({ db }: { db: Database }) {
       updateUserEmailCallback,
       getEmailCallbackByUsernameAndDomain,
       getUserEmailCallback,
+      getUserEmailCallbacksCount,
     },
     { db },
   );
@@ -123,4 +124,15 @@ async function getUserEmailCallback({ userId, emailCallbackId, db }: { userId: s
     );
 
   return { emailCallback };
+}
+
+async function getUserEmailCallbacksCount({ userId, db }: { userId: string; db: Database }) {
+  const [{ count: emailCallbacksCount }] = await db
+    .select({ count: count() })
+    .from(emailsCallbacksTable)
+    .where(
+      eq(emailsCallbacksTable.userId, userId),
+    );
+
+  return { emailCallbacksCount };
 }

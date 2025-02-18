@@ -52,6 +52,28 @@ export const configDefinition = {
       env: 'CLIENT_OAUTH_REDIRECT_URL',
     },
   },
+  stripe: {
+    apiSecretKey: {
+      doc: 'The Stripe API secret key',
+      default: 'change-me',
+      schema: z.string(),
+      env: 'STRIPE_API_SECRET_KEY',
+    },
+    webhookSecret: {
+      doc: 'The Stripe webhook secret',
+      schema: z.string(),
+      default: 'change-me',
+      env: 'STRIPE_WEBHOOK_SECRET',
+    },
+    plans: {
+      proPlanPriceId: {
+        doc: 'The price ID for the pro plan',
+        schema: z.string(),
+        default: 'change-me',
+        env: 'STRIPE_PRO_PLAN_PRICE_ID',
+      },
+    },
+  },
   database: databaseConfig,
   auth: authConfig,
   tasks: tasksConfig,

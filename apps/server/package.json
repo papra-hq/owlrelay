@@ -18,7 +18,7 @@
     "test": "vitest run",
     "test:watch": "vitest watch",
     "typecheck": "tsc --noEmit",
-    "migrate:up": "tsx --env-file-if-exists=.env src/scripts/migrate-up.script.ts",
+    "migrate:up": "tsx --env-file=.env src/scripts/migrate-up.script.ts",
     "migrate:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "clean:dist": "rm -rf dist",
@@ -26,7 +26,8 @@
     "clean:storage": "rm -rf local-documents",
     "clean:all": "pnpm clean:db && pnpm clean:storage",
     "dev:reset": "pnpm clean:all && pnpm migrate:push",
-    "seed:processings": "tsx --env-file-if-exists=.env src/scripts/seed-processings.script.ts"
+    "seed:processings": "tsx --env-file=.env src/scripts/seed-processings.script.ts",
+    "stripe:webhook": "stripe listen --forward-to localhost:1222/api/payments/webhook"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.722.0",
@@ -47,6 +48,7 @@
     "lodash-es": "^4.17.21",
     "ofetch": "^1.4.1",
     "postal-mime": "^2.4.3",
+    "stripe": "^17.6.0",
     "tsx": "^4.19.2",
     "zod": "^3.24.1"
   },

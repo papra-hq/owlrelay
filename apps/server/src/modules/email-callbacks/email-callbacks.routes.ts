@@ -2,13 +2,17 @@ import type { ServerInstance } from '../app/server.types';
 import { z } from 'zod';
 import { getUser } from '../app/auth/auth.models';
 import { getDb } from '../app/database/database.models';
+import { getConfig } from '../config/config.models';
 import { createEmailProcessingsRepository } from '../email-processings/email-processings.repository';
+import { createPlansRepository } from '../plans/plans.respository';
 import { assert } from '../shared/errors/assert';
 import { validateJsonBody, validateParams, validateQuery } from '../shared/validation/validation';
+import { createUsersRepository } from '../users/users.repository';
 import { emailCallbackNotFoundError } from './email-callbacks.errors';
 import { formatEmailCallbackForApi } from './email-callbacks.models';
 import { createEmailCallbacksRepository } from './email-callbacks.repository';
 import { emailCallbackIdSchema } from './email-callbacks.schemas';
+import { checkUserCanCreateEmailCallback } from './email-callbacks.usecases';
 
 export async function registerEmailCallbacksPrivateRoutes({ app }: { app: ServerInstance }) {
   setupGetEmailCallbacksRoute({ app });
@@ -47,11 +51,17 @@ function setupCreateEmailCallbackRoute({ app }: { app: ServerInstance }) {
       }),
     ),
     async (context) => {
+      const { config } = getConfig({ context });
       const { userId } = getUser({ context });
       const { db } = getDb({ context });
+
       const { domain, username, webhookUrl, webhookSecret, allowedOrigins } = context.req.valid('json');
 
       const emailCallbacksRepository = createEmailCallbacksRepository({ db });
+      const usersRepository = createUsersRepository({ db });
+      const plansRepository = createPlansRepository({ config });
+
+      await checkUserCanCreateEmailCallback({ userId, usersRepository, plansRepository, emailCallbacksRepository });
 
       const { emailCallback } = await emailCallbacksRepository.createUserEmailCallback({
         userId,

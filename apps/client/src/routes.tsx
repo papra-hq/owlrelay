@@ -7,6 +7,8 @@ import { RequestPasswordResetPage } from './modules/auth/pages/request-password-
 import { ResetPasswordPage } from './modules/auth/pages/reset-password.page';
 import { EmailCallbackPage } from './modules/email-callbacks/pages/email-callback.page';
 import { EmailsPage } from './modules/email-callbacks/pages/email-callbacks.page';
+import { CheckoutCancelPage } from './modules/payments/pages/checkout-cancel.page';
+import { CheckoutSuccessPage } from './modules/payments/pages/checkout-success.page';
 import { NotFoundPage } from './modules/shared/pages/not-found.page';
 import { AppLayout } from './modules/ui/layouts/app.layout';
 import { UserSettingsPage } from './modules/users/pages/user-settings.page';
@@ -33,6 +35,14 @@ export const routes: RouteDefinition[] = [
         component: createProtectedPage({ authType: 'private', component: UserSettingsPage }),
       },
     ],
+  },
+  {
+    path: '/checkout-success',
+    component: CheckoutSuccessPage,
+  },
+  {
+    path: '/checkout-cancel',
+    component: CheckoutCancelPage,
   },
   {
     path: '/login',

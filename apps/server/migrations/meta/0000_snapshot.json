@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "7ef5a7b8-a43f-4d33-8913-700a4251c9f8",
+  "id": "724aed11-77ae-4821-abeb-25f9f92d47b1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "emails_callbacks": {
@@ -291,6 +291,21 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
+        },
+        "customer_id": {
+          "name": "customer_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "plan_id": {
+          "name": "plan_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'free'"
         }
       },
       "indexes": {
@@ -298,6 +313,13 @@
           "name": "users_email_unique",
           "columns": [
             "email"
+          ],
+          "isUnique": true
+        },
+        "users_customer_id_unique": {
+          "name": "users_customer_id_unique",
+          "columns": [
+            "customer_id"
           ],
           "isUnique": true
         },

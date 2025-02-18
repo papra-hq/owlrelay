@@ -38,10 +38,13 @@ CREATE TABLE `users` (
 	`email` text NOT NULL,
 	`email_verified` integer DEFAULT false NOT NULL,
 	`name` text,
-	`image` text
+	`image` text,
+	`customer_id` text,
+	`plan_id` text DEFAULT 'free' NOT NULL
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);--> statement-breakpoint
+CREATE UNIQUE INDEX `users_customer_id_unique` ON `users` (`customer_id`);--> statement-breakpoint
 CREATE INDEX `users_email_index` ON `users` (`email`);--> statement-breakpoint
 CREATE TABLE `auth_accounts` (
 	`id` text PRIMARY KEY NOT NULL,

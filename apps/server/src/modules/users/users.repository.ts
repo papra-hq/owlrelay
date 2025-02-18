@@ -15,6 +15,8 @@ function createUsersRepository({ db }: { db: Database }) {
       getUserById,
       getUserByIdOrThrow,
       updateUser,
+      saveUserPlanId,
+      saveUserCustomerId,
     },
     { db },
   );
@@ -52,6 +54,28 @@ async function getUserByIdOrThrow({ userId, db, errorFactory = createUsersNotFou
 
 async function updateUser({ userId, name, db }: { userId: string; name: string; db: Database }) {
   const [user] = await db.update(usersTable).set({ name }).where(eq(usersTable.id, userId)).returning();
+
+  return { user };
+}
+
+async function saveUserPlanId({ customerId, planId, db }: { customerId: string; planId: string; db: Database }) {
+  const [user] = await db
+    .update(usersTable)
+    .set({ planId })
+    .where(
+      eq(usersTable.customerId, customerId),
+    )
+    .returning();
+
+  return { user };
+}
+
+async function saveUserCustomerId({ customerId, userId, db }: { customerId: string; userId: string; db: Database }) {
+  const [user] = await db
+    .update(usersTable)
+    .set({ customerId })
+    .where(eq(usersTable.id, userId))
+    .returning();
 
   return { user };
 }

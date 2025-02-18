@@ -1,9 +1,11 @@
 import { signOut } from '@/modules/auth/auth.services';
+import { getCustomerPortalUrl } from '@/modules/payments/payments.services';
 import { createForm } from '@/modules/shared/form/form';
 import { Button } from '@/modules/ui/components/button';
 import { Card, CardContent } from '@/modules/ui/components/card';
 import { createToast } from '@/modules/ui/components/sonner';
 import { TextField, TextFieldLabel, TextFieldRoot } from '@/modules/ui/components/textfield';
+import { safely } from '@corentinth/chisels';
 import { A, useNavigate } from '@solidjs/router';
 import { createQuery } from '@tanstack/solid-query';
 import { type Component, createSignal, Show, Suspense } from 'solid-js';
@@ -120,6 +122,42 @@ const UpdateFullNameCard: Component<{ name: string }> = (props) => {
   );
 };
 
+export const SubscriptionCard: Component = () => {
+  const [getIsLoading, setIsLoading] = createSignal(false);
+
+  const goToCustomerPortal = async () => {
+    setIsLoading(true);
+
+    const [result, error] = await safely(getCustomerPortalUrl());
+
+    if (error) {
+      createToast({ type: 'error', message: 'Failed to get customer portal URL' });
+      setIsLoading(false);
+
+      return;
+    }
+
+    window.open(result.portalUrl, '_blank');
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  return (
+    <Card class="flex flex-col sm:flex-row justify-between gap-4 sm:items-center p-6 ">
+      <div>
+        <div class="font-semibold">Subscription</div>
+        <div class="text-sm text-muted-foreground">
+          Manage your billing, invoices and payment methods.
+        </div>
+      </div>
+      <Button onClick={goToCustomerPortal} isLoading={getIsLoading()} class="flex-shrink-0">
+        Manage subscription
+      </Button>
+    </Card>
+  );
+};
 export const UserSettingsPage: Component = () => {
   const query = createQuery(() => ({
     queryKey: ['users', 'me'],
@@ -143,6 +181,7 @@ export const UserSettingsPage: Component = () => {
               <div class="mt-6 flex flex-col gap-6">
                 <UserEmailCard email={getUser().email} />
                 <UpdateFullNameCard name={getUser().name} />
+                <SubscriptionCard />
                 <LogoutCard />
               </div>
             </>
