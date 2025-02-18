@@ -1,13 +1,11 @@
 import type { ParentComponent } from 'solid-js';
-import { cn } from '@/modules/shared/style/cn';
 import { Button } from '@/modules/ui/components/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/modules/ui/components/dropdown-menu';
-import { LanguageSwitcher, ThemeSwitcher } from '@/modules/ui/layouts/app.layout';
-import { useThemeStore } from '@/modules/ui/theme/theme.store';
+import { LanguageSwitcher } from '@/modules/ui/layouts/app.layout';
 import { A } from '@solidjs/router';
 
 export const AuthLayout: ParentComponent = (props) => {
-  const themeStore = useThemeStore();
+  // const themeStore = useThemeStore();
 
   return (
     <div class="h-screen w-full flex flex-col">
@@ -19,7 +17,7 @@ export const AuthLayout: ParentComponent = (props) => {
         </A>
 
         <div class="flex gap-2">
-          <DropdownMenu>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger as={Button} variant="outline" aria-label="Theme switcher">
               <div class={cn('size-4.5', { 'i-tabler-moon': themeStore.getColorMode() === 'dark', 'i-tabler-sun': themeStore.getColorMode() === 'light' })}></div>
               <div class="ml-2 i-tabler-chevron-down text-muted-foreground text-sm"></div>
@@ -27,7 +25,7 @@ export const AuthLayout: ParentComponent = (props) => {
             <DropdownMenuContent class="w-42">
               <ThemeSwitcher />
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
 
           <DropdownMenu>
             <DropdownMenuTrigger as={Button} variant="outline" aria-label="Language switcher">
