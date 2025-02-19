@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { authConfig } from '../app/auth/auth.config';
 import { databaseConfig } from '../app/database/database.config';
 import { emailCallbacksConfig } from '../email-callbacks/email-callbacks.config';
+import { emailsConfig } from '../emails/emails.config';
 import { createLogger } from '../shared/logger/logger';
 import { tasksConfig } from '../tasks/tasks.config';
 
@@ -75,6 +76,7 @@ export const configDefinition = {
     },
   },
   database: databaseConfig,
+  emails: emailsConfig,
   auth: authConfig,
   tasks: tasksConfig,
   emailCallbacks: emailCallbacksConfig,
