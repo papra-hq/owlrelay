@@ -1,6 +1,6 @@
 ---
-const isEnabled= import.meta.env.POSTHOG_ENABLED === 'true' || import.meta.env.POSTHOG_ENABLED === true;
 const apiKey: string | undefined = import.meta.env.POSTHOG_API_KEY;
+const isEnabled: boolean = Boolean(apiKey);
 ---
 { isEnabled && (
     <script is:inline define:vars={{apiKey}}>

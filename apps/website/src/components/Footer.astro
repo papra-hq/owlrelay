@@ -63,10 +63,30 @@ const sections: {
       },
     ],
   },
+  {
+    title: 'Legal',
+    links: [
+      {
+        label: 'Privacy Policy',
+        url: '/privacy',
+      },
+      {
+        label: 'Terms of Service',
+        url: '/terms-of-service',
+      },
+    ],
+  },
 ];
+
+type Props = {
+  class?: string;
+};
+
+const { class: className }: Props = Astro.props;
+
 ---
 
-<footer class="bg-card border-t border-border py-8 text-muted-foreground">
+<footer class={cn('bg-card border-t border-border py-8 text-muted-foreground', className)}>
   <div class="max-w-1000px mx-auto p-4">
     <div class="flex justify-between flex-col md:flex-row gap-10">
       <div>
