@@ -1,13 +1,20 @@
 ---
+import Header from '../components/Header.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
-    <div class="pt-12 flex items-center justify-center gap-4 flex-col sm:flex-row text-center sm:text-left">
-        <div class="i-tabler-coffee size-20 mb-4"></div>
+    <Header />
+
+    <div class="pt-32 flex items-center justify-center gap-4 flex-col sm:flex-row text-center sm:text-left">
+        <div class="i-tabler-coffee size-34 mb-4"></div>
         <div>
             <h1 class="text-lg font-medium">404 - Not Found</h1>
-            <p class="text-sm text-muted-foreground">The page you are looking for does not exist.</p>
+            <p class="text-sm text-muted-foreground mb-4">The page you are looking for does not exist.</p>
+            <a href="/" class="text-sm bg-foreground text-background px-4 py-2 rounded-md hover:bg-foreground/80 transition-colors inline-flex gap-2 items-center">
+                <div class="i-tabler-arrow-left size-4" />
+                Go back to home
+            </a>
         </div>
     </div>
 </Layout>
