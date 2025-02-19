@@ -5,7 +5,9 @@ import type { ServerInstanceGenerics } from './server.types';
 import { Hono } from 'hono';
 import { secureHeaders } from 'hono/secure-headers';
 import { parseConfig } from '../config/config';
+import { createEmailsServices } from '../emails/emails.services';
 import { loggerMiddleware } from '../shared/logger/logger.middleware';
+import { createAuthEmailsServices } from './auth/auth.emails.services';
 import { getAuth } from './auth/auth.services';
 import { setupDatabase } from './database/database';
 import { corsMiddleware } from './middlewares/cors.middleware';
@@ -29,7 +31,10 @@ export function createServer({
   app.use((context, next) => {
     const config = overrideConfig ?? parseConfig({ env: context.env as Record<string, string | undefined> }).config;
     const db = overrideDb ?? setupDatabase(config.database).db;
-    const auth = overrideAuth ?? getAuth({ db, config }).auth;
+
+    const emailsServices = createEmailsServices({ config });
+    const authEmailsServices = createAuthEmailsServices({ emailsServices });
+    const auth = overrideAuth ?? getAuth({ db, config, authEmailsServices }).auth;
 
     context.set('config', config);
     context.set('db', db);
