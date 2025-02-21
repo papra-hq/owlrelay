@@ -39,9 +39,6 @@ import Layout from '../layouts/Layout.astro';
   <FeaturesBento />
 
   <div class="py-32 relative overflow-hidden border-y">
-    <div class="z-10 bg-primary size-64 rounded-full blur-84 op-20 transform translate-x--80% translate-y--33% absolute"></div>
-    <div class="z-10 bg-primary size-128 rounded-full blur-84 op-20 transform translate-x-80% translate-y-33% absolute right-0"></div>
-
     <div class="max-w-800px mx-auto p-6">
       <div class="text-center">
         <p class="text-3xl font-bold text-pretty">"With OwlRelay, we were able to automate our emails invoicing process."</p>
@@ -51,6 +48,23 @@ import Layout from '../layouts/Layout.astro';
   </div>
 
   <Pricing />
+
+  <div class="py-22 relative overflow-hidden border-y">
+    <div class="max-w-800px mx-auto p-6 flex items-center justify-between gap-12">
+      <div>
+        <h2 class="text-3xl font-bold text-pretty">OwlRelay is <span class="bg-primary text-primary-foreground px-2 pb-2 pt-1 leading-tight rounded-lg">open source</span></h2>
+        <p class="text-lg text-muted-foreground mt-4">
+          OwlRelay is open source, available on Github and licensed under the <a href="https://github.com/papra-hq/owlrelay/blob/main/LICENSE" class="underline" target="_blank" rel="noopener noreferrer">AGPL-3.0 license</a>.
+        </p>
+      </div>
+
+      <a href="https://github.com/papra-hq/owlrelay" class="flex-shrink-0 text-sm flex items-center gap-1.5 bg-foreground hover:bg-foreground/80 font-semibold rounded py-2 px-4 rounded-xl text-card transition" target="_blank" rel="noopener noreferrer">
+        View on GitHub
+        <div class="i-tabler-brand-github size-5"></div>
+      </a>
+    </div>
+  </div>
+
 
   <div class="bg-card py-32">
     <div class="max-w-1200px mx-auto px-6">
