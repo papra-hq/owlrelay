@@ -1,5 +1,6 @@
 import type { Config } from '../../config/config.types';
 import type { Database } from '../database/database.types';
+import type { EventsServices } from '../events/events.services';
 import type { AuthEmailsServices } from './auth.emails.services';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
@@ -12,7 +13,17 @@ export type Auth = ReturnType<typeof getAuth>['auth'];
 
 const logger = createLogger({ namespace: 'auth' });
 
-export function getAuth({ db, config, authEmailsServices }: { db: Database; config: Config; authEmailsServices: AuthEmailsServices }) {
+export function getAuth({
+  db,
+  config,
+  authEmailsServices,
+  eventsServices,
+}: {
+  db: Database;
+  config: Config;
+  authEmailsServices: AuthEmailsServices;
+  eventsServices: EventsServices;
+}) {
   const { secret } = config.auth;
 
   const auth = betterAuth({
@@ -68,6 +79,9 @@ export function getAuth({ db, config, authEmailsServices }: { db: Database; conf
 
             return { data };
           },
+          after: async (user) => {
+            eventsServices.triggerUserCreatedEvent({ userId: user.id });
+          },
         },
       },
     },
@@ -75,6 +89,7 @@ export function getAuth({ db, config, authEmailsServices }: { db: Database; conf
     advanced: {
       // Drizzle tables handle the id generation
       generateId: false,
+
     },
     socialProviders: {
       github: {
