@@ -23,7 +23,13 @@ export async function sendVerificationEmail({ user, url, emailsServices }: { use
   await emailsServices.sendEmail({
     to: user.email,
     subject: 'Verify your email',
-    html: `<p>Verify your email by clicking <a href="${url}">here</a></p>`,
+    html: `
+<p>Hello ${user.name},</p>
+<p>Verify your email by clicking <a href="${url}">here</a></p>
+<p>Or by pasting the following link into your browser: ${url}</p>
+<p style="color: #888;">Best regards,</p>
+<p style="color: #888;">The OwlRelay team</p>
+`.trim(),
   });
 }
 
@@ -33,6 +39,12 @@ export async function sendPasswordResetEmail({ user, url, emailsServices }: { us
   await emailsServices.sendEmail({
     to: user.email,
     subject: 'Reset your password',
-    html: `<p>Reset your password by clicking <a href="${url}">here</a></p>`,
+    html: `
+<p>Hello ${user.name},</p>
+<p>Reset your password by clicking <a href="${url}">here</a></p>
+<p>Or by pasting the following link into your browser: ${url}</p>
+<p style="color: #888;">Best regards,</p>
+<p style="color: #888;">The OwlRelay team</p>
+`.trim(),
   });
 }
