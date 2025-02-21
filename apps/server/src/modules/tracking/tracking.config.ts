@@ -5,8 +5,13 @@ export const trackingConfig = {
   posthog: {
     isEnabled: {
       doc: 'Whether to enable PostHog',
-      schema: z.boolean(),
-      default: false,
+      schema: z
+        .string()
+        .trim()
+        .toLowerCase()
+        .transform(x => x === 'true')
+        .pipe(z.boolean()),
+      default: 'false',
       env: 'POSTHOG_ENABLED',
     },
     apiKey: {
