@@ -17,7 +17,7 @@
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview",
+    "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "test": "vitest run",
@@ -53,7 +53,7 @@
     "ts-pattern": "^5.5.0",
     "unocss-preset-animations": "^1.1.0",
     "unstorage": "^1.14.4",
-    "valibot": "1.0.0-beta.10"
+    "valibot": "1.0.0-rc.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
