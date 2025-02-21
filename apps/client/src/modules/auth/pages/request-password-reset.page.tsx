@@ -35,7 +35,7 @@ export const ResetPasswordForm: Component<{ onSubmit: (args: { email: string }) 
         )}
       </Field>
 
-      <Button type="submit" class="w-full">
+      <Button type="submit" class="w-full" isLoading={form.submitting}>
         Request password reset
       </Button>
 

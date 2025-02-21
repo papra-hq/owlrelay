@@ -91,7 +91,7 @@ export const EmailRegisterForm: Component = () => {
         )}
       </Field>
 
-      <Button type="submit" class="w-full">Register</Button>
+      <Button type="submit" class="w-full" isLoading={form.submitting}>Register</Button>
 
       <div class="text-red-500 text-sm mt-4">{form.response.message}</div>
 
