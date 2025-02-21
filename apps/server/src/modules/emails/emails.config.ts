@@ -16,8 +16,13 @@ export const emailsConfig = {
   },
   dryRun: {
     doc: 'Whether to run the email service in dry run mode',
-    schema: z.boolean(),
-    default: false,
+    schema: z
+      .string()
+      .trim()
+      .toLowerCase()
+      .transform(x => x === 'true')
+      .pipe(z.boolean()),
+    default: 'false',
     env: 'EMAILS_DRY_RUN',
   },
 } as const satisfies ConfigDefinition;
