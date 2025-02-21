@@ -54,6 +54,7 @@ export function getAuth({
     },
     emailVerification: {
       sendVerificationEmail: authEmailsServices.sendVerificationEmail,
+      autoSignInAfterVerification: true,
     },
 
     database: drizzleAdapter(
