@@ -1,5 +1,5 @@
 import posthog from 'posthog-js';
-import { buildTimeConfig } from '../config/config';
+import { buildTimeConfig, isDev } from '../config/config';
 
 type TrackingServices = {
   capture: (args: {
@@ -16,7 +16,12 @@ type TrackingServices = {
 };
 
 const dummyTrackingServices: TrackingServices = {
-  capture: () => {},
+  capture: ({ event, ...args }) => {
+    if (isDev) {
+      // eslint-disable-next-line no-console
+      console.log(`[dev] captured event ${event}`, args);
+    }
+  },
   reset: () => {},
   identify: () => {},
 };
@@ -33,7 +38,13 @@ function createTrackingServices(): TrackingServices {
     return dummyTrackingServices;
   }
 
-  posthog.init(apiKey, { api_host: host });
+  posthog.init(
+    apiKey,
+    {
+      api_host: host,
+      capture_pageview: false,
+    },
+  );
 
   return {
     capture: ({ event, properties }) => {
