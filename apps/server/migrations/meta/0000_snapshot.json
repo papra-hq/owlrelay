@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "f1ac5694-e919-4aec-b25d-1b0aeaae60d0",
+  "id": "297dc7e3-59f0-49ac-b3d8-5231c54da5f6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "emails_callbacks": {
@@ -81,13 +81,6 @@
         }
       },
       "indexes": {
-        "emails_callbacks_username_unique": {
-          "name": "emails_callbacks_username_unique",
-          "columns": [
-            "username"
-          ],
-          "isUnique": true
-        },
         "emails_callbacks_domain_username_index": {
           "name": "emails_callbacks_domain_username_index",
           "columns": [

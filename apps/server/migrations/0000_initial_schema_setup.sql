@@ -12,7 +12,6 @@ CREATE TABLE `emails_callbacks` (
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE cascade ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `emails_callbacks_username_unique` ON `emails_callbacks` (`username`);--> statement-breakpoint
 CREATE UNIQUE INDEX `emails_callbacks_domain_username_index` ON `emails_callbacks` (`domain`,`username`);--> statement-breakpoint
 CREATE TABLE `email_processings` (
 	`id` text PRIMARY KEY NOT NULL,

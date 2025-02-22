@@ -13,7 +13,7 @@ export const emailsCallbacksTable = sqliteTable(
     userId: text('user_id').notNull().references(() => usersTable.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 
     domain: text('domain').notNull(),
-    username: text('username').notNull().unique(),
+    username: text('username').notNull(),
     allowedOrigins: text('allowed_origins', { mode: 'json' }).$type<string[]>().notNull().default([]),
 
     webhookUrl: text('webhook_url').notNull(),
