@@ -12,7 +12,8 @@ import { createQuery } from '@tanstack/solid-query';
 import { createSolidTable, flexRender, getCoreRowModel, getPaginationRowModel } from '@tanstack/solid-table';
 import { capitalize } from 'lodash-es';
 import { type Component, createSignal, For, Show } from 'solid-js';
-import { useDeleteEmailCallback } from '../email-callbacks.composables';
+import { DisabledEmailBadge } from '../components/disabled-email-badge.component';
+import { useDeleteEmailCallback, useUpdateEmailCallback } from '../email-callbacks.composables';
 import { EMAIL_PROCESSING_STATUS } from '../email-callbacks.constants';
 import { formatEmailAddress } from '../email-callbacks.models';
 import { getEmailCallback, getEmailProcessings } from '../email-callbacks.services';
@@ -262,6 +263,7 @@ export const EmailCallbackPage: Component = () => {
   const navigate = useNavigate();
 
   const { deleteEmailCallback } = useDeleteEmailCallback();
+  const { enableEmailCallback, disableEmailCallback } = useUpdateEmailCallback();
 
   const query = createQuery(() => ({
     queryKey: ['email-callbacks', params.emailCallbackId],
@@ -297,6 +299,10 @@ export const EmailCallbackPage: Component = () => {
                       {formatEmailAddress(getEmailCallback())}
                       <CopyIconButton text={formatEmailAddress(getEmailCallback())} class="text-muted-foreground size-5 text-base" toast="Email copied to clipboard" tooltip="Copy email address" />
 
+                      <Show when={!getEmailCallback().isEnabled}>
+                        <DisabledEmailBadge />
+                      </Show>
+
                     </div>
 
                     <div class="text-muted-foreground">
@@ -306,10 +312,16 @@ export const EmailCallbackPage: Component = () => {
                 </div>
 
                 <div class="flex flex-row gap-2">
-                  {/* <Button class="gap-2" variant="outline">
-                  <div class="i-tabler-pencil size-4" />
-                  Edit
-                </Button> */}
+                  <Button
+                    class="gap-2"
+                    variant="outline"
+                    onClick={() => getEmailCallback().isEnabled
+                      ? disableEmailCallback({ emailCallbackId: getEmailCallback().id })
+                      : enableEmailCallback({ emailCallbackId: getEmailCallback().id })}
+                  >
+                    <div class="i-tabler-power size-4" />
+                    {getEmailCallback().isEnabled ? 'Disable' : 'Enable'}
+                  </Button>
 
                   <Button class="gap-2 text-red-500" variant="outline" onClick={() => handleDeleteEmailCallback({ emailCallbackId: getEmailCallback().id })}>
                     <div class="i-tabler-trash size-4" />

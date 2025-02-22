@@ -75,7 +75,7 @@ async function getCustomerPortalUrl({
   stripeClient,
   customerId,
   config,
-  returnUrl = buildUrl({ baseUrl: config.client.baseUrl, path: '/settings/billing' }),
+  returnUrl = config.client.baseUrl,
 }: {
   stripeClient: Stripe;
   customerId: string;
