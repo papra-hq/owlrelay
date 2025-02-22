@@ -6,7 +6,6 @@ import { createEmailCallback, deleteEmailCallback, updateEmailCallback as update
 async function invalidateEmailCallbacks() {
   await queryClient.invalidateQueries({
     queryKey: ['email-callbacks'],
-    refetchType: 'all',
   });
 }
 

@@ -120,7 +120,7 @@ export const CreateEmailCallbackPage: Component = () => {
                 </p>
               </div>
 
-              <div class="flex gap-2 mt-4 flex-col sm:flex-row w-full">
+              <div class="flex gap-2 mt-4 flex-col sm:flex-row w-full justify-center">
 
                 <Button as={A} href="/" variant="outline" class="gap-2">
                   <div class="i-tabler-arrow-left size-4"></div>

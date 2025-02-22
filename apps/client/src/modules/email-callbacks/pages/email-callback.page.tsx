@@ -268,8 +268,8 @@ export const EmailCallbackPage: Component = () => {
     queryFn: () => getEmailCallback({ emailCallbackId: params.emailCallbackId }),
   }));
 
-  function handleDeleteEmailCallback({ emailCallbackId }: { emailCallbackId: string }) {
-    deleteEmailCallback({ emailCallbackId });
+  async function handleDeleteEmailCallback({ emailCallbackId }: { emailCallbackId: string }) {
+    await deleteEmailCallback({ emailCallbackId });
     navigate('/');
   }
 
@@ -286,7 +286,7 @@ export const EmailCallbackPage: Component = () => {
                 </Button>
               </div>
 
-              <div class=" flex flex-row gap-3 items-center justify-between">
+              <div class=" flex flex-row gap-3 sm:items-center justify-between flex-col sm:flex-row">
                 <div class="flex flex-row gap-3 items-center">
                   <div class="bg-card border rounded-lg p-2.5 hidden sm:block">
                     <div class={cn('i-tabler-mail size-7')} />
