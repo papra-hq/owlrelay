@@ -1,5 +1,6 @@
 import type { EmailCallback } from '../email-callbacks.types';
 import { useConfig } from '@/modules/config/config.provider';
+import { useI18n } from '@/modules/i18n/i18n.provider';
 import { createForm } from '@/modules/shared/form/form';
 import { isHttpErrorWithCode } from '@/modules/shared/http/http-errors';
 import { CopyButton } from '@/modules/shared/utils/copy';
@@ -19,6 +20,7 @@ import { createEmailCallback } from '../email-callbacks.services';
 export const CreateEmailCallbackPage: Component = () => {
   const { config } = useConfig();
   const [getCreatedEmailCallback, setCreatedEmailCallback] = createSignal<EmailCallback | null>(null);
+  const { t } = useI18n();
 
   const { availableDomains } = config.emailCallbacks;
 
@@ -26,24 +28,24 @@ export const CreateEmailCallbackPage: Component = () => {
     schema: v.object({
       username: v.pipe(
         v.string(),
-        v.nonEmpty('Please enter a username'),
-        v.regex(/^[\w-]+$/, 'Username must be alphanumeric and can contain dashes, dots and underscores'),
-        v.regex(emailUsernameRegex, 'Username must not start or end with a dash, dot or underscore'),
-        v.minLength(3, 'Username must be at least 3 characters long'),
+        v.nonEmpty(t('email-callbacks.form.validation.username.required')),
+        v.regex(/^[\w-]+$/, t('email-callbacks.form.validation.username.invalid')),
+        v.regex(emailUsernameRegex, t('email-callbacks.form.validation.username.invalid-characters')),
+        v.minLength(3, t('email-callbacks.form.validation.username.min-length')),
       ),
       domain: v.pipe(
-        v.picklist(availableDomains, 'Invalid domain'),
+        v.picklist(availableDomains, t('email-callbacks.form.validation.domain.invalid')),
       ),
       webhookUrl: v.pipe(
         v.string(),
-        v.nonEmpty('Please enter the webhook URL'),
-        v.url('Please enter a valid URL'),
+        v.nonEmpty(t('email-callbacks.form.validation.webhook-url.required')),
+        v.url(t('email-callbacks.form.validation.webhook-url.invalid')),
       ),
       webhookSecret: v.union(
         [
           v.pipe(
             v.string(),
-            v.minLength(16, 'Secret must be at least 16 characters long'),
+            v.minLength(16, t('email-callbacks.form.validation.webhook-secret.min-length')),
           ),
           // When not set, the secret is an empty string
           v.literal(''),
@@ -53,7 +55,7 @@ export const CreateEmailCallbackPage: Component = () => {
         v.array(
           v.pipe(
             v.string(),
-            v.email('Please enter a valid email address'),
+            v.email(t('email-callbacks.form.validation.allowed-origins.invalid')),
           ),
         ),
       ),
@@ -74,22 +76,19 @@ export const CreateEmailCallbackPage: Component = () => {
 
       if (isHttpErrorWithCode({ error, code: 'email_callbacks.already_exists' })) {
         throw createFormError({
-          message: 'Unable to create email',
-          fields: {
-            username: 'An email with this username already exists',
-          },
+          message: t('email-callbacks.form.validation.already-exists'),
         });
       }
 
       if (isHttpErrorWithCode({ error, code: 'email_callbacks.limit_reached' })) {
         throw createFormError({
-          message: 'You have reached the maximum number of emails you can create, please upgrade your plan to create more emails.',
+          message: t('email-callbacks.form.validation.limit-reached'),
         });
       }
 
       if (error) {
         throw createFormError({
-          message: 'An error has occurred, please try again',
+          message: t('email-callbacks.form.validation.unknown'),
         });
       }
 
@@ -105,29 +104,31 @@ export const CreateEmailCallbackPage: Component = () => {
 
         <Match when={getCreatedEmailCallback()}>
           {getEmailCallback => (
-            <div class="p-6 flex flex-col items-center gap-2 mx-auto max-w-md text-center">
-              <div class="i-tabler-mail size-12 text-muted-foreground"></div>
+            <div class="p-6 mx-auto max-w-md text-center">
+              <div class="i-tabler-mail size-12 text-muted-foreground mx-auto "></div>
 
-              <h1 class="text-xl font-bold">Email created!</h1>
+              <h1 class="text-xl font-bold mb-2">{t('email-callbacks.created.title')}</h1>
 
-              <div class="flex items-center justify-between gap-2">
-                <p class="text-sm text-muted-foreground">
-                  Your can now send emails to the address
-                  {' '}
-                  <code class="font-mono bg-muted border px-1 py-0.5 rounded-md">{formatEmailAddress(getEmailCallback())}</code>
-                  {' '}
-                  to trigger your webhook.
-                </p>
-              </div>
+              <p class="text-sm text-muted-foreground text-pretty mb-4">
+                {t('email-callbacks.created.description')}
+              </p>
+
+              <TextFieldRoot>
+                <TextField value={formatEmailAddress(getEmailCallback())} class="text-muted-foreground text-center w-full" />
+              </TextFieldRoot>
 
               <div class="flex gap-2 mt-4 flex-col sm:flex-row w-full justify-center">
 
-                <Button as={A} href="/" variant="outline" class="gap-2">
+                <Button as={A} href="/" variant="outline" class="gap-2 flex-1">
                   <div class="i-tabler-arrow-left size-4"></div>
-                  Back to emails
+                  {t('email-callbacks.created.back-to-emails')}
                 </Button>
 
-                <CopyButton class="gap-2" text={formatEmailAddress(getEmailCallback())} label="Copy email address" />
+                <CopyButton
+                  class="flex-1"
+                  text={formatEmailAddress(getEmailCallback())}
+                  label={t('email-callbacks.created.copy-email-address')}
+                />
 
               </div>
             </div>
@@ -144,9 +145,9 @@ export const CreateEmailCallbackPage: Component = () => {
             <div class="bg-card sm:rounded-lg p-6 border-y sm:border">
               <div class="flex items-center justify-between gap-2  mb-4">
                 <div>
-                  <h2 class="text-base font-semibold">Email address</h2>
+                  <h2 class="text-base font-semibold">{t('email-callbacks.form.address.title')}</h2>
                   <p class="text-sm text-muted-foreground">
-                    Choose a username and domain for your email address.
+                    {t('email-callbacks.form.address.description')}
                   </p>
                 </div>
                 <div>
@@ -156,7 +157,7 @@ export const CreateEmailCallbackPage: Component = () => {
                     class="flex-shrink-0 gap-2 hidden sm:flex"
                   >
                     <div class="i-tabler-refresh size-4 flex-shrink-0"></div>
-                    Random address
+                    {t('email-callbacks.form.address.random-address')}
                   </Button>
 
                   <Button
@@ -182,7 +183,7 @@ export const CreateEmailCallbackPage: Component = () => {
                           class="border-none shadow-none focus-visible:ring-none pr-0"
                           type="text"
                           id="username"
-                          placeholder="eg. john.doe"
+                          placeholder={t('email-callbacks.form.address.placeholder')}
                           {...inputProps}
                           autoFocus
                           value={field.value}
@@ -232,9 +233,9 @@ export const CreateEmailCallbackPage: Component = () => {
             <div class="bg-card sm:rounded-lg p-6 border-y sm:border">
               <div class="flex items-center justify-between gap-2  mb-4">
                 <div>
-                  <h2 class="text-base font-semibold ">Webhook</h2>
+                  <h2 class="text-base font-semibold ">{t('email-callbacks.form.webhook.title')}</h2>
                   <p class="text-sm text-muted-foreground">
-                    Configure your webhook to receive emails sent to your email address.
+                    {t('email-callbacks.form.webhook.description')}
                   </p>
                 </div>
               </div>
@@ -242,11 +243,11 @@ export const CreateEmailCallbackPage: Component = () => {
               <Field name="webhookUrl">
                 {(field, inputProps) => (
                   <TextFieldRoot class="flex flex-col gap-1 mt-6">
-                    <TextFieldLabel for="webhookUrl">Webhook URL</TextFieldLabel>
+                    <TextFieldLabel for="webhookUrl">{t('email-callbacks.form.webhook.url.label')}</TextFieldLabel>
                     <TextField
                       type="text"
                       id="webhookUrl"
-                      placeholder="eg. https://example.com/callback"
+                      placeholder={t('email-callbacks.form.webhook.url.placeholder')}
                       {...inputProps}
                       value={field.value}
                       aria-invalid={Boolean(field.error)}
@@ -260,10 +261,10 @@ export const CreateEmailCallbackPage: Component = () => {
                 {(field, inputProps) => (
                   <TextFieldRoot class="flex flex-col gap-1 mt-6">
                     <TextFieldLabel for="webhookSecret" class="flex items-baseline gap-2">
-                      Webhook Secret
+                      {t('email-callbacks.form.webhook.secret.label')}
 
                       <span class="bg-background text-xs leading-tight px-1.5 py-0.5 rounded border text-muted-foreground">
-                        Recommended
+                        {t('email-callbacks.form.recommended')}
                       </span>
                     </TextFieldLabel>
 
@@ -271,7 +272,7 @@ export const CreateEmailCallbackPage: Component = () => {
                       <TextField
                         type="text"
                         id="webhookSecret"
-                        placeholder="eg. my-secret-key"
+                        placeholder={t('email-callbacks.form.webhook.secret.placeholder')}
                         {...inputProps}
                         value={field.value}
                         aria-invalid={Boolean(field.error)}
@@ -294,10 +295,8 @@ export const CreateEmailCallbackPage: Component = () => {
             <div class="bg-card sm:rounded-lg p-6 border-y sm:border">
               <div class="flex items-center justify-between gap-2  mb-4">
                 <div>
-                  <h2 class="text-base font-semibold ">Allowed email origins</h2>
-                  <p class="text-sm text-muted-foreground">
-                    Configure the addresses that are allowed to send emails to your email address, leave empty to allow all.
-                  </p>
+                  <h2 class="text-base font-semibold ">{t('email-callbacks.form.allowed-origins.title')}</h2>
+                  <p class="text-sm text-muted-foreground">{t('email-callbacks.form.allowed-origins.description')}</p>
                 </div>
               </div>
 
@@ -317,7 +316,7 @@ export const CreateEmailCallbackPage: Component = () => {
                                   <TextField
                                     type="email"
                                     id="allowedOrigins"
-                                    placeholder="eg. ada@example.com"
+                                    placeholder={t('email-callbacks.form.allowed-origins.placeholder')}
                                     {...props}
                                     value={field.value}
                                     aria-invalid={Boolean(field.error)}
@@ -331,6 +330,7 @@ export const CreateEmailCallbackPage: Component = () => {
                               variant="outline"
                               size="icon"
                               onClick={() => remove(form, 'allowedOrigins', { at: index() })}
+                              aria-label={t('email-callbacks.form.allowed-origins.remove-email')}
                             >
                               <div class="i-tabler-x size-4"></div>
                             </Button>
@@ -347,7 +347,7 @@ export const CreateEmailCallbackPage: Component = () => {
                       class="gap-2"
                     >
                       <div class="i-tabler-plus size-4"></div>
-                      Add email
+                      {t('email-callbacks.form.allowed-origins.add-email')}
                     </Button>
 
                     {fieldArray.error && <div class="text-red-500 text-sm">{fieldArray.error}</div>}
@@ -366,7 +366,7 @@ export const CreateEmailCallbackPage: Component = () => {
                   disabled={form.submitting}
                   isLoading={form.submitting}
                 >
-                  Create email
+                  {t('email-callbacks.form.create-email')}
                 </Button>
               </div>
             </div>

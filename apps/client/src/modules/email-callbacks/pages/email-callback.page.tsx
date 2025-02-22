@@ -56,6 +56,8 @@ const ProcessingError: Component<{ error?: string | null }> = (props) => {
 };
 
 const ProcessingList: Component<{ emailCallback: EmailCallback }> = (props) => {
+  const { t, te } = useI18n();
+
   const [getPagination, setPagination] = createSignal({
     pageIndex: 0,
     pageSize: 15,
@@ -123,14 +125,8 @@ const ProcessingList: Component<{ emailCallback: EmailCallback }> = (props) => {
             fallback={(
               <div class="px-6 py-16 w-full flex flex-col items-center justify-center text-muted-foreground">
                 <div class="i-tabler-mail-x size-10"></div>
-                <div class="text-center mt-2">No email received recently on this address</div>
-                <div class="text-center mb-4">
-                  Send emails to
-                  {' '}
-                  <span class="font-bold">{formatEmailAddress(props.emailCallback)}</span>
-                  {' '}
-                  to trigger a webhook
-                </div>
+                <div class="text-center mt-2">{t('processing.empty.title')}</div>
+                <div class="text-center mb-4">{te('processing.empty.description', { emailAddress: <span class="font-bold">{formatEmailAddress(props.emailCallback)}</span> })}</div>
               </div>
             )}
           >
@@ -162,7 +158,7 @@ const ProcessingList: Component<{ emailCallback: EmailCallback }> = (props) => {
                   <Show when={table.getRowModel().rows?.length}>
                     <For each={table.getRowModel().rows}>
                       {row => (
-                        <TableRow data-state={row.getIsSelected() && 'selected'}>
+                        <TableRow>
                           <For each={row.getVisibleCells()}>
                             {cell => (
                               <TableCell>
@@ -181,7 +177,7 @@ const ProcessingList: Component<{ emailCallback: EmailCallback }> = (props) => {
               <Show when={query.data?.emailProcessingsCount && query.data?.emailProcessingsCount > table.getState().pagination.pageSize}>
                 <div class="flex flex-col-reverse items-center gap-4 sm:flex-row sm:justify-end mt-4">
                   <div class="flex items-center space-x-2">
-                    <p class="whitespace-nowrap text-sm font-medium">Rows per page</p>
+                    <p class="whitespace-nowrap text-sm font-medium">{t('tables.rows-per-page')}</p>
                     <Select
                       value={table.getState().pagination.pageSize}
                       onChange={value => value && table.setPageSize(value)}
@@ -199,13 +195,10 @@ const ProcessingList: Component<{ emailCallback: EmailCallback }> = (props) => {
                     </Select>
                   </div>
                   <div class="flex items-center justify-center whitespace-nowrap text-sm font-medium">
-                    Page
-                    {' '}
-                    {table.getState().pagination.pageIndex + 1}
-                    {' '}
-                    of
-                    {' '}
-                    {table.getPageCount()}
+                    {t('tables.page-description', {
+                      page: table.getState().pagination.pageIndex + 1,
+                      total: table.getPageCount(),
+                    })}
                   </div>
                   <div class="flex items-center space-x-2">
                     <Button
@@ -259,6 +252,7 @@ const ProcessingList: Component<{ emailCallback: EmailCallback }> = (props) => {
 };
 
 export const EmailCallbackPage: Component = () => {
+  const { t } = useI18n();
   const params = useParams();
   const navigate = useNavigate();
 
@@ -284,7 +278,7 @@ export const EmailCallbackPage: Component = () => {
               <div class="mb-6">
                 <Button variant="outline" size="sm" class="gap-2" onClick={() => navigate('/')}>
                   <div class="i-tabler-chevron-left size-4" />
-                  Back to emails
+                  {t('email-callbacks.back-to-emails')}
                 </Button>
               </div>
 
@@ -297,7 +291,12 @@ export const EmailCallbackPage: Component = () => {
                   <div>
                     <div class="text-base font-medium flex flex-row gap-2 items-center">
                       {formatEmailAddress(getEmailCallback())}
-                      <CopyIconButton text={formatEmailAddress(getEmailCallback())} class="text-muted-foreground size-5 text-base" toast="Email copied to clipboard" tooltip="Copy email address" />
+                      <CopyIconButton
+                        text={formatEmailAddress(getEmailCallback())}
+                        class="text-muted-foreground size-5 text-base"
+                        toast={t('email-callbacks.copy-email-address.copied')}
+                        tooltip={t('email-callbacks.copy-email-address.label')}
+                      />
 
                       <Show when={!getEmailCallback().isEnabled}>
                         <DisabledEmailBadge />
@@ -320,12 +319,12 @@ export const EmailCallbackPage: Component = () => {
                       : enableEmailCallback({ emailCallbackId: getEmailCallback().id })}
                   >
                     <div class="i-tabler-power size-4" />
-                    {getEmailCallback().isEnabled ? 'Disable' : 'Enable'}
+                    {getEmailCallback().isEnabled ? t('email-callbacks.disable') : t('email-callbacks.enable')}
                   </Button>
 
                   <Button class="gap-2 text-red-500" variant="outline" onClick={() => handleDeleteEmailCallback({ emailCallbackId: getEmailCallback().id })}>
                     <div class="i-tabler-trash size-4" />
-                    Delete
+                    {t('email-callbacks.delete')}
                   </Button>
                 </div>
               </div>

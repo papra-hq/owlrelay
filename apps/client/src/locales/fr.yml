@@ -1,35 +1,92 @@
 auth:
   login:
     title: Connexion à OwlRelay
-    description: Entrez votre adresse e-mail ou utilisez un service tiers pour accéder à votre compte OwlRelay.
+    description: Entrez votre adresse email ou utilisez un service tiers pour accéder à votre compte OwlRelay.
     login-with-provider: Connexion via {{ provider }}
     no-account: Vous n'avez pas de compte ?
     register: S'inscrire
   email-validation-required:
-    title: Vérifiez votre adresse e-mail
-    description: Un e-mail de vérification a été envoyé à votre adresse. Veuillez vérifier votre adresse en cliquant sur le lien dans l'e-mail.
+    title: Vérifiez votre adresse email
+    description: Un e-mail de vérification a été envoyé à votre adresse. Veuillez vérifier votre adresse en cliquant sur le lien dans l'email.
   legal-links:
     description: En continuant, vous reconnaissez que vous comprenez et acceptez les {{ terms }} et la {{ privacy }}.
     terms: Conditions d'utilisation
     privacy: Politique de confidentialité
 
 layout:
-  menu:
-    home: Accueil
-    documents: Documents
-    tags: Tags
-    integrations: Intégrations
-    deleted-documents: Documents supprimés
-    organization-settings: Paramètres de l'organisation
+  account-settings: Paramètres du compte
+  upgrade-to-pro: Passer à la version Pro
+  language: Langue
+
+email-callbacks:
+  back-to-emails: Retour aux emails
+  copy-email-address:
+    label: Copier l'adresse email
+    copied: Adresse email copiée
+  enable: Activer
+  disable: Désactiver
+  delete: Supprimer
+  disabled:
+    label: Désactivé
+    tooltip: Les emails envoyés à cette adresse ne déclencheront plus de webhook.
+  list:
+    create-email: Créer un email
+    empty: Créer votre premier email pour déclencher votre webhook
+    your-emails: Vos emails
+    view-history: Voir l'historique
+  form:
+    title: Nouvel email
+    recommended: Recommandé
+    address:
+      title: Adresse email
+      description: Choisissez un nom d'utilisateur et un domaine pour votre adresse email.
+      random-address: Adresse aléatoire
+      placeholder: ex. john.doe
+    allowed-origins:
+      title: Origines autorisées
+      description: Configurez les adresses qui sont autorisées à envoyer des emails à votre adresse email, laissez vide pour autoriser toutes les adresses.
+      placeholder: ex. ada@example.com
+      add-email: Ajouter un email
+      remove-email: Supprimer un email
+    create-email: Créer l'email
+    validation:
+      username:
+        required: Veuillez entrer un nom d'utilisateur
+        invalid: Le nom d'utilisateur doit contenir uniquement des chiffres, des lettres et des caractères spéciaux
+        min-length: Le nom d'utilisateur doit contenir au moins 3 caractères
+        invalid-characters: Le nom d'utilisateur ne doit pas commencer ou se terminer par un tiret, un point ou un trait de soulignement
+      domain:
+        invalid: Domaine invalide
+      webhook-url:
+        required: Veuillez entrer l'URL du webhook
+        invalid: Veuillez entrer une URL valide
+      webhook-secret:
+        min-length: Le secret doit contenir au moins 16 caractères
+      allowed-origins:
+        invalid: Veuillez entrer une adresse email valide
+      already-exists: Un email avec ce nom d'utilisateur existe déjà
+      limit-reached: Vous avez atteint le nombre maximum d'emails que vous pouvez créer, veuillez mettre à niveau votre plan pour en créer plus.
+      unknown: Une erreur est survenue, veuillez réessayer
+  created:
+    title: Email créé !
+    description: Vous pouvez maintenant envoyer des emails à cette adresse pour déclencher votre webhook.
+    back-to-emails: Retour aux emails
+    copy-email-address: Copier l'adresse email
 
 processing:
   status:
     success: Succès
     error: Erreur
     not-processed: Non traité
-
+  empty:
+    title: Aucun email reçu récemment sur cette adresse
+    description: Envoyez des emails à {{ emailAddress }} pour déclencher votre webhook
   error:
-    from-address-not-allowed: Adresse e-mail non autorisée
+    from-address-not-allowed: Adresse email non autorisée
     webhook-failed: Webhook échoué lors de l'envoi de la requête POST
     not-enabled: Email désactivé
     unknown: Erreur inconnue
+
+tables:
+  rows-per-page: Lignes par page
+  page-description: Page {{ page }} sur {{ total }}
