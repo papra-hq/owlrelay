@@ -22,6 +22,11 @@ layout:
     deleted-documents: Deleted documents
     organization-settings: Organization settings
 
+email-callbacks:
+  disabled:
+    label: Disabled
+    tooltip: Email sent to this address will not trigger any webhook.
+
 processing:
   status:
     success: Success

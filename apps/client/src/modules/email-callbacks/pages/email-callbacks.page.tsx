@@ -4,7 +4,8 @@ import { Button } from '@/modules/ui/components/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/modules/ui/components/dropdown-menu';
 import { A } from '@solidjs/router';
 import { createQuery } from '@tanstack/solid-query';
-import { type Component, For, Match, Switch } from 'solid-js';
+import { type Component, For, Match, Show, Switch } from 'solid-js';
+import { DisabledEmailBadge } from '../components/disabled-email-badge.component';
 import { useDeleteEmailCallback, useUpdateEmailCallback } from '../email-callbacks.composables';
 import { formatEmailAddress } from '../email-callbacks.models';
 import { getEmailCallbacks } from '../email-callbacks.services';
@@ -57,7 +58,11 @@ export const EmailsPage: Component = () => {
                       <span class="flex flex-row gap-2 items-center">
                         <A href={`/email-callbacks/${emailCallback.id}`} class="leading-tight font-medium hover:underline">{formatEmailAddress(emailCallback)}</A>
                         <CopyIconButton text={formatEmailAddress(emailCallback)} class="text-muted-foreground size-4.5" toast="Email copied to clipboard" tooltip="Copy email address" />
-                        {!emailCallback.isEnabled && <div class="text-xs text-muted-foreground">(Disabled)</div>}
+
+                        <Show when={!emailCallback.isEnabled}>
+                          <DisabledEmailBadge />
+                        </Show>
+
                       </span>
                       <div class="text-xs text-muted-foreground">{emailCallback.webhookUrl}</div>
                     </div>
