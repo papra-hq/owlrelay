@@ -14,27 +14,98 @@ auth:
     privacy: Privacy Policy
 
 layout:
-  menu:
-    home: Home
-    documents: Documents
-    tags: Tags
-    integrations: Integrations
-    deleted-documents: Deleted documents
-    organization-settings: Organization settings
+  account-settings: Account settings
+  upgrade-to-pro: Upgrade to Pro
+  language: Language
 
 email-callbacks:
+  back-to-emails: Back to emails
+  copy-email-address:
+    label: Copy email address
+    copied: Email address copied to clipboard
+
+  enable: Enable email
+  disable: Disable email
+  delete: Delete
   disabled:
     label: Disabled
     tooltip: Email sent to this address will not trigger any webhook.
+
+  list:
+    create-email: Create email
+    empty: Create your first email to trigger your webhook
+    your-emails: Your emails
+    view-history: View history
+
+  form:
+    title: New email
+    recommended: Recommended
+    address:
+      title: Email address
+      description: Choose a username and domain for your email address.
+      random-address: Random address
+      placeholder: eg. john.doe
+    webhook:
+      title: Webhook
+      description: Configure your webhook to receive emails sent to your email address.
+      url:
+        label: Webhook URL
+        placeholder: eg. https://example.com/callback
+        random-url: Random URL
+      secret:
+        label: Webhook secret
+        placeholder: eg. 1234567890
+        random-secret: Random secret
+    allowed-origins:
+      title: Allowed email origins
+      description: Configure the addresses that are allowed to send emails to your email address, leave empty to allow all.
+      placeholder: eg. ada@example.com
+      add-email: Add email
+      remove-email: Remove email
+    create-email: Create email
+    validation:
+      username:
+        required: Please enter a username
+        invalid: Username must be alphanumeric and can contain dashes, dots and underscores
+        min-length: Username must be at least 3 characters long
+        invalid-characters: Username must not start or end with a dash, dot or underscore
+      domain:
+        invalid: Invalid domain
+      webhook-url:
+        required: Please enter the webhook URL
+        invalid: Please enter a valid URL
+      webhook-secret:
+        min-length: Secret must be at least 16 characters long
+      allowed-origins:
+        invalid: Please enter a valid email address
+      already-exists: An email with this username already exists
+      limit-reached: You have reached the maximum number of emails you can create, please upgrade your plan to create more emails.
+      unknown: An error has occurred, please try again
+  created:
+    title: Email created!
+    description: You can now send emails to this address to trigger your webhook.
+    back-to-emails: Back to emails
+    copy-email-address: Copy email address
 
 processing:
   status:
     success: Success
     error: Error
     not-processed: Not processed
-
+  empty:
+    title: No email received recently on this address
+    description: Send emails to {{ emailAddress }} to trigger your webhook
   error:
     from-address-not-allowed: From address not allowed
     webhook-failed: Webhook failed when sending email POST request
     not-enabled: Email disabled
     unknown: Unknown error
+
+tables:
+  rows-per-page: Rows per page
+  page-description: Page {{ page }} of {{ total }}
+
+theme:
+  light: Light
+  dark: Dark
+  system: System

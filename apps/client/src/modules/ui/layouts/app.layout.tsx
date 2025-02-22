@@ -9,7 +9,7 @@ import { fetchCurrentUser } from '@/modules/users/users.services';
 import { A } from '@solidjs/router';
 import { createQuery } from '@tanstack/solid-query';
 import { type Component, type ParentComponent, Show } from 'solid-js';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../components/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from '../components/dropdown-menu';
 
 export const ThemeSwitcher: Component = () => {
   const themeStore = useThemeStore();
@@ -60,6 +60,8 @@ export const LanguageSwitcher: Component = () => {
 };
 
 export const AppLayout: ParentComponent = (props) => {
+  const { t } = useI18n();
+
   const query = createQuery(() => ({
     queryKey: ['users', 'me'],
     queryFn: fetchCurrentUser,
@@ -87,7 +89,7 @@ export const AppLayout: ParentComponent = (props) => {
           <div class="flex flex-row items-center gap-2">
             <Show when={getIsUserOnFreePlan()}>
               <Button variant="secondary" onClick={openCheckout}>
-                Upgrade to Pro
+                {t('layout.upgrade-to-pro')}
               </Button>
             </Show>
 
@@ -99,13 +101,24 @@ export const AppLayout: ParentComponent = (props) => {
               )}
               />
 
-              <DropdownMenuContent>
+              <DropdownMenuContent class="w-56">
                 <DropdownMenuItem>
                   <A href="/settings" class="flex flex-row items-center gap-2">
                     <div class="i-tabler-settings"></div>
-                    Account settings
+                    {t('layout.account-settings')}
                   </A>
                 </DropdownMenuItem>
+
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger class="flex items-center gap-2 cursor-pointer">
+                    <div class="i-tabler-language size-4"></div>
+                    {t('layout.language')}
+                  </DropdownMenuSubTrigger>
+
+                  <DropdownMenuSubContent>
+                    <LanguageSwitcher />
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
               </DropdownMenuContent>
 
             </DropdownMenu>

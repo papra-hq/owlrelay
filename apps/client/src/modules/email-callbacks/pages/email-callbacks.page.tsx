@@ -1,3 +1,4 @@
+import { useI18n } from '@/modules/i18n/i18n.provider';
 import { cn } from '@/modules/shared/style/cn';
 import { CopyIconButton } from '@/modules/shared/utils/copy';
 import { Button } from '@/modules/ui/components/button';
@@ -13,7 +14,7 @@ import { getEmailCallbacks } from '../email-callbacks.services';
 export const EmailsPage: Component = () => {
   const { deleteEmailCallback } = useDeleteEmailCallback();
   const { enableEmailCallback, disableEmailCallback } = useUpdateEmailCallback();
-
+  const { t } = useI18n();
   const query = createQuery(() => ({
     queryKey: ['email-callbacks'],
     queryFn: getEmailCallbacks,
@@ -25,10 +26,10 @@ export const EmailsPage: Component = () => {
         <Match when={query.data?.emailCallbacks.length === 0}>
           <div class="px-6 py-16 w-full flex flex-col items-center justify-center">
             <div class="i-tabler-mail size-10"></div>
-            <div class="text-center mb-4 mt-2">Create your first email to trigger a webhook</div>
+            <div class="text-center mb-4 mt-2">{t('email-callbacks.list.empty')}</div>
             <Button class="gap-2" as={A} href="/email-callbacks/create">
               <div class="i-tabler-plus size-4"></div>
-              Create email
+              {t('email-callbacks.list.create-email')}
             </Button>
           </div>
         </Match>
@@ -36,12 +37,12 @@ export const EmailsPage: Component = () => {
 
           <div class="flex flex-row gap-2 mb-2 justify-between items-center">
             <div class="text-base font-medium">
-              Your emails
+              {t('email-callbacks.list.your-emails')}
             </div>
 
             <Button class="gap-2" as={A} href="/email-callbacks/create">
               <div class="i-tabler-plus size-4"></div>
-              Create new email
+              {t('email-callbacks.list.create-email')}
             </Button>
           </div>
 
@@ -57,7 +58,12 @@ export const EmailsPage: Component = () => {
                     <div>
                       <span class="flex flex-row gap-2 items-center">
                         <A href={`/email-callbacks/${emailCallback.id}`} class="leading-tight font-medium hover:underline">{formatEmailAddress(emailCallback)}</A>
-                        <CopyIconButton text={formatEmailAddress(emailCallback)} class="text-muted-foreground size-4.5" toast="Email copied to clipboard" tooltip="Copy email address" />
+                        <CopyIconButton
+                          text={formatEmailAddress(emailCallback)}
+                          class="text-muted-foreground size-4.5"
+                          toast={t('email-callbacks.copy-email-address.copied')}
+                          tooltip={t('email-callbacks.copy-email-address.label')}
+                        />
 
                         <Show when={!emailCallback.isEnabled}>
                           <DisabledEmailBadge />
@@ -76,7 +82,7 @@ export const EmailsPage: Component = () => {
 
                       <DropdownMenuItem as={A} href={`/email-callbacks/${emailCallback.id}`} class="flex flex-row gap-2 cursor-pointer">
                         <div class="i-tabler-history size-4"></div>
-                        View history
+                        {t('email-callbacks.list.view-history')}
                       </DropdownMenuItem>
 
                       <DropdownMenuItem
@@ -86,12 +92,12 @@ export const EmailsPage: Component = () => {
                         class="flex flex-row gap-2 cursor-pointer"
                       >
                         <div class={cn('size-4', emailCallback.isEnabled ? 'i-tabler-circle-x' : 'i-tabler-circle-check')} />
-                        {emailCallback.isEnabled ? 'Disable email' : 'Enable email'}
+                        {emailCallback.isEnabled ? t('email-callbacks.disable') : t('email-callbacks.enable')}
                       </DropdownMenuItem>
 
                       <DropdownMenuItem onClick={() => deleteEmailCallback({ emailCallbackId: emailCallback.id })} class="flex flex-row gap-2 cursor-pointer">
                         <div class="i-tabler-trash size-4"></div>
-                        Delete
+                        {t('email-callbacks.delete')}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
