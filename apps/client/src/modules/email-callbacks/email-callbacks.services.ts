@@ -18,7 +18,7 @@ export async function createEmailCallback(emailCallback: {
   username: string;
   allowedOrigins: string[];
   webhookUrl: string;
-  webhookSecret: string;
+  webhookSecret?: string;
 }) {
   const { emailCallback: createdEmailCallback } = await apiClient<{ emailCallback: EmailCallback }>({
     path: '/api/email-callbacks',

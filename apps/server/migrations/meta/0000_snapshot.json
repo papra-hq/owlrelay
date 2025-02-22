@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "724aed11-77ae-4821-abeb-25f9f92d47b1",
+  "id": "f1ac5694-e919-4aec-b25d-1b0aeaae60d0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "emails_callbacks": {
@@ -76,7 +76,7 @@
           "name": "webhook_secret",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         }
       },

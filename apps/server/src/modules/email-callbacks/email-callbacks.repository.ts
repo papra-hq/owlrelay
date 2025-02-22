@@ -66,6 +66,10 @@ async function createUserEmailCallback({
     });
   }
 
+  if (error) {
+    throw error;
+  }
+
   const [emailCallback] = emailCallbacks ?? [];
 
   return { emailCallback };

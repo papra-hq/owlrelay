@@ -59,7 +59,7 @@ async function parseEmail({ rawMessage }: { rawMessage: ReadableStream<Uint8Arra
   return { email };
 }
 
-async function triggerWebhook({ email, webhookUrl, webhookSecret }: { email: Email; webhookUrl: string; webhookSecret: string }) {
+async function triggerWebhook({ email, webhookUrl, webhookSecret }: { email: Email; webhookUrl: string; webhookSecret?: string | null }) {
   const body = new FormData();
 
   body.append('meta', JSON.stringify({ to: email.to, from: email.from }));
@@ -68,16 +68,19 @@ async function triggerWebhook({ email, webhookUrl, webhookSecret }: { email: Ema
     body.append('attachments[]', new Blob([attachment.content], { type: attachment.mimeType }), attachment.filename ?? 'file');
   }
 
-  const { signature } = await signBody({ body, secret: webhookSecret });
+  const headers: Record<string, string> = {};
+
+  if (webhookSecret) {
+    const { signature } = await signBody({ body, secret: webhookSecret });
+    headers['X-Signature'] = signature;
+  }
 
   const response = await fetch(
     webhookUrl,
     {
       method: 'POST',
       body,
-      headers: {
-        'X-Signature': signature,
-      },
+      headers,
     },
   );
 

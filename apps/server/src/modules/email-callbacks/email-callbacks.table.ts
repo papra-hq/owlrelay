@@ -17,7 +17,7 @@ export const emailsCallbacksTable = sqliteTable(
     allowedOrigins: text('allowed_origins', { mode: 'json' }).$type<string[]>().notNull().default([]),
 
     webhookUrl: text('webhook_url').notNull(),
-    webhookSecret: text('webhook_secret').notNull(),
+    webhookSecret: text('webhook_secret'),
   },
   table => [
     uniqueIndex('emails_callbacks_domain_username_index').on(table.domain, table.username),
