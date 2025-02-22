@@ -35,21 +35,10 @@ export function SelectTrigger<T extends ValidComponent = 'button'>(props: Polymo
     >
       {local.children}
       <SelectPrimitive.Icon
-        as="svg"
-        xmlns="http://www.w3.org/2000/svg"
-        width="1em"
-        height="1em"
-        viewBox="0 0 24 24"
-        class="size-4 opacity-50 flex items-center justify-center"
+        as="div"
+        class="i-tabler-caret-down-filled size-3.5 px-3 flex items-center justify-center flex-shrink-0"
       >
-        <path
-          fill="none"
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="m8 9l4-4l4 4m0 6l-4 4l-4-4"
-        />
+
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   );

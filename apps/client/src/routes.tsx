@@ -5,6 +5,7 @@ import { LoginPage } from './modules/auth/pages/login.page';
 import { RegisterPage } from './modules/auth/pages/register.page';
 import { RequestPasswordResetPage } from './modules/auth/pages/request-password-reset.page';
 import { ResetPasswordPage } from './modules/auth/pages/reset-password.page';
+import { CreateEmailCallbackPage } from './modules/email-callbacks/pages/create-email-callback.page';
 import { EmailCallbackPage } from './modules/email-callbacks/pages/email-callback.page';
 import { EmailsPage } from './modules/email-callbacks/pages/email-callbacks.page';
 import { CheckoutCancelPage } from './modules/payments/pages/checkout-cancel.page';
@@ -21,6 +22,10 @@ export const routes: RouteDefinition[] = [
       {
         path: '/',
         component: () => <Navigate href="/email-callbacks" />,
+      },
+      {
+        path: '/email-callbacks/create',
+        component: createProtectedPage({ authType: 'private', component: CreateEmailCallbackPage }),
       },
       {
         path: '/email-callbacks',

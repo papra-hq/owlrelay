@@ -46,8 +46,10 @@ function setupCreateEmailCallbackRoute({ app }: { app: ServerInstance }) {
         domain: z.string().min(1),
         username: z.string().regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i).min(3).max(32),
         webhookUrl: z.string().url(),
-        webhookSecret: z.string().min(16).max(128),
-        allowedOrigins: z.array(z.string().url()).optional().default([]),
+        webhookSecret: z.string().min(16).max(128).optional(),
+        allowedOrigins: z.array(
+          z.string().email(),
+        ).optional().default([]),
       }),
     ),
     async (context) => {

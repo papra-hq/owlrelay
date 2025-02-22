@@ -33,7 +33,7 @@ export function TooltipContent<T extends ValidComponent = 'div'>(props: Polymorp
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Content
         class={cn(
-          'z-50 overflow-hidden rounded-md bg-card px-3 py-1.5 text-xs text-card-foreground data-[expanded]:(animate-in fade-in-0 zoom-in-95) data-[closed]:(animate-out fade-out-0 zoom-out-95)',
+          'z-50 overflow-hidden border rounded-md bg-card px-3 py-1.5 text-xs text-card-foreground data-[expanded]:(animate-in fade-in-0 zoom-in-95) data-[closed]:(animate-out fade-out-0 zoom-out-95)',
           local.class,
         )}
         {...rest}

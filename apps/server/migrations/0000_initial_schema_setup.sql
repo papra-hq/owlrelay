@@ -8,7 +8,7 @@ CREATE TABLE `emails_callbacks` (
 	`username` text NOT NULL,
 	`allowed_origins` text DEFAULT '[]' NOT NULL,
 	`webhook_url` text NOT NULL,
-	`webhook_secret` text NOT NULL,
+	`webhook_secret` text,
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE cascade ON DELETE cascade
 );
 --> statement-breakpoint
