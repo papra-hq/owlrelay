@@ -2,6 +2,7 @@ import type { ConfigDefinition } from 'figue';
 import { safelySync } from '@corentinth/chisels';
 import { defineConfig } from 'figue';
 import { z } from 'zod';
+import { apiKeysConfig } from '../api-keys/api-keys.config';
 import { authConfig } from '../app/auth/auth.config';
 import { databaseConfig } from '../app/database/database.config';
 import { emailCallbacksConfig } from '../email-callbacks/email-callbacks.config';
@@ -82,6 +83,7 @@ export const configDefinition = {
   auth: authConfig,
   tasks: tasksConfig,
   emailCallbacks: emailCallbacksConfig,
+  apiKeys: apiKeysConfig,
 } as const satisfies ConfigDefinition;
 
 const logger = createLogger({ namespace: 'config' });

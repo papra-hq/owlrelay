@@ -1,10 +1,12 @@
-import type { ServerInstance } from './server.types';
+import type { ServerInstance, ServerInstanceGenerics } from './server.types';
+import { Hono } from 'hono';
+import { apiKeyMiddleware } from '../api-keys/api-keys.middleware';
+import { registerApiKeysPrivateRoutes } from '../api-keys/api-keys.routes';
 import { registerConfigPublicRoutes } from '../config/config.routes';
 import { registerEmailCallbacksPrivateRoutes } from '../email-callbacks/email-callbacks.routes';
 import { registerPrivatePaymentsRoutes, registerPublicPaymentsRoutes } from '../payments/payments.routes';
 import { registerUsersPrivateRoutes } from '../users/users.routes';
-import { createUnauthorizedError } from './auth/auth.errors';
-import { getSession } from './auth/auth.models';
+import { userAuthMiddleware } from './auth/auth.middleware';
 import { registerAuthRoutes } from './auth/auth.routes';
 import { registerHealthCheckRoutes } from './health-check/health-check.routes';
 
@@ -12,6 +14,7 @@ export function registerRoutes({ app }: { app: ServerInstance }) {
   registerAuthRoutes({ app });
 
   registerPublicRoutes({ app });
+  registerApiPrivateRoutes({ app });
   registerPrivateRoutes({ app });
 }
 
@@ -21,18 +24,22 @@ function registerPublicRoutes({ app }: { app: ServerInstance }) {
   registerPublicPaymentsRoutes({ app });
 }
 
-function registerPrivateRoutes({ app }: { app: ServerInstance }) {
-  app.use(async (context, next) => {
-    const { session } = getSession({ context });
+function registerApiPrivateRoutes({ app: rootApp }: { app: ServerInstance }) {
+  const app = new Hono<ServerInstanceGenerics>();
+  app.use(apiKeyMiddleware);
 
-    if (!session) {
-      throw createUnauthorizedError();
-    }
+  registerEmailCallbacksPrivateRoutes({ app });
 
-    await next();
-  });
+  rootApp.route('/', app);
+}
+
+function registerPrivateRoutes({ app: rootApp }: { app: ServerInstance }) {
+  const app = new Hono<ServerInstanceGenerics>();
+  app.use(userAuthMiddleware);
 
   registerUsersPrivateRoutes({ app });
-  registerEmailCallbacksPrivateRoutes({ app });
   registerPrivatePaymentsRoutes({ app });
+  registerApiKeysPrivateRoutes({ app });
+
+  rootApp.route('/', app);
 }

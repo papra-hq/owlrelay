@@ -10,8 +10,8 @@ export type ServerInstanceGenerics = {
     config: Config;
     db: Database;
     auth: Auth;
-    user: Auth['$Infer']['Session']['user'] | null;
-    session: Auth['$Infer']['Session']['session'] | null;
+    userId?: string | null;
+    session?: Auth['$Infer']['Session']['session'] | null;
     trackingServices?: TrackingServices;
     eventsServices?: EventsServices;
   };

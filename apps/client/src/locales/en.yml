@@ -17,6 +17,7 @@ layout:
   account-settings: Account settings
   upgrade-to-pro: Upgrade to Pro
   language: Language
+  api-keys: API Keys
 
 email-callbacks:
   settings: Settings
@@ -115,3 +116,31 @@ theme:
   light: Light
   dark: Dark
   system: System
+
+api-keys:
+  create-api-key: Create API key
+  list:
+    title: API Keys
+    description: Manage your API keys here. API keys are used to authenticate your requests to the API, like to programmatically manage your OwlRelay emails.
+  empty:
+    title: No API keys yet
+    description: Create an API key to programmatically manage your OwlRelay emails.
+  create:
+    title: Create a new API key
+    submit: Create API key
+    name:
+      required: Please enter a name for your API key
+      max-length: API key name must be less than 128 characters
+      label: API key name
+      placeholder: eg. My API key
+      description: Give a descriptive name to your API key, this will help you identify it later, you can put whatever you want, it's just for your reference.
+    success:
+      title: API key created!
+      description: Your API key has been created successfully. Copy it now, you won't be able to see it again after you leave this page.
+  delete:
+    success: API key deleted successfully
+    confirm:
+      title: Delete API key
+      description: Are you sure you want to delete this API key? This action cannot be undone.
+      confirm-button: Delete API key
+      cancel-button: Cancel
