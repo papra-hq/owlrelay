@@ -19,6 +19,8 @@ layout:
   language: Language
 
 email-callbacks:
+  settings: Settings
+  inbox: Inbox
   back-to-emails: Back to emails
   copy-email-address:
     label: Copy email address
@@ -63,6 +65,10 @@ email-callbacks:
       add-email: Add email
       remove-email: Remove email
     create-email: Create email
+    update:
+      save-changes: Save changes
+      changes-saved: Changes saved
+      toast: Email settings updated successfully
     validation:
       username:
         required: Please enter a username

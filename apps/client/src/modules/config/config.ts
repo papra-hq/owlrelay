@@ -5,6 +5,10 @@ function asString<T extends string | undefined>(value: string | undefined, defau
   return (value ?? defaultValue) as T extends undefined ? string | undefined : string;
 }
 
+function asStringArray(value: string | undefined, defaultValue?: string[]): string[] {
+  return value?.split(',') ?? defaultValue ?? [];
+}
+
 export const buildTimeConfig = {
   baseUrl: asString(import.meta.env.VITE_BASE_URL, window.location.origin),
   baseApiUrl: asString(import.meta.env.VITE_BASE_API_URL, window.location.origin),
@@ -20,7 +24,7 @@ export const buildTimeConfig = {
     },
   },
   emailCallbacks: {
-    availableDomains: import.meta.env.VITE_EMAIL_CALLBACKS_AVAILABLE_DOMAINS?.split(',') ?? [],
+    availableDomains: asStringArray(import.meta.env.VITE_EMAIL_CALLBACKS_AVAILABLE_DOMAINS),
   },
   posthog: {
     apiKey: asString(import.meta.env.VITE_POSTHOG_API_KEY),

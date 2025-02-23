@@ -1,4 +1,4 @@
-import { Navigate, type RouteDefinition } from '@solidjs/router';
+import { Navigate, type RouteDefinition, useParams } from '@solidjs/router';
 import { createProtectedPage } from './modules/auth/middleware/protected-page.middleware';
 import { EmailValidationRequiredPage } from './modules/auth/pages/email-validation-required.page';
 import { LoginPage } from './modules/auth/pages/login.page';
@@ -6,6 +6,8 @@ import { RegisterPage } from './modules/auth/pages/register.page';
 import { RequestPasswordResetPage } from './modules/auth/pages/request-password-reset.page';
 import { ResetPasswordPage } from './modules/auth/pages/reset-password.page';
 import { CreateEmailCallbackPage } from './modules/email-callbacks/pages/create-email-callback.page';
+import { EmailCallbackInboxPage } from './modules/email-callbacks/pages/email-callback-inbox.page';
+import { EmailCallbackSettingsPage } from './modules/email-callbacks/pages/email-callback-settings.page';
 import { EmailCallbackPage } from './modules/email-callbacks/pages/email-callback.page';
 import { EmailsPage } from './modules/email-callbacks/pages/email-callbacks.page';
 import { CheckoutCancelPage } from './modules/payments/pages/checkout-cancel.page';
@@ -34,6 +36,23 @@ export const routes: RouteDefinition[] = [
       {
         path: '/email-callbacks/:emailCallbackId',
         component: EmailCallbackPage,
+        children: [
+          {
+            path: '/',
+            component: () => {
+              const params = useParams();
+              return <Navigate href={`/email-callbacks/${params.emailCallbackId}/inbox`} />;
+            },
+          },
+          {
+            path: '/inbox',
+            component: EmailCallbackInboxPage,
+          },
+          {
+            path: '/settings',
+            component: EmailCallbackSettingsPage,
+          },
+        ],
       },
       {
         path: '/settings',

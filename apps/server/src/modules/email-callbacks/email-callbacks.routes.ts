@@ -112,7 +112,9 @@ function setupUpdateEmailCallbackRoute({ app }: { app: ServerInstance }) {
         isEnabled: z.boolean().optional(),
         domain: z.string().optional(),
         username: z.string().regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i).min(3).max(32).optional(),
-        allowedOrigins: z.array(z.string().url()).optional(),
+        allowedOrigins: z.array(
+          z.string().email(),
+        ).optional().default([]),
         webhookUrl: z.string().url().optional(),
         webhookSecret: z.string().min(16).max(128).optional(),
       }),
