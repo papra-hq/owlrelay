@@ -52,9 +52,9 @@ email-callbacks:
     validation:
       username:
         required: Veuillez entrer un nom d'utilisateur
-        invalid: Le nom d'utilisateur doit contenir uniquement des chiffres, des lettres et des caractères spéciaux
-        min-length: Le nom d'utilisateur doit contenir au moins 3 caractères
-        invalid-characters: Le nom d'utilisateur ne doit pas commencer ou se terminer par un tiret, un point ou un trait de soulignement
+        invalid: L'adresse email doit contenir uniquement des chiffres, des lettres et des caractères spéciaux
+        min-length: L'adresse email doit contenir au moins 3 caractères
+        invalid-characters: L'adresse email ne doit pas commencer ou se terminer par un tiret, un point ou un trait de soulignement
       domain:
         invalid: Domaine invalide
       webhook-url:

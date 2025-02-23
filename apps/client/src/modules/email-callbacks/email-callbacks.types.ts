@@ -7,7 +7,7 @@ export type EmailCallback = {
   username: string;
   allowedOrigins: string[];
   webhookUrl: string;
-  webhookSecret: string;
+  webhookSecret?: string;
 };
 
 export type EmailProcessing = {

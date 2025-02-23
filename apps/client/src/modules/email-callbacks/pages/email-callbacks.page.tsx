@@ -78,13 +78,8 @@ export const EmailsPage: Component = () => {
                     <DropdownMenuTrigger as={Button} variant="ghost" size="icon">
                       <div class="i-tabler-dots-vertical size-4"></div>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent>
 
-                      <DropdownMenuItem as={A} href={`/email-callbacks/${emailCallback.id}`} class="flex flex-row gap-2 cursor-pointer">
-                        <div class="i-tabler-history size-4"></div>
-                        {t('email-callbacks.list.view-history')}
-                      </DropdownMenuItem>
-
+                    <DropdownMenuContent class="min-w-48">
                       <DropdownMenuItem
                         onClick={() => emailCallback.isEnabled
                           ? disableEmailCallback({ emailCallbackId: emailCallback.id })
@@ -93,6 +88,16 @@ export const EmailsPage: Component = () => {
                       >
                         <div class={cn('size-4', emailCallback.isEnabled ? 'i-tabler-circle-x' : 'i-tabler-circle-check')} />
                         {emailCallback.isEnabled ? t('email-callbacks.disable') : t('email-callbacks.enable')}
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem as={A} href={`/email-callbacks/${emailCallback.id}`} class="flex flex-row gap-2 cursor-pointer">
+                        <div class="i-tabler-history size-4"></div>
+                        {t('email-callbacks.list.view-history')}
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem as={A} href={`/email-callbacks/${emailCallback.id}/settings`} class="flex flex-row gap-2 cursor-pointer">
+                        <div class="i-tabler-settings size-4"></div>
+                        {t('email-callbacks.settings')}
                       </DropdownMenuItem>
 
                       <DropdownMenuItem onClick={() => deleteEmailCallback({ emailCallbackId: emailCallback.id })} class="flex flex-row gap-2 cursor-pointer">
