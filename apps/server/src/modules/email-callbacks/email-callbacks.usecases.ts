@@ -12,6 +12,7 @@ import { EMAIL_PROCESSING_ERRORS, EMAIL_PROCESSING_STATUS } from '../email-proce
 import { createEmailProcessingsRepository } from '../email-processings/email-processings.repository';
 import { createError } from '../shared/errors/errors';
 import { createLogger } from '../shared/logger/logger';
+import { triggerWebhook } from '../webhooks/webhooks.usecases';
 import { filterEmailAddressesCandidates, getIsFromAllowedAddress } from './email-callbacks.models';
 import { createEmailCallbacksRepository } from './email-callbacks.repository';
 
@@ -57,47 +58,6 @@ async function parseEmail({ rawMessage }: { rawMessage: ReadableStream<Uint8Arra
   const email = await parser.parse(emailBuffer);
 
   return { email };
-}
-
-async function triggerWebhook({ email, webhookUrl, webhookSecret }: { email: Email; webhookUrl: string; webhookSecret?: string | null }) {
-  const body = new FormData();
-
-  body.append('meta', JSON.stringify({ to: email.to, from: email.from }));
-
-  for (const attachment of email.attachments) {
-    body.append('attachments[]', new Blob([attachment.content], { type: attachment.mimeType }), attachment.filename ?? 'file');
-  }
-
-  const headers: Record<string, string> = {};
-
-  if (webhookSecret) {
-    const { signature } = await signBody({ body, secret: webhookSecret });
-    headers['X-Signature'] = signature;
-  }
-
-  const response = await fetch(
-    webhookUrl,
-    {
-      method: 'POST',
-      body,
-      headers,
-    },
-  );
-
-  return {
-    statusCode: response.status,
-    isOk: response.ok,
-  };
-}
-
-async function signBody({ body, secret }: { body: FormData; secret: string }) {
-  const bodyBuffer = await new Response(body).arrayBuffer();
-  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
-  const signatureBuffer = await crypto.subtle.sign('HMAC', key, bodyBuffer);
-
-  const signature = btoa(String.fromCharCode(...new Uint8Array(signatureBuffer)));
-
-  return { signature };
 }
 
 async function processEmail({
