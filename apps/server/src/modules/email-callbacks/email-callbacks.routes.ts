@@ -41,16 +41,21 @@ function setupGetEmailCallbacksRoute({ app }: { app: ServerInstance }) {
 function setupCreateEmailCallbackRoute({ app }: { app: ServerInstance }) {
   app.post(
     '/api/email-callbacks',
-    validateJsonBody(
-      z.object({
-        domain: z.string().min(1),
+
+    validateJsonBody(({ context }) => {
+      const { config } = getConfig({ context });
+      const { availableDomains } = config.emailCallbacks;
+
+      return z.object({
+        domain: z.enum(availableDomains as [string, ...string[]]).optional().default(availableDomains[0]),
         username: z.string().regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i).min(3).max(32),
         webhookUrl: z.string().url(),
         webhookSecret: z.string().min(16).max(128).optional(),
         allowedOrigins: z.array(
           z.string().email(),
         ).optional().default([]),
-      }),
+      });
+    },
     ),
     async (context) => {
       const { config } = getConfig({ context });
@@ -107,18 +112,21 @@ function setupUpdateEmailCallbackRoute({ app }: { app: ServerInstance }) {
         emailCallbackId: emailCallbackIdSchema,
       }),
     ),
-    validateJsonBody(
-      z.object({
+    validateJsonBody(({ context }) => {
+      const { config } = getConfig({ context });
+      const { availableDomains } = config.emailCallbacks;
+
+      return z.object({
         isEnabled: z.boolean().optional(),
-        domain: z.string().optional(),
+        domain: z.enum(availableDomains as [string, ...string[]]).optional(),
         username: z.string().regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i).min(3).max(32).optional(),
         allowedOrigins: z.array(
           z.string().email(),
         ).optional().default([]),
         webhookUrl: z.string().url().optional(),
         webhookSecret: z.string().min(16).max(128).optional(),
-      }),
-    ),
+      });
+    }),
     async (context) => {
       const { emailCallbackId } = context.req.valid('param');
       const { userId } = getUser({ context });

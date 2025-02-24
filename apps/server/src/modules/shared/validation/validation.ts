@@ -1,5 +1,6 @@
 import type { ValidationTargets } from 'hono';
 import type z from 'zod';
+import type { Context } from '../../app/server.types';
 import { validator } from 'hono/validator';
 
 function formatValidationError({ error }: { error: z.ZodError }) {
@@ -14,8 +15,10 @@ function formatValidationError({ error }: { error: z.ZodError }) {
 }
 
 function buildValidator<Target extends keyof ValidationTargets>({ target, error }: { target: Target; error: { message: string; code: string } }) {
-  return <Schema extends z.ZodTypeAny>(schema: Schema, { allowAdditionalFields = false }: { allowAdditionalFields?: boolean } = {}) => {
+  return <Schema extends z.ZodTypeAny>(schemaOrFactory: Schema | ((args: { context: Context }) => Schema), { allowAdditionalFields = false }: { allowAdditionalFields?: boolean } = {}) => {
     return validator(target, (value, context) => {
+      const schema = typeof schemaOrFactory === 'function' ? schemaOrFactory({ context }) : schemaOrFactory;
+
       // @ts-expect-error try to enforce strict mode
       const refinedSchema = allowAdditionalFields ? schema : (schema.strict?.() ?? schema);
 
