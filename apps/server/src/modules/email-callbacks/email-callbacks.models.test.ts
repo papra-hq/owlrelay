@@ -31,6 +31,34 @@ describe('email-callbacks models', () => {
         userId: '1',
       });
     });
+
+    test('the webhook secret is not redacted if it is not set', () => {
+      const emailCallback: EmailCallback = {
+        id: '1',
+        username: 'test',
+        domain: 'test.com',
+        webhookUrl: 'https://example.com/webhook',
+        webhookSecret: null,
+        allowedOrigins: [],
+        isEnabled: true,
+        createdAt: new Date('2025-01-01'),
+        updatedAt: new Date('2025-01-01'),
+        userId: '1',
+      };
+
+      expect(formatEmailCallbackForApi({ emailCallback })).to.deep.equal({
+        id: '1',
+        username: 'test',
+        domain: 'test.com',
+        webhookUrl: 'https://example.com/webhook',
+        webhookSecret: undefined,
+        allowedOrigins: [],
+        isEnabled: true,
+        createdAt: new Date('2025-01-01'),
+        updatedAt: new Date('2025-01-01'),
+        userId: '1',
+      });
+    });
   });
 
   describe('parseEmailAddress', () => {
