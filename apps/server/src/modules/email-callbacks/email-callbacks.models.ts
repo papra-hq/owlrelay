@@ -4,7 +4,7 @@ import type { EmailCallback } from './email-callbacks.types';
 export function formatEmailCallbackForApi({ emailCallback }: { emailCallback: EmailCallback }) {
   return {
     ...emailCallback,
-    webhookSecret: '************************',
+    webhookSecret: emailCallback.webhookSecret ? '************************' : undefined,
   };
 }
 
