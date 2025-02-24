@@ -1,4 +1,6 @@
 import { Navigate, type RouteDefinition, useParams } from '@solidjs/router';
+import { ApiKeysPage } from './modules/api-keys/pages/api-keys.page';
+import { CreateApiKeyPage } from './modules/api-keys/pages/create-api-key.page';
 import { createProtectedPage } from './modules/auth/middleware/protected-page.middleware';
 import { EmailValidationRequiredPage } from './modules/auth/pages/email-validation-required.page';
 import { LoginPage } from './modules/auth/pages/login.page';
@@ -53,6 +55,14 @@ export const routes: RouteDefinition[] = [
             component: EmailCallbackSettingsPage,
           },
         ],
+      },
+      {
+        path: '/api-keys',
+        component: createProtectedPage({ authType: 'private', component: ApiKeysPage }),
+      },
+      {
+        path: '/api-keys/create',
+        component: createProtectedPage({ authType: 'private', component: CreateApiKeyPage }),
       },
       {
         path: '/settings',

@@ -17,6 +17,7 @@ layout:
   account-settings: Paramètres du compte
   upgrade-to-pro: Passer à la version Pro
   language: Langue
+  api-keys: Clés API
 
 email-callbacks:
   back-to-emails: Retour aux emails
@@ -90,3 +91,31 @@ processing:
 tables:
   rows-per-page: Lignes par page
   page-description: Page {{ page }} sur {{ total }}
+
+api-keys:
+  create-api-key: Créer une clé API
+  list:
+    title: Clés API
+    description: Gérez vos clés API ici. Les clés API sont utilisées pour authentifier vos requêtes à l'API, comme pour gérer vos emails OwlRelay par programmation.
+  empty:
+    title: Aucune clé API pour le moment
+    description: Créez une clé API pour gérer vos emails OwlRelay par programmation.
+  create:
+    title: Créer une nouvelle clé API
+    submit: Créer la clé API
+    name:
+      required: Veuillez entrer un nom pour votre clé API
+      max-length: Le nom de la clé API doit contenir moins de 128 caractères
+      label: Nom de la clé API
+      placeholder: ex. Ma clé API
+      description: Donnez un nom descriptif à votre clé API, cela vous aidera à l'identifier plus tard, vous pouvez mettre ce que vous voulez, c'est juste pour votre référence.
+    success:
+      title: Clé API créée !
+      description: Votre clé API a été créée avec succès. Copiez-la maintenant, vous ne pourrez plus la voir après avoir quitté cette page.
+  delete:
+    success: Clé API supprimée avec succès
+    confirm:
+      title: Supprimer la clé API
+      description: Êtes-vous sûr de vouloir supprimer cette clé API ? Cette action est irréversible.
+      confirm-button: Supprimer la clé API
+      cancel-button: Annuler

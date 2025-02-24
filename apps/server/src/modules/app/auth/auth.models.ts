@@ -2,9 +2,9 @@ import type { Context } from '../server.types';
 import { createError } from '../../shared/errors/errors';
 
 export function getUser({ context }: { context: Context }) {
-  const user = context.get('user');
+  const userId = context.get('userId');
 
-  if (!user) {
+  if (!userId) {
     throw createError({
       message: 'User not found in context',
       code: 'users.not_found',
@@ -14,8 +14,7 @@ export function getUser({ context }: { context: Context }) {
   }
 
   return {
-    user,
-    userId: user.id,
+    userId,
   };
 }
 

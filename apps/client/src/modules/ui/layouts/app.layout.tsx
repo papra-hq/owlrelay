@@ -102,16 +102,19 @@ export const AppLayout: ParentComponent = (props) => {
               />
 
               <DropdownMenuContent class="w-56">
-                <DropdownMenuItem>
-                  <A href="/settings" class="flex flex-row items-center gap-2">
-                    <div class="i-tabler-settings"></div>
-                    {t('layout.account-settings')}
-                  </A>
+                <DropdownMenuItem as={A} href="/settings" class="flex flex-row items-center gap-2 cursor-pointer">
+                  <div class="i-tabler-settings" />
+                  {t('layout.account-settings')}
+                </DropdownMenuItem>
+
+                <DropdownMenuItem as={A} href="/api-keys" class="flex flex-row items-center gap-2 cursor-pointer">
+                  <div class="i-tabler-key" />
+                  {t('layout.api-keys')}
                 </DropdownMenuItem>
 
                 <DropdownMenuSub>
                   <DropdownMenuSubTrigger class="flex items-center gap-2 cursor-pointer">
-                    <div class="i-tabler-language size-4"></div>
+                    <div class="i-tabler-language size-4" />
                     {t('layout.language')}
                   </DropdownMenuSubTrigger>
 
