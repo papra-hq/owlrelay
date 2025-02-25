@@ -26,7 +26,8 @@ function createUpdatedAtField() {
   return {
     updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
       .notNull()
-      .$default(() => new Date()),
+      .$default(() => new Date())
+      .$onUpdate(() => new Date()),
   };
 }
 
