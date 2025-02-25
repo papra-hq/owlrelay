@@ -13,7 +13,6 @@
   Trigger your webhooks or APIs by sending emails to generated addresses.
 </p>
 
-
 <p align="center">
   <a href="https://owlrelay.email">Website</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
@@ -21,7 +20,6 @@
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://discord.gg/8UPjzsrBNF">Discord Community</a>
 </p>
-
 
 ## Introduction
 
@@ -55,6 +53,34 @@ This project is licensed under the AGPL-3.0 License - see the [LICENSE](./LICENS
 
 This project is part of the [Papra ecosystem](https://github.com/papra-hq).
 Join the community on [Papra's Discord server](https://discord.gg/8UPjzsrBNF) to discuss the project, ask questions, or get help.
+
+
+### Stack
+
+OwlRelay is built with the following technologies:
+
+- **Frontend**
+  - **[SolidJS](https://www.solidjs.com)**: A declarative JavaScript library for building user interfaces.
+  - **[Shadcn Solid](https://shadcn-solid.com/)**: UI components library for SolidJS based on Shadcn designs.
+  - **[UnoCSS](https://unocss.dev/)**: An instant on-demand atomic CSS engine.
+  - **[Tabler Icons](https://tablericons.com/)**: A set of open-source icons.
+  - And other dependencies listed in the **[client package.json](./apps/papra-client/package.json)**
+- **Backend**
+  - **[HonoJS](https://hono.dev/)**: A small, fast, and lightweight web framework for building APIs.
+  - **[Drizzle](https://orm.drizzle.team/)**: A simple and lightweight ORM for Node.js.
+  - **[Better Auth](https://better-auth.com/)**: A simple and lightweight authentication library for Node.js.
+  - And other dependencies listed in the **[server package.json](./apps/papra-server/package.json)**
+- **Website**
+  - **[Astro](https://astro.build)**: A great static site generator.
+  - **[UnoCSS](https://unocss.dev/)**: An instant on-demand atomic CSS engine.
+  - **[Tabler Icons](https://tablericons.com/)**: A set of open-source icons.
+- **Project**
+  - **[PNPM Workspaces](https://pnpm.io/workspaces)**: A monorepo management tool.
+  - **[Github Actions](https://github.com/features/actions)**: For CI/CD.
+- **Infrastructure**
+  - **[Cloudflare Pages](https://pages.cloudflare.com/)**: For static site hosting.
+  - **[Cloudflare Workers](https://workers.cloudflare.com/)**: For backend hosting.
+  - **[Turso](https://turso.tech/)**: For production database.
 
 ## Credits
 
