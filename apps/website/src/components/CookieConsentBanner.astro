@@ -1,0 +1,45 @@
+<div class="fixed bottom-0 left-0 p-4 z-100 max-w-300px pl-6 pb-6" id="cookie-consent">
+    <div class="bg-background rounded-lg p-4 border border-border text-sm shadow-lg">
+        <p>
+            We use cookies to ensure you get the best experience on OwlRelay. We are not using cookies for shady marketing stuff.
+        </p>
+
+        <div class="flex items-center gap-2 mt-4">
+            <button id="cookie-consent-decline" class="border border-border text-foreground hover:border-foreground transition px-2 py-1 rounded-lg flex-1">Decline</button>
+            <button id="cookie-consent-accept" class="bg-foreground border border-foreground text-background hover:bg-foreground/80 transition px-2 py-1 rounded-lg flex-1">Accept</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const localStorageKey = 'owlrelay-cookie-consent';
+    const cookieConsentStatus = localStorage.getItem(localStorageKey) ?? 'undecided'; // 'undecided' | 'accepted' | 'rejected'
+
+    const cookieConsentBannerEls = document.getElementById('cookie-consent')!;
+    const cookieConsentAcceptBtnEls = document.getElementById('cookie-consent-accept')!;
+    const cookieConsentDeclineBtnEls = document.getElementById('cookie-consent-decline')!;
+
+    function showCookieConsentBanner() {
+      cookieConsentBannerEls.classList.remove('hidden');
+    }
+
+    function hideCookieConsentBanner() {
+      cookieConsentBannerEls.classList.add('hidden');
+    }
+
+    if (cookieConsentStatus === 'undecided') {
+      showCookieConsentBanner();
+    }
+
+    cookieConsentAcceptBtnEls.addEventListener('click', () => {
+      localStorage.setItem(localStorageKey, 'accepted');
+      hideCookieConsentBanner();
+    });
+
+    cookieConsentDeclineBtnEls.addEventListener('click', () => {
+      localStorage.setItem(localStorageKey, 'rejected');
+      // @ts-expect-error is defined on window
+      window?.posthog?.set_config?.({ persistence: 'memory' });
+      hideCookieConsentBanner();
+    });
+</script>

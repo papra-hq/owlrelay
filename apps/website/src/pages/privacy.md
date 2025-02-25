@@ -4,7 +4,7 @@ title: Privacy Policy
 description: Privacy Policy for OwlRelay, the email-to-webhook forwarding service.
 ---
 
-_Last update: 19/02/2025_
+_Last update: 25/02/2025_
 
 ## 1. Data Controller
 The data controller for the hosted service at [app.owlrelay.email](https://app.owlrelay.email) is **Corentin Thomasset** (French micro-entrepreneur), the legal contact address is **legal@owlrelay.email**.
@@ -20,8 +20,8 @@ When you use OwlRelay to forward emails to webhooks:
 - **Not Stored:** Email body content or attachments (forwarded directly to your webhook and immediately deleted from our systems).
 
 ### c. Logs & Analytics
-- **No Tracking:** We use PostHog for analytics, but we do not use cookies, third-party analytics, or track users across external websites.
-- **No Personal Data:** We do not collect any personal or identifiable data from users.
+- **Tracking:** We only use PostHog for analytics and usage monitoring, we use cookies to monitor usage across our websites.
+- **Personal data:** We do not collect any personal or identifiable data from users besides the email address used to create their account.
 
 ## 3. How We Use Your Data
 We process data to:

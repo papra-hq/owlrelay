@@ -1,4 +1,5 @@
 ---
+import CookieConsentBanner from '../components/CookieConsentBanner.astro';
 import PosthogAnalytics from '../components/PosthogAnalytics.astro';
 import '../styles/app.css';
 
@@ -50,7 +51,8 @@ const ogImageHeight = '630';
 
     <PosthogAnalytics />
   </head>
-  <body class="bg-background font-sans antialiased min-h-screen text-foreground text-sm" data-kb-theme="light">
+  <body class="bg-background font-sans antialiased min-h-screen text-foreground text-sm relative" data-kb-theme="light">
     <slot />
+    <CookieConsentBanner />
   </body>
 </html>
