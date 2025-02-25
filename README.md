@@ -15,11 +15,11 @@
 
 
 <p align="center">
-  <a href="https://app.owlrelay.email">Demo</a>
-  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
   <a href="https://owlrelay.email">Website</a>
   <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://discord.gg/8UPjzsrBNF">Papra Discord</a>
+  <a href="https://app.owlrelay.email">App</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://discord.gg/8UPjzsrBNF">Discord Community</a>
 </p>
 
 
