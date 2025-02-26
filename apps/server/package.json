@@ -30,17 +30,13 @@
     "stripe:webhook": "stripe listen --forward-to localhost:1222/api/payments/webhook"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.722.0",
-    "@aws-sdk/lib-storage": "^3.722.0",
     "@corentinth/chisels": "^1.1.0",
     "@corentinth/friendly-ids": "^0.0.1",
     "@crowlog/async-context-plugin": "^1.0.0",
     "@crowlog/logger": "^1.1.0",
-    "@hono/oauth-providers": "^0.6.2",
     "@libsql/client": "^0.14.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "better-auth": "^1.1.18",
-    "date-fns": "^4.1.0",
     "drizzle-kit": "^0.30.1",
     "drizzle-orm": "^0.38.3",
     "figue": "^2.2.0",
