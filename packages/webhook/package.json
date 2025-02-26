@@ -1,0 +1,65 @@
+{
+  "name": "@owlrelay/webhook",
+  "type": "module",
+  "version": "0.0.1",
+  "packageManager": "pnpm@9.12.3",
+  "description": "OwlRelay Webhook utilities",
+  "author": "OwlRelay <hello@owlrelay.email> (https://owlrelay.email)",
+  "license": "AGPL-3.0",
+  "homepage": "https://owlrelay.email",
+  "repository": "github:papra-hq/owlrelay",
+  "bugs": {
+    "url": "https://github.com/papra-hq/owlrelay/issues"
+  },
+  "keywords": [
+    "owlrelay",
+    "api",
+    "sdk",
+    "email",
+    "relay",
+    "http",
+    "webhook"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "prepare": "pnpm build",
+    "build": "unbuild",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "test": "pnpm run test:unit",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build",
+    "release": "bumpp --commit --tag --push"
+  },
+  "dependencies": {
+    "ofetch": "^1.3.4"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "catalog:",
+    "@types/node": "catalog:",
+    "@vitest/coverage-v8": "^2.0.5",
+    "bumpp": "^9.8.1",
+    "dotenv": "^16.4.5",
+    "eslint": "catalog:",
+    "postal-mime": "^2.4.3",
+    "tsx": "^4.17.0",
+    "typescript": "^5.7.3",
+    "unbuild": "^2.0.0",
+    "vitest": "catalog:"
+  }
+}

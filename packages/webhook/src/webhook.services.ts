@@ -1,21 +1,7 @@
-import type { Email } from 'postal-mime';
+import type { Email } from './types';
 import { fetch, type Fetch } from 'ofetch';
+import { signBody } from './signature';
 import { serializeEmailForWebhook } from './webhooks.models';
-
-export async function signBody({
-  bodyBuffer,
-  secret,
-}: {
-  bodyBuffer: ArrayBuffer;
-  secret: string;
-}) {
-  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
-  const signatureBuffer = await crypto.subtle.sign('HMAC', key, bodyBuffer);
-
-  const signature = btoa(String.fromCharCode(...new Uint8Array(signatureBuffer)));
-
-  return { signature };
-}
 
 export async function triggerWebhook({
   email,

@@ -5,6 +5,7 @@ import type { PlansRepository } from '../plans/plans.respository';
 import type { UsersRepository } from '../users/users.repository';
 import type { EmailCallbacksRepository } from './email-callbacks.repository';
 import { safely } from '@corentinth/chisels';
+import { triggerWebhook } from '@owlrelay/webhook';
 import PostalMime from 'postal-mime';
 import { setupDatabase } from '../app/database/database';
 import { parseConfig } from '../config/config';
@@ -12,7 +13,6 @@ import { EMAIL_PROCESSING_ERRORS, EMAIL_PROCESSING_STATUS } from '../email-proce
 import { createEmailProcessingsRepository } from '../email-processings/email-processings.repository';
 import { createError } from '../shared/errors/errors';
 import { createLogger } from '../shared/logger/logger';
-import { triggerWebhook } from '../webhooks/webhooks.usecases';
 import { filterEmailAddressesCandidates, getIsFromAllowedAddress } from './email-callbacks.models';
 import { createEmailCallbacksRepository } from './email-callbacks.repository';
 
