@@ -30,7 +30,10 @@ export async function triggerWebhook({
     {
       method: 'POST',
       body: bodyBuffer,
-      headers,
+      headers: {
+        'User-Agent': 'owlrelay-webhook-client',
+        ...headers,
+      },
     },
   );
 
