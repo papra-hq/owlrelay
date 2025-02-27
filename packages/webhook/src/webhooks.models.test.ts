@@ -4,7 +4,7 @@ import { serializeEmailForWebhook } from './webhooks.models';
 
 describe('webhooks models', () => {
   describe('serializeEmailForWebhook', () => {
-    test('the email content is serialized as a form data, with the attachments for the webhook', async () => {
+    test('the email is serialized as a form data, with the attachments as a files array and the rest as a json string', async () => {
       const email = {
         from: {
           address: 'from@example.com',
@@ -33,26 +33,19 @@ describe('webhooks models', () => {
       const { body } = serializeEmailForWebhook({ email });
 
       const entries = Array.from(body.entries());
-      const file = entries.at(-1)!;
-      const rest = entries.slice(0, -1);
+      const [emailEntry, ...attachments] = entries;
 
-      expect(rest).to.eql([
-        ['from.address', 'from@example.com'],
-        ['from.name', 'John Doe'],
-        ['subject', 'Test subject'],
-        ['text', 'Text content'],
-        ['html', 'HTML content'],
-        ['to[0].address', 'jane@example.com'],
-        ['to[0].name', 'Jane Doe'],
-        ['to[1].address', 'jack@example.com'],
-        ['to[1].name', 'Jack Doe'],
-      ]);
+      expect(emailEntry).to.eql(['email', '{"from":{"address":"from@example.com","name":"John Doe"},"to":[{"address":"jane@example.com","name":"Jane Doe"},{"address":"jack@example.com","name":"Jack Doe"}],"subject":"Test subject","text":"Text content","html":"HTML content"}']);
 
-      expect(file[0]).to.eql('attachments[0]');
-      expect(file[1]).to.be.instanceOf(File);
-      expect((file[1] as any).name).to.eql('test.txt');
-      expect((file[1] as any).type).to.eql('text/plain');
-      expect(await (file[1] as any).text()).to.eql('Test');
+      expect(attachments).to.have.length(1);
+
+      const [key, value] = attachments[0]!;
+
+      expect(key).to.eql('attachments[]');
+      expect(value).to.be.instanceOf(File);
+      expect((value as any).name).to.eql('test.txt');
+      expect((value as any).type).to.eql('text/plain');
+      expect(await (value as any).text()).to.eql('Test');
     });
   });
 });
