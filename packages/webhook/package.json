@@ -1,7 +1,7 @@
 {
   "name": "@owlrelay/webhook",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "packageManager": "pnpm@9.12.3",
   "description": "OwlRelay Webhook utilities",
   "author": "OwlRelay <hello@owlrelay.email> (https://owlrelay.email)",
