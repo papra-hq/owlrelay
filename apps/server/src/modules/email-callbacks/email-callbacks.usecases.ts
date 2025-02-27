@@ -125,7 +125,7 @@ async function processEmail({
 
   const { webhookUrl, webhookSecret } = emailCallback;
 
-  const { statusCode, isOk } = await triggerWebhook({ email, webhookUrl, webhookSecret });
+  const { status: statusCode, ok: isOk } = await triggerWebhook({ email, webhookUrl, webhookSecret });
 
   if (!isOk) {
     logger.error({ statusCode }, 'Error triggering webhook');

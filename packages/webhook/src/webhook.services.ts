@@ -37,8 +37,5 @@ export async function triggerWebhook({
     },
   );
 
-  return {
-    statusCode: response.status,
-    isOk: response.ok,
-  };
+  return response;
 }
