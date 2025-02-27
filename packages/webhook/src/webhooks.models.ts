@@ -1,4 +1,4 @@
-import type { Email } from 'postal-mime';
+import type { Email } from './types';
 
 export function serializeEmailForWebhook({ email }: { email: Email }) {
   const body = new FormData();
