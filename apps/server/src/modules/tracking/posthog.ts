@@ -38,6 +38,8 @@ export function createPostHogClient({
     {
       host,
       disableGeoip: true,
+      flushAt: 1,
+      flushInterval: 0,
     },
   );
 
