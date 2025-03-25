@@ -2,6 +2,7 @@ import type { ServerInstance } from '../app/server.types';
 import { z } from 'zod';
 import { getUser } from '../app/auth/auth.models';
 import { getDb } from '../app/database/database.models';
+import { getEventsServices } from '../app/events/events.models';
 import { getConfig } from '../config/config.models';
 import { createEmailProcessingsRepository } from '../email-processings/email-processings.repository';
 import { createPlansRepository } from '../plans/plans.respository';
@@ -60,6 +61,7 @@ function setupCreateEmailCallbackRoute({ app }: { app: ServerInstance }) {
     async (context) => {
       const { config } = getConfig({ context });
       const { userId } = getUser({ context });
+      const { eventsServices } = getEventsServices({ context });
       const { db } = getDb({ context });
 
       const { domain, username, webhookUrl, webhookSecret, allowedOrigins } = context.req.valid('json');
@@ -67,13 +69,14 @@ function setupCreateEmailCallbackRoute({ app }: { app: ServerInstance }) {
       const emailCallbacksRepository = createEmailCallbacksRepository({ db });
       const usersRepository = createUsersRepository({ db });
       const plansRepository = createPlansRepository({ config });
-
       await checkUserCanCreateEmailCallback({ userId, usersRepository, plansRepository, emailCallbacksRepository });
 
       const { emailCallback } = await emailCallbacksRepository.createUserEmailCallback({
         userId,
         emailCallback: { domain, username, webhookUrl, webhookSecret, allowedOrigins, userId },
       });
+
+      eventsServices.triggerEmailCallbackCreatedEvent({ emailCallbackId: emailCallback.id, userId });
 
       return context.json({
         emailCallback: formatEmailCallbackForApi({ emailCallback }),

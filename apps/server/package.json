@@ -22,7 +22,7 @@
     "migrate:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "clean:dist": "rm -rf dist",
-    "clean:db": "rm db.sqlite",
+    "clean:db": "rm local.db local.db-shm local.db-wal",
     "clean:storage": "rm -rf local-documents",
     "clean:all": "pnpm clean:db && pnpm clean:storage",
     "dev:reset": "pnpm clean:all && pnpm migrate:push",
