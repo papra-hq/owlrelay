@@ -6,3 +6,7 @@ export {
 export {
   triggerWebhook,
 } from './webhook.services';
+
+export {
+  serializeEmailForWebhook,
+} from './webhooks.models';
