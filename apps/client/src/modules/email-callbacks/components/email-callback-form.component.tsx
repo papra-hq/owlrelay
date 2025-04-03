@@ -10,7 +10,7 @@ import { TextField, TextFieldLabel, TextFieldRoot } from '@/modules/ui/component
 import { safely } from '@corentinth/chisels';
 import { generateId } from '@corentinth/friendly-ids';
 import { type FormStore, insert, remove, reset, setValue } from '@modular-forms/solid';
-import { type Component, For, type JSX } from 'solid-js';
+import { type Component, createSignal, For, type JSX, Show } from 'solid-js';
 import * as v from 'valibot';
 import { emailUsernameRegex } from '../email-callbacks.constants';
 import { generateEmailCallbackSecret } from '../email-callbacks.models';
@@ -37,6 +37,7 @@ export const EmailCallbackForm: Component<{
 }> = (props) => {
   const { t } = useI18n();
   const { config } = useConfig();
+  const [getShowUpdateWebhookSecretForm, setShowUpdateWebhookSecretForm] = createSignal(false);
 
   const { availableDomains } = config.emailCallbacks;
 
@@ -119,6 +120,18 @@ export const EmailCallbackForm: Component<{
       });
     },
   });
+
+  const getShowWebhookSecretForm = () => {
+    if (props.emailCallback === undefined) {
+      return true;
+    }
+
+    if (props.emailCallback.hasWebhookSecret) {
+      return getShowUpdateWebhookSecretForm();
+    }
+
+    return false;
+  };
 
   return (
     <Form class="flex flex-col gap-4">
@@ -247,29 +260,59 @@ export const EmailCallbackForm: Component<{
               <TextFieldLabel for="webhookSecret" class="flex items-baseline gap-2">
                 {t('email-callbacks.form.webhook.secret.label')}
 
-                <span class="bg-background text-xs leading-tight px-1.5 py-0.5 rounded border text-muted-foreground">
-                  {t('email-callbacks.form.recommended')}
-                </span>
+                <Show when={!props.emailCallback?.hasWebhookSecret}>
+                  <span class="bg-background text-xs leading-tight px-1.5 py-0.5 rounded border text-muted-foreground">
+                    {t('email-callbacks.form.recommended')}
+                  </span>
+                </Show>
               </TextFieldLabel>
 
-              <div class="flex items-center gap-2">
-                <TextField
-                  type="text"
-                  id="webhookSecret"
-                  placeholder={t('email-callbacks.form.webhook.secret.placeholder')}
-                  {...inputProps}
-                  value={field.value}
-                  aria-invalid={Boolean(field.error)}
-                />
-                <Button
-                  class="flex-shrink-0"
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setValue(form, 'webhookSecret', generateEmailCallbackSecret())}
-                >
-                  <div class="i-tabler-refresh size-4"></div>
-                </Button>
-              </div>
+              <Show
+                when={getShowWebhookSecretForm()}
+                fallback={(
+                  <>
+                    <div class="flex items-center gap-2">
+                      <TextField
+                        type="text"
+                        id="webhookSecret"
+                        value="**********************"
+                        disabled
+                      />
+                      <Button
+                        class="flex-shrink-0"
+                        variant="outline"
+                        onClick={() => setShowUpdateWebhookSecretForm(true)}
+                      >
+                        {t('email-callbacks.form.webhook.secret.rotate')}
+                      </Button>
+                    </div>
+                    <p class="text-sm text-muted-foreground">
+                      {t('email-callbacks.form.webhook.secret.cannot-read-secret')}
+                    </p>
+                  </>
+                )}
+              >
+                <div class="flex items-center gap-2">
+                  <TextField
+                    type="text"
+                    id="webhookSecret"
+                    placeholder={t('email-callbacks.form.webhook.secret.placeholder')}
+                    {...inputProps}
+                    value={field.value}
+                    aria-invalid={Boolean(field.error)}
+                    autofocus
+                  />
+                  <Button
+                    class="flex-shrink-0"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => setValue(form, 'webhookSecret', generateEmailCallbackSecret())}
+                  >
+                    <div class="i-tabler-refresh size-4"></div>
+                  </Button>
+                </div>
+              </Show>
+
               {field.error && <div class="text-red-500 text-sm">{field.error}</div>}
             </TextFieldRoot>
           )}

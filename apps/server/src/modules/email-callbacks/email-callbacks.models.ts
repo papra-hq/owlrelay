@@ -1,10 +1,13 @@
 import type { Address } from 'postal-mime';
 import type { EmailCallback } from './email-callbacks.types';
+import { isNil } from 'lodash-es';
 
 export function formatEmailCallbackForApi({ emailCallback }: { emailCallback: EmailCallback }) {
+  const { webhookSecret, ...rest } = emailCallback;
+
   return {
-    ...emailCallback,
-    webhookSecret: emailCallback.webhookSecret ? '************************' : undefined,
+    ...rest,
+    hasWebhookSecret: !isNil(webhookSecret),
   };
 }
 
