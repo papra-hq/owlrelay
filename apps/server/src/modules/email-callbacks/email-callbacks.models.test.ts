@@ -23,7 +23,7 @@ describe('email-callbacks models', () => {
         username: 'test',
         domain: 'test.com',
         webhookUrl: 'https://example.com/webhook',
-        webhookSecret: '************************',
+        hasWebhookSecret: true,
         allowedOrigins: [],
         isEnabled: true,
         createdAt: new Date('2025-01-01'),
@@ -33,25 +33,25 @@ describe('email-callbacks models', () => {
     });
 
     test('the webhook secret is not redacted if it is not set', () => {
-      const emailCallback: EmailCallback = {
+      expect(
+        formatEmailCallbackForApi({ emailCallback: {
+          id: '1',
+          username: 'test',
+          domain: 'test.com',
+          webhookUrl: 'https://example.com/webhook',
+          webhookSecret: null,
+          allowedOrigins: [],
+          isEnabled: true,
+          createdAt: new Date('2025-01-01'),
+          updatedAt: new Date('2025-01-01'),
+          userId: '1',
+        } }),
+      ).to.deep.equal({
         id: '1',
         username: 'test',
         domain: 'test.com',
         webhookUrl: 'https://example.com/webhook',
-        webhookSecret: null,
-        allowedOrigins: [],
-        isEnabled: true,
-        createdAt: new Date('2025-01-01'),
-        updatedAt: new Date('2025-01-01'),
-        userId: '1',
-      };
-
-      expect(formatEmailCallbackForApi({ emailCallback })).to.deep.equal({
-        id: '1',
-        username: 'test',
-        domain: 'test.com',
-        webhookUrl: 'https://example.com/webhook',
-        webhookSecret: undefined,
+        hasWebhookSecret: false,
         allowedOrigins: [],
         isEnabled: true,
         createdAt: new Date('2025-01-01'),

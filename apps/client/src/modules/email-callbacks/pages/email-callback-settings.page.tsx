@@ -15,10 +15,7 @@ export const EmailCallbackSettingsPage: Component = () => {
   const handleUpdateEmailCallback = async (args: EmailCallbackFormResult) => {
     await updateEmailCallback({
       emailCallbackId: emailCallback.id,
-      emailCallback: {
-        ...args,
-        webhookSecret: args.webhookSecret !== emailCallback.webhookSecret ? args.webhookSecret : undefined,
-      },
+      emailCallback: args,
     });
 
     createToast({

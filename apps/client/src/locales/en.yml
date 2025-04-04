@@ -59,6 +59,8 @@ email-callbacks:
         label: Webhook secret
         placeholder: eg. 1234567890
         random-secret: Random secret
+        rotate: Rotate secret
+        cannot-read-secret: For security reasons, the secret cannot be read, you can change it by clicking the rotate button.
     allowed-origins:
       title: Allowed email origins
       description: Configure the addresses that are allowed to send emails to your email address, leave empty to allow all.
