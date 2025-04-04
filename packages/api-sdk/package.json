@@ -1,7 +1,7 @@
 {
   "name": "@owlrelay/api-sdk",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "packageManager": "pnpm@9.12.3",
   "description": "OwlRelay API SDK for JavaScript and TypeScript",
   "author": "OwlRelay <hello@owlrelay.email> (https://owlrelay.email)",
@@ -44,7 +44,7 @@
     "test:unit:watch": "vitest watch",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "pnpm run build",
-    "release": "bumpp --commit --tag --push"
+    "release": "bumpp --commit=\"chore(api-sdk): release v%s\" --tag=\"@owlrelay/api-sdk@%s\" --push"
   },
   "dependencies": {
     "ofetch": "^1.3.4"
