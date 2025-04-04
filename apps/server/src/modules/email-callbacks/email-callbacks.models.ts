@@ -1,6 +1,8 @@
 import type { Address } from 'postal-mime';
 import type { EmailCallback } from './email-callbacks.types';
 
+import { emailCallbackIdRegex } from './email-callbacks.constants';
+
 export function formatEmailCallbackForApi({ emailCallback }: { emailCallback: EmailCallback }) {
   return {
     ...emailCallback,
@@ -72,4 +74,8 @@ export function getIsFromAllowedAddress({
   return allowedOrigins
     .map(allowedOrigin => allowedOrigin.toLowerCase())
     .includes(fromAddress.toLowerCase());
+}
+
+export function isEmailCallbackId(emailCallbackIdOrAddress: string) {
+  return emailCallbackIdRegex.test(emailCallbackIdOrAddress);
 }

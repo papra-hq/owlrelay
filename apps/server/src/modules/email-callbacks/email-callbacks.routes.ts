@@ -9,11 +9,11 @@ import { createPlansRepository } from '../plans/plans.respository';
 import { assert } from '../shared/errors/assert';
 import { validateJsonBody, validateParams, validateQuery } from '../shared/validation/validation';
 import { createUsersRepository } from '../users/users.repository';
-import { emailCallbackNotFoundError } from './email-callbacks.errors';
+import { createEmailCallbackNotFoundError } from './email-callbacks.errors';
 import { formatEmailCallbackForApi } from './email-callbacks.models';
 import { createEmailCallbacksRepository } from './email-callbacks.repository';
 import { emailCallbackIdSchema } from './email-callbacks.schemas';
-import { checkUserCanCreateEmailCallback } from './email-callbacks.usecases';
+import { checkUserCanCreateEmailCallback, deleteEmailCallback } from './email-callbacks.usecases';
 
 export async function registerEmailCallbacksPrivateRoutes({ app }: { app: ServerInstance }) {
   setupGetEmailCallbacksRoute({ app });
@@ -87,20 +87,23 @@ function setupCreateEmailCallbackRoute({ app }: { app: ServerInstance }) {
 
 function setupDeleteEmailCallbackRoute({ app }: { app: ServerInstance }) {
   app.delete(
-    '/api/email-callbacks/:emailCallbackId',
+    '/api/email-callbacks/:emailCallbackIdOrAddress',
     validateParams(
       z.object({
-        emailCallbackId: emailCallbackIdSchema,
+        emailCallbackIdOrAddress: z.union([
+          emailCallbackIdSchema,
+          z.string().email(),
+        ]),
       }),
     ),
     async (context) => {
-      const { emailCallbackId } = context.req.valid('param');
+      const { emailCallbackIdOrAddress } = context.req.valid('param');
       const { userId } = getUser({ context });
       const { db } = getDb({ context });
 
       const emailCallbacksRepository = createEmailCallbacksRepository({ db });
 
-      await emailCallbacksRepository.deleteUserEmailCallback({ userId, emailCallbackId });
+      await deleteEmailCallback({ userId, emailCallbackIdOrAddress, emailCallbacksRepository });
 
       return context.body(null, 204);
     },
@@ -175,7 +178,7 @@ function setupGetEmailCallbackRoute({ app }: { app: ServerInstance }) {
 
       const { emailCallback } = await emailCallbacksRepository.getUserEmailCallback({ userId, emailCallbackId });
 
-      assert(emailCallback, emailCallbackNotFoundError);
+      assert(emailCallback, createEmailCallbackNotFoundError);
 
       return context.json({ emailCallback: formatEmailCallbackForApi({ emailCallback }) });
     },
