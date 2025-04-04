@@ -13,7 +13,8 @@ import { EMAIL_PROCESSING_ERRORS, EMAIL_PROCESSING_STATUS } from '../email-proce
 import { createEmailProcessingsRepository } from '../email-processings/email-processings.repository';
 import { createError } from '../shared/errors/errors';
 import { createLogger } from '../shared/logger/logger';
-import { filterEmailAddressesCandidates, getIsFromAllowedAddress } from './email-callbacks.models';
+import { createEmailCallbackNotFoundError, createInvalidEmailCallbackAddressError } from './email-callbacks.errors';
+import { filterEmailAddressesCandidates, getIsFromAllowedAddress, isEmailCallbackId, parseEmailAddress } from './email-callbacks.models';
 import { createEmailCallbacksRepository } from './email-callbacks.repository';
 
 export async function canUserCreateEmailCallback({
@@ -171,4 +172,35 @@ export function createEmailHandler({ logger = createLogger({ namespace: 'email-c
       }
     }
   };
+}
+
+export async function deleteEmailCallback({ emailCallbackIdOrAddress, emailCallbacksRepository, userId }: { emailCallbackIdOrAddress: string; emailCallbacksRepository: EmailCallbacksRepository; userId: string }) {
+  if (isEmailCallbackId(emailCallbackIdOrAddress)) {
+    const { deletedId } = await emailCallbacksRepository.deleteUserEmailCallback({ userId, emailCallbackId: emailCallbackIdOrAddress });
+
+    if (!deletedId) {
+      throw createEmailCallbackNotFoundError();
+    }
+
+    return;
+  }
+
+  const { username, domain } = parseEmailAddress({ emailAddress: emailCallbackIdOrAddress });
+
+  if (!username || !domain) {
+    // Should not happen, has emailCallbackIdOrAddress is validated by the route
+    throw createInvalidEmailCallbackAddressError();
+  }
+
+  const { emailCallback } = await emailCallbacksRepository.getEmailCallbackByUsernameAndDomain({ username, domain });
+
+  if (!emailCallback) {
+    throw createEmailCallbackNotFoundError();
+  }
+
+  const { deletedId } = await emailCallbacksRepository.deleteUserEmailCallback({ userId, emailCallbackId: emailCallback.id });
+
+  if (!deletedId) {
+    throw createEmailCallbackNotFoundError();
+  }
 }

@@ -1,5 +1,5 @@
 import { createApiClient } from './api';
-import { coerceDate } from './api.models';
+import { coerceDate, getEmailIdentifier } from './api.models';
 
 export const OWLRELAY_API_BASE_URL = 'https://api.owlrelay.email';
 
@@ -85,10 +85,10 @@ export function createClient({
       return coerceDate(emailCallback);
     },
 
-    deleteEmail: async ({ emailId }: { emailId: string }) => {
-      return await apiClient<void>(`/api/email-callbacks/${emailId}`, {
-        method: 'DELETE',
-      });
+    deleteEmail: async (args: { emailId: string } | { emailAddress: string } | { username: string; domain: string }) => {
+      const { emailIdentifier } = getEmailIdentifier(args);
+
+      await apiClient(`/api/email-callbacks/${emailIdentifier}`, { method: 'DELETE' });
     },
 
     getEmail: async ({ emailId }: { emailId: string }): Promise<OwlRelayEmail> => {

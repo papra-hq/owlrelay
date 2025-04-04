@@ -4,7 +4,7 @@ import { injectArguments, safely } from '@corentinth/chisels';
 import { and, count, eq } from 'drizzle-orm';
 import { pick } from 'lodash-es';
 import { isUniqueConstraintError } from '../shared/db/constraints.models';
-import { createError } from '../shared/errors/errors';
+import { createEmailCallbackAlreadyExistsError } from './email-callbacks.errors';
 import { emailsCallbacksTable } from './email-callbacks.table';
 
 export type EmailCallbacksRepository = ReturnType<typeof createEmailCallbacksRepository>;
@@ -35,13 +35,18 @@ async function getUserEmailCallbacks({ userId, db }: { userId: string; db: Datab
   return { emailCallbacks };
 }
 
-async function deleteUserEmailCallback({ userId, emailCallbackId, db }: { userId: string; emailCallbackId: string; db: Database }) {
-  await db.delete(emailsCallbacksTable).where(
-    and(
-      eq(emailsCallbacksTable.userId, userId),
-      eq(emailsCallbacksTable.id, emailCallbackId),
-    ),
-  );
+async function deleteUserEmailCallback({ userId, emailCallbackId, db }: { userId: string; emailCallbackId: string; db: Database }): Promise<{ deletedId?: string }> {
+  const [{ deletedId } = {}] = await db
+    .delete(emailsCallbacksTable)
+    .where(
+      and(
+        eq(emailsCallbacksTable.userId, userId),
+        eq(emailsCallbacksTable.id, emailCallbackId),
+      ),
+    )
+    .returning({ deletedId: emailsCallbacksTable.id });
+
+  return { deletedId };
 }
 
 async function createUserEmailCallback({
@@ -59,11 +64,7 @@ async function createUserEmailCallback({
   );
 
   if (isUniqueConstraintError({ error })) {
-    throw createError({
-      message: 'Email callback already exists',
-      code: 'email_callbacks.already_exists',
-      statusCode: 400,
-    });
+    throw createEmailCallbackAlreadyExistsError();
   }
 
   if (error) {

@@ -1,6 +1,7 @@
 import type { Address } from 'postal-mime';
 import type { EmailCallback } from './email-callbacks.types';
 import { isNil } from 'lodash-es';
+import { emailCallbackIdRegex } from './email-callbacks.constants';
 
 export function formatEmailCallbackForApi({ emailCallback }: { emailCallback: EmailCallback }) {
   const { webhookSecret, ...rest } = emailCallback;
@@ -75,4 +76,8 @@ export function getIsFromAllowedAddress({
   return allowedOrigins
     .map(allowedOrigin => allowedOrigin.toLowerCase())
     .includes(fromAddress.toLowerCase());
+}
+
+export function isEmailCallbackId(emailCallbackIdOrAddress: string) {
+  return emailCallbackIdRegex.test(emailCallbackIdOrAddress);
 }

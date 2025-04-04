@@ -1,4 +1,5 @@
 import type { Database } from './database.types';
+import { emailsCallbacksTable } from '../../email-callbacks/email-callbacks.table';
 import { usersTable } from '../../users/users.table';
 import { setupDatabase } from './database';
 import { runMigrations } from './database.services';
@@ -7,6 +8,7 @@ export { createInMemoryDatabase, seedDatabase };
 
 const seedTables = {
   users: usersTable,
+  emailsCallbacks: emailsCallbacksTable,
 } as const;
 
 type SeedTables = {
