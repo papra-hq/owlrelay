@@ -131,7 +131,7 @@ export const RegisterPage: Component = () => {
   const [getShowEmailRegister, setShowEmailRegister] = createSignal(false);
 
   const registerWithProvider = async (provider: typeof ssoProviders[number]) => {
-    await signIn.social({ provider: provider.key });
+    await signIn.social({ provider: provider.key, callbackURL: config.baseUrl });
   };
 
   const getHasSsoProviders = () => getEnabledSsoProviderConfigs({ config }).length > 0;
