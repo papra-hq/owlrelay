@@ -8,7 +8,6 @@ import { databaseConfig } from '../app/database/database.config';
 import { emailCallbacksConfig } from '../email-callbacks/email-callbacks.config';
 import { emailsConfig } from '../emails/emails.config';
 import { createLogger } from '../shared/logger/logger';
-import { tasksConfig } from '../tasks/tasks.config';
 import { trackingConfig } from '../tracking/tracking.config';
 
 export const configDefinition = {
@@ -81,7 +80,6 @@ export const configDefinition = {
   tracking: trackingConfig,
   emails: emailsConfig,
   auth: authConfig,
-  tasks: tasksConfig,
   emailCallbacks: emailCallbacksConfig,
   apiKeys: apiKeysConfig,
 } as const satisfies ConfigDefinition;
