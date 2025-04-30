@@ -26,9 +26,7 @@ jobs:
 
       - name: Run migrations
         working-directory: apps/server
-        run: |
-          pnpm migrate:up
-          npx tsx --env-file-if-exists=.env src/scripts/obfuscate-api-keys.script.ts
+        run: pnpm migrate:up
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DATABASE_AUTH_TOKEN: ${{ secrets.DATABASE_AUTH_TOKEN }}
