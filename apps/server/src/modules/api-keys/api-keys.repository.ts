@@ -42,8 +42,7 @@ async function getUserApiKeys({ db, userId }: {
 }) {
   const apiKeys = await db
     .select({
-      // TODO: Remove token in a future migration
-      ...omit(getTableColumns(apiKeysTable), ['token', 'keyHash']),
+      ...omit(getTableColumns(apiKeysTable), ['keyHash']),
     })
     .from(apiKeysTable)
     .where(
@@ -76,8 +75,7 @@ async function getApiKeyByHash({ db, keyHash }: {
 }) {
   const [apiKey] = await db
     .select({
-      // TODO: Remove token in a future migration
-      ...omit(getTableColumns(apiKeysTable), ['token', 'keyHash']),
+      ...omit(getTableColumns(apiKeysTable), ['keyHash']),
     })
     .from(apiKeysTable)
     .where(

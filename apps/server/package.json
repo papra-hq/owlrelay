@@ -25,7 +25,7 @@
     "clean:db": "rm local.db local.db-shm local.db-wal",
     "clean:storage": "rm -rf local-documents",
     "clean:all": "pnpm clean:db && pnpm clean:storage",
-    "dev:reset": "pnpm clean:all && pnpm migrate:push",
+    "dev:reset": "pnpm clean:all && pnpm migrate:up",
     "seed:processings": "tsx --env-file-if-exists=.env src/scripts/seed-processings.script.ts",
     "stripe:webhook": "stripe listen --forward-to localhost:1222/api/payments/webhook",
     "cron:trigger:daily": "curl \"http://localhost:1222/__scheduled?cron=38+4+*+*+*\""

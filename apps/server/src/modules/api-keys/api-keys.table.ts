@@ -10,10 +10,8 @@ export const apiKeysTable = sqliteTable(
     ...createTimestampColumns(),
 
     name: text('name').notNull(),
-    // Legacy, will be removed in a future migration
-    token: text('token'),
-    keyHash: text('key_hash'), // TODO: mark as not null and unique in a future migration
-    prefix: text('prefix'), // TODO: mark as not null in a future migration
+    keyHash: text('key_hash').notNull().unique(),
+    prefix: text('prefix').notNull(),
     userId: text('user_id')
       .notNull()
       .references(() => usersTable.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
