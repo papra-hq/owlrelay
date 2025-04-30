@@ -1,4 +1,3 @@
-import type { ApiKey } from '../api-keys.types';
 import { useI18n } from '@/modules/i18n/i18n.provider';
 import { createForm } from '@/modules/shared/form/form';
 import { queryClient } from '@/modules/shared/query/query-client';
@@ -12,7 +11,7 @@ import { createApiKey } from '../api-keys.services';
 
 export const CreateApiKeyPage: Component = () => {
   const { t } = useI18n();
-  const [getCreatedApiKey, setCreatedApiKey] = createSignal<ApiKey | null>(null);
+  const [getCreatedApiToken, setCreatedApiToken] = createSignal<string | null>(null);
 
   const { form, Field, Form } = createForm({
     schema: v.object({
@@ -24,9 +23,9 @@ export const CreateApiKeyPage: Component = () => {
       ),
     }),
     onSubmit: async ({ name }) => {
-      const { apiKey } = await createApiKey({ name });
+      const { token } = await createApiKey({ name });
 
-      setCreatedApiKey(apiKey);
+      setCreatedApiToken(token);
 
       await queryClient.invalidateQueries({ queryKey: ['api-keys'] });
     },
@@ -46,24 +45,24 @@ export const CreateApiKeyPage: Component = () => {
 
       <Switch>
 
-        <Match when={getCreatedApiKey()}>
-          {getApiKey => (
+        <Match when={getCreatedApiToken()}>
+          {token => (
             <div class="bg-card p-6 border rounded-lg">
               <h2 class="text-lg font-semibold">{t('api-keys.create.success.title')}</h2>
               <p class="text-sm text-muted-foreground">{t('api-keys.create.success.description')}</p>
 
               <TextFieldRoot class="mt-4 flex items-center gap-2 space-y-0">
-                <TextField value={getApiKey().token} readOnly />
+                <TextField value={token()} readOnly />
 
                 <CopyButton
-                  text={getApiKey().token}
+                  text={token()}
                 />
               </TextFieldRoot>
             </div>
           )}
         </Match>
 
-        <Match when={!getCreatedApiKey()}>
+        <Match when={!getCreatedApiToken()}>
           <Form>
             <div class="bg-card sm:rounded-lg p-6 border-y sm:border">
               <Field name="name">

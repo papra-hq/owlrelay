@@ -1,6 +1,7 @@
 import type { Database } from '../app/database/database.types';
 import { injectArguments } from '@corentinth/chisels';
-import { and, count, eq } from 'drizzle-orm';
+import { and, count, eq, getTableColumns } from 'drizzle-orm';
+import { omit } from 'lodash-es';
 import { apiKeysTable } from './api-keys.table';
 
 export type ApiKeysRepository = ReturnType<typeof createApiKeysRepository>;
@@ -8,22 +9,29 @@ export type ApiKeysRepository = ReturnType<typeof createApiKeysRepository>;
 export function createApiKeysRepository({ db }: { db: Database }) {
   return injectArguments(
     {
-      createApiKey,
+      saveApiKey,
       getUserApiKeys,
       deleteUserApiKey,
-      getApiKeyByToken,
+      getApiKeyByHash,
       countUserApiKeys,
     },
     { db },
   );
 }
 
-async function createApiKey({ db, userId, name }: {
+async function saveApiKey({ db, userId, name, prefix, keyHash }: {
   db: Database;
   userId: string;
   name: string;
+  prefix: string;
+  keyHash: string;
 }) {
-  const [apiKey] = await db.insert(apiKeysTable).values({ userId, name }).returning();
+  const [apiKey] = await db
+    .insert(apiKeysTable)
+    .values({ userId, name, prefix, keyHash })
+    .returning({
+      ...omit(getTableColumns(apiKeysTable), ['token', 'keyHash']),
+    });
 
   return { apiKey };
 }
@@ -33,7 +41,10 @@ async function getUserApiKeys({ db, userId }: {
   userId: string;
 }) {
   const apiKeys = await db
-    .select()
+    .select({
+      // TODO: Remove token in a future migration
+      ...omit(getTableColumns(apiKeysTable), ['token', 'keyHash']),
+    })
     .from(apiKeysTable)
     .where(
       eq(apiKeysTable.userId, userId),
@@ -59,15 +70,18 @@ async function deleteUserApiKey({
   );
 }
 
-async function getApiKeyByToken({ db, token }: {
+async function getApiKeyByHash({ db, keyHash }: {
   db: Database;
-  token: string;
+  keyHash: string;
 }) {
   const [apiKey] = await db
-    .select()
+    .select({
+      // TODO: Remove token in a future migration
+      ...omit(getTableColumns(apiKeysTable), ['token', 'keyHash']),
+    })
     .from(apiKeysTable)
     .where(
-      eq(apiKeysTable.token, token),
+      eq(apiKeysTable.keyHash, keyHash),
     );
 
   return { apiKey };
