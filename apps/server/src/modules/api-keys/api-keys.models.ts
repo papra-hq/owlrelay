@@ -1,11 +1,5 @@
+import { sha256 } from '../shared/crypto/hash';
 import { API_KEY_PREFIX } from './api-keys.constants';
-
-export function redactToken({ token }: { token: string }) {
-  const keepEnd = 4;
-  const keepStart = API_KEY_PREFIX.length;
-
-  return `${token.slice(0, keepStart)}***********************${token.slice(-keepEnd)}`;
-}
 
 export function getApiTokenFromAuthorizationHeader({ authorizationHeader }: { authorizationHeader: string | undefined }) {
   if (!authorizationHeader) {
@@ -25,4 +19,16 @@ export function getApiTokenFromAuthorizationHeader({ authorizationHeader }: { au
   }
 
   return { token };
+}
+
+export function getApiKeyUiPrefix({ token }: { token: string }) {
+  return {
+    prefix: token.slice(0, 5 + API_KEY_PREFIX.length + 1),
+  };
+}
+
+export async function getApiKeyHash({ token }: { token: string }) {
+  return {
+    keyHash: await sha256(token, { digest: 'base64url' }),
+  };
 }

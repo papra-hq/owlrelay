@@ -1,7 +1,7 @@
 export type ApiKey = {
   id: string;
   name: string;
-  token: string;
+  prefix: string;
   createdAt: Date;
   updatedAt: Date;
 };

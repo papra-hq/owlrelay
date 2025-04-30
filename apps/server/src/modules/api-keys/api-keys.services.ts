@@ -4,5 +4,5 @@ import { API_KEY_PREFIX } from './api-keys.constants';
 export function generateApiToken() {
   const { token } = generateToken({ length: 42 });
 
-  return `${API_KEY_PREFIX}${token}`;
+  return { token: `${API_KEY_PREFIX}_${token}` };
 }

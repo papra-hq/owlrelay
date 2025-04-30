@@ -5,7 +5,6 @@ import { getDb } from '../app/database/database.models';
 import { getEventsServices } from '../app/events/events.models';
 import { getConfig } from '../config/config.models';
 import { validateJsonBody, validateParams } from '../shared/validation/validation';
-import { redactToken } from './api-keys.models';
 import { createApiKeysRepository } from './api-keys.repository';
 import { createApiKey } from './api-keys.usecases';
 
@@ -31,11 +30,11 @@ function setupCreateApiKeyRoute({ app }: { app: ServerInstance }) {
 
       const { name } = context.req.valid('json');
 
-      const { apiKey } = await createApiKey({ userId, name, apiKeysRepository, config });
+      const { apiKey, token } = await createApiKey({ userId, name, apiKeysRepository, config });
 
       eventsServices.triggerApiKeyCreatedEvent({ apiKeyId: apiKey.id, userId });
 
-      return context.json({ apiKey });
+      return context.json({ apiKey, token });
     },
   );
 }
@@ -73,10 +72,7 @@ function setupGetApiKeysRoute({ app }: { app: ServerInstance }) {
       const { apiKeys } = await apiKeysRepository.getUserApiKeys({ userId });
 
       return context.json({
-        apiKeys: apiKeys.map(apiKey => ({
-          ...apiKey,
-          token: redactToken({ token: apiKey.token }),
-        })),
+        apiKeys,
       });
     },
   );

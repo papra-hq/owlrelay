@@ -84,7 +84,9 @@ export const ApiKeysPage: Component = () => {
               <div class="flex items-center justify-between bg-card p-4 rounded-lg border">
                 <div>
                   <h2 class="font-semibold">{apiKey.name}</h2>
-                  <p class="text-muted-foreground font-mono">{apiKey.token}</p>
+                  <p class="text-muted-foreground font-mono text-xs">
+                    {`${apiKey.prefix}...`}
+                  </p>
                 </div>
 
                 <div class="flex items-center gap-2">

@@ -6,6 +6,7 @@ import { getAuthorizationHeader } from '../shared/headers/headers.models';
 import { createLogger } from '../shared/logger/logger';
 import { getApiTokenFromAuthorizationHeader } from './api-keys.models';
 import { createApiKeysRepository } from './api-keys.repository';
+import { getApiKey } from './api-keys.usecases';
 
 const logger = createLogger({ namespace: 'api-key-middleware' });
 
@@ -39,7 +40,7 @@ export const apiKeyMiddleware = createMiddleware(async (context: Context, next) 
   const { db } = getDb({ context });
   const apiKeyRepository = createApiKeysRepository({ db });
 
-  const { apiKey } = await apiKeyRepository.getApiKeyByToken({ token });
+  const { apiKey } = await getApiKey({ token, apiKeyRepository });
 
   if (!apiKey) {
     logger.info('Invalid token, no api key found');

@@ -1,4 +1,5 @@
 import type { Database } from './database.types';
+import { apiKeysTable } from '../../api-keys/api-keys.table';
 import { emailsCallbacksTable } from '../../email-callbacks/email-callbacks.table';
 import { emailProcessingsTable } from '../../email-processings/email-processings.table';
 import { usersTable } from '../../users/users.table';
@@ -11,6 +12,7 @@ const seedTables = {
   users: usersTable,
   emailsCallbacks: emailsCallbacksTable,
   emailProcessings: emailProcessingsTable,
+  apiKeys: apiKeysTable,
 } as const;
 
 type SeedTables = {

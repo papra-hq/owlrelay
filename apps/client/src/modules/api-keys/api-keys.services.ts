@@ -10,13 +10,13 @@ export async function getApiKeys() {
 }
 
 export async function createApiKey({ name }: { name: string }) {
-  const { apiKey } = await apiClient<{ apiKey: ApiKey }>({
+  const { apiKey, token } = await apiClient<{ apiKey: ApiKey; token: string }>({
     path: '/api/api-keys',
     method: 'POST',
     body: { name },
   });
 
-  return { apiKey };
+  return { apiKey, token };
 }
 
 export async function deleteApiKey({ apiKeyId }: { apiKeyId: string }) {

@@ -1,1 +1,1 @@
-export const API_KEY_PREFIX = 'owrl_';
+export const API_KEY_PREFIX = 'owrl';
