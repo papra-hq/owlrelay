@@ -43,6 +43,19 @@ email-callbacks:
       description: Choisissez un nom d'utilisateur et un domaine pour votre adresse email.
       random-address: Adresse aléatoire
       placeholder: ex. john.doe
+    webhook:
+      title: Webhook
+      description: Configurez votre webhook pour recevoir les emails envoyés à votre adresse email.
+      url:
+        label: URL du webhook
+        placeholder: ex. https://example.com/callback
+        random-url: URL aléatoire
+      secret:
+        label: Secret du webhook
+        placeholder: ex. 1234567890
+        random-secret: Secret aléatoire
+        rotate: Régénérer le secret
+        cannot-read-secret: Pour des raisons de sécurité, le secret ne peut pas être lu, vous pouvez le modifier en cliquant sur le bouton de rotation.
     allowed-origins:
       title: Origines autorisées
       description: Configurez les adresses qui sont autorisées à envoyer des emails à votre adresse email, laissez vide pour autoriser toutes les adresses.
