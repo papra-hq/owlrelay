@@ -7,8 +7,8 @@ export const registerUserCreatedTrackingEvent = createRegistrableEventHandler(({
 
   defineOnUserCreatedEventHandler({
     name: 'user-created.tracking',
-    handler: async ({ userId }) => {
-      trackingServices.captureEvent({ userId, event: 'User signed up' });
+    handler: async ({ userId, email }) => {
+      trackingServices.captureEvent({ userId, event: 'User signed up', properties: { $set: { email } } });
     },
   });
 });

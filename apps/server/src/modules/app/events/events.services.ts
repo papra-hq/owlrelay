@@ -7,7 +7,7 @@ export type EventsServices = ReturnType<typeof createEventsServices>;
 
 export function createEventsServices({ context }: { context: Context }) {
   const { makeDeferrable } = createDeferrableFactory({ context });
-  const { on: defineOnUserCreatedEventHandler, trigger: triggerUserCreatedEvent } = createHook<{ userId: string }>();
+  const { on: defineOnUserCreatedEventHandler, trigger: triggerUserCreatedEvent } = createHook<{ userId: string; email: string }>();
   const { on: defineOnEmailCallbackCreatedEventHandler, trigger: triggerEmailCallbackCreatedEvent } = createHook<{ emailCallbackId: string; userId: string }>();
   const { on: defineOnApiKeyCreatedEventHandler, trigger: triggerApiKeyCreatedEvent } = createHook<{ apiKeyId: string; userId: string }>();
 

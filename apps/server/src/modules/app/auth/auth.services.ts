@@ -81,7 +81,7 @@ export function getAuth({
             return { data };
           },
           after: async (user) => {
-            eventsServices.triggerUserCreatedEvent({ userId: user.id });
+            eventsServices.triggerUserCreatedEvent({ userId: user.id, email: user.email });
           },
         },
       },
