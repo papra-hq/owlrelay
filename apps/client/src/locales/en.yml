@@ -76,6 +76,7 @@ email-callbacks:
         invalid: Username must be alphanumeric and can contain dashes, dots and underscores
         min-length: Username must be at least 3 characters long
         invalid-characters: Username must not start or end with a dash, dot or underscore
+        not-allowed: This username is not allowed, please choose a different one
       domain:
         invalid: Invalid domain
       webhook-url:

@@ -1,6 +1,6 @@
 import type { EmailCallback } from './email-callbacks.types';
 import { describe, expect, test } from 'vitest';
-import { formatEmailCallbackForApi, parseEmailAddress } from './email-callbacks.models';
+import { checkEmailCallbackUsernameIsAllowed, formatEmailCallbackForApi, isEmailCallbackUsernameAllowed, parseEmailAddress } from './email-callbacks.models';
 
 describe('email-callbacks models', () => {
   describe('formatEmailCallbackForApi', () => {
@@ -78,6 +78,24 @@ describe('email-callbacks models', () => {
         domain: 'test.com',
         extra: undefined,
       });
+    });
+  });
+
+  describe('isEmailCallbackUsernameAllowed', () => {
+    test('some username are not allowed for security and impersonation reasons', () => {
+      expect(isEmailCallbackUsernameAllowed({ username: 'admin' })).to.eql(false);
+      expect(isEmailCallbackUsernameAllowed({ username: 'owlrelay' })).to.eql(false);
+
+      expect(isEmailCallbackUsernameAllowed({ username: 'normal-user' })).to.eql(true);
+    });
+  });
+
+  describe('checkEmailCallbackUsernameIsAllowed', () => {
+    test('when the username is not allowed, an "username not allowed" error is thrown', () => {
+      expect(() => checkEmailCallbackUsernameIsAllowed({ username: 'admin' })).to.throw('Email callback username not allowed');
+      expect(() => checkEmailCallbackUsernameIsAllowed({ username: 'owlrelay' })).to.throw('Email callback username not allowed');
+
+      expect(() => checkEmailCallbackUsernameIsAllowed({ username: 'normal-user' })).not.to.throw();
     });
   });
 });

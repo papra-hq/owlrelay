@@ -1,7 +1,8 @@
 import type { Address } from 'postal-mime';
 import type { EmailCallback } from './email-callbacks.types';
 
-import { emailCallbackIdRegex } from './email-callbacks.constants';
+import { emailCallbackIdRegex, forbiddenUsernames } from './email-callbacks.constants';
+import { createEmailCallbackUsernameNotAllowedError } from './email-callbacks.errors';
 
 export function formatEmailCallbackForApi({ emailCallback }: { emailCallback: EmailCallback }) {
   return {
@@ -78,4 +79,14 @@ export function getIsFromAllowedAddress({
 
 export function isEmailCallbackId(emailCallbackIdOrAddress: string) {
   return emailCallbackIdRegex.test(emailCallbackIdOrAddress);
+}
+
+export function isEmailCallbackUsernameAllowed({ username }: { username: string }) {
+  return !forbiddenUsernames.has(username);
+}
+
+export function checkEmailCallbackUsernameIsAllowed({ username }: { username: string }) {
+  if (!isEmailCallbackUsernameAllowed({ username })) {
+    throw createEmailCallbackUsernameNotAllowedError();
+  }
 }

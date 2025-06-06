@@ -56,6 +56,7 @@ email-callbacks:
         invalid: L'adresse email doit contenir uniquement des chiffres, des lettres et des caractères spéciaux
         min-length: L'adresse email doit contenir au moins 3 caractères
         invalid-characters: L'adresse email ne doit pas commencer ou se terminer par un tiret, un point ou un trait de soulignement
+        not-allowed: Ce nom d'utilisateur n'est pas autorisé, veuillez en choisir un autre
       domain:
         invalid: Domaine invalide
       webhook-url:
