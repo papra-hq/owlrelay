@@ -82,7 +82,7 @@ describe('email-callbacks models', () => {
   });
 
   describe('isEmailCallbackUsernameAllowed', () => {
-    test('some username are not allowed for security and impersonation reasons', () => {
+    test('some usernames are not allowed for security and impersonation reasons', () => {
       expect(isEmailCallbackUsernameAllowed({ username: 'admin' })).to.eql(false);
       expect(isEmailCallbackUsernameAllowed({ username: 'owlrelay' })).to.eql(false);
 
