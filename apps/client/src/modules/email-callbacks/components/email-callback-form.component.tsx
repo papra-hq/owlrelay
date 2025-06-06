@@ -90,15 +90,25 @@ export const EmailCallbackForm: Component<{
         webhookSecret: webhookSecret === '' ? undefined : webhookSecret,
       }));
 
-      if (isHttpErrorWithCode({ error, code: 'email_callbacks.already_exists' })) {
+      if (isHttpErrorWithCode({ error, code: 'email_callback.already_exists' })) {
         throw createFormError({
-          message: t('email-callbacks.form.validation.already-exists'),
+          fields: {
+            username: t('email-callbacks.form.validation.already-exists'),
+          },
         });
       }
 
       if (isHttpErrorWithCode({ error, code: 'email_callbacks.limit_reached' })) {
         throw createFormError({
           message: t('email-callbacks.form.validation.limit-reached'),
+        });
+      }
+
+      if (isHttpErrorWithCode({ error, code: 'email_callback.username_not_allowed' })) {
+        throw createFormError({
+          fields: {
+            username: t('email-callbacks.form.validation.username.not-allowed'),
+          },
         });
       }
 

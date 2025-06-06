@@ -10,7 +10,7 @@ import { assert } from '../shared/errors/assert';
 import { validateJsonBody, validateParams, validateQuery } from '../shared/validation/validation';
 import { createUsersRepository } from '../users/users.repository';
 import { createEmailCallbackNotFoundError } from './email-callbacks.errors';
-import { formatEmailCallbackForApi } from './email-callbacks.models';
+import { checkEmailCallbackUsernameIsAllowed, formatEmailCallbackForApi } from './email-callbacks.models';
 import { createEmailCallbacksRepository } from './email-callbacks.repository';
 import { emailCallbackIdSchema } from './email-callbacks.schemas';
 import { checkUserCanCreateEmailCallback, deleteEmailCallback } from './email-callbacks.usecases';
@@ -65,6 +65,8 @@ function setupCreateEmailCallbackRoute({ app }: { app: ServerInstance }) {
       const { db } = getDb({ context });
 
       const { domain, username, webhookUrl, webhookSecret, allowedOrigins } = context.req.valid('json');
+
+      checkEmailCallbackUsernameIsAllowed({ username });
 
       const emailCallbacksRepository = createEmailCallbacksRepository({ db });
       const usersRepository = createUsersRepository({ db });
@@ -138,6 +140,10 @@ function setupUpdateEmailCallbackRoute({ app }: { app: ServerInstance }) {
       const { userId } = getUser({ context });
       const { db } = getDb({ context });
       const { isEnabled, domain, username, allowedOrigins, webhookUrl, webhookSecret } = context.req.valid('json');
+
+      if (username) {
+        checkEmailCallbackUsernameIsAllowed({ username });
+      }
 
       const emailCallbacksRepository = createEmailCallbacksRepository({ db });
 

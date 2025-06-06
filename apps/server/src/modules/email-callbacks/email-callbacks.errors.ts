@@ -17,3 +17,9 @@ export const createEmailCallbackAlreadyExistsError = createErrorFactory({
   code: 'email_callback.already_exists',
   statusCode: 400,
 });
+
+export const createEmailCallbackUsernameNotAllowedError = createErrorFactory({
+  message: 'Email callback username not allowed',
+  code: 'email_callback.username_not_allowed',
+  statusCode: 400,
+});

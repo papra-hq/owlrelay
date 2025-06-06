@@ -30,6 +30,20 @@ export function createForm<Schema extends v.ObjectSchema<any, any>>({
     FieldArray,
     onSubmit: submitHook.on,
     submit: submitHook.trigger,
-    createFormError: ({ message, fields }: { message: string; fields?: FormErrors<v.InferInput<Schema>> }) => new FormError<v.InferInput<Schema>>(message, fields),
+    createFormError: ({ message, fields }: { message?: string; fields?: FormErrors<v.InferInput<Schema>> }) => {
+      if (message && fields) {
+        return new FormError<v.InferInput<Schema>>(message, fields);
+      }
+
+      if (message) {
+        return new FormError<v.InferInput<Schema>>(message);
+      }
+
+      if (fields) {
+        return new FormError<v.InferInput<Schema>>(fields);
+      }
+
+      return new FormError<v.InferInput<Schema>>('Unknown error');
+    },
   };
 }
