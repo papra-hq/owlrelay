@@ -16,7 +16,7 @@ const { title, description, icon } = Astro.props;
         <slot></slot>
       </div>
 
-      <div class="relative z-60 bg-gradient-to-t from-background via-background to-transparent p-6 pt-24 mt--24">
+      <div class="relative z-60 bg-gradient-to-t from-background via-background to-background to-opacity-0 p-6 pt-24 mt--24">
         {icon && (<div class={cn('size-9 text-muted-foreground mb-4', icon)} />)}
         <h3 class="text-xl font-bold text-pretty">{title}</h3>
 
