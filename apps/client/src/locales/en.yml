@@ -145,3 +145,36 @@ api-keys:
       description: Are you sure you want to delete this API key? This action cannot be undone.
       confirm-button: Delete API key
       cancel-button: Cancel
+
+payments:
+  go-pro:
+    title: Upgrade to Pro
+    description: Upgrade to Pro to unlock all features and benefits.
+    checkout: Switch to Pro
+    cancel: Cancel
+    contact-us: Contact us
+    sponsor-us: 'If you want to support this open source project, you can also sponsor us on GitHub:'
+    sponsor-us-link: Sponsor us
+  plans:
+    free:
+      name: Free
+      description: The free plan is limited to 10 emails per month.
+      max-emails: 10 addresses
+      price: 0$ /month
+      retention-days: 30 days
+      support: Community
+    pro:
+      name: Pro
+      description: The pro plan is unlimited.
+      max-emails: 100 addresses
+      price: 12$ /month
+      retention-days: 90 days
+      support: Email support
+    features:
+      max-emails: Max number of addresses
+      ingestion-limit: Max number of emails received per month
+      invocation-retention-days: Invocation retention history
+      support: Support
+      yes: Yes
+      no: No
+      unlimited: Unlimited
