@@ -1,7 +1,7 @@
 import type { DropdownMenuTriggerProps } from '@kobalte/core/dropdown-menu';
 
 import { useI18n } from '@/modules/i18n/i18n.provider';
-import { getCheckoutUrl } from '@/modules/payments/payments.services';
+import { GoProDialog } from '@/modules/payments/components/go-pro-dialog.component';
 import { cn } from '@/modules/shared/style/cn';
 import { Button } from '@/modules/ui/components/button';
 import { useThemeStore } from '@/modules/ui/theme/theme.store';
@@ -69,11 +69,6 @@ export const AppLayout: ParentComponent = (props) => {
 
   const getIsUserOnFreePlan = () => query.data?.user.planId === 'free';
 
-  const openCheckout = async () => {
-    const { checkoutUrl } = await getCheckoutUrl({ planId: 'pro' });
-    window.open(checkoutUrl, '_blank');
-  };
-
   return (
     <div class="flex flex-col min-h-screen">
 
@@ -88,9 +83,13 @@ export const AppLayout: ParentComponent = (props) => {
 
           <div class="flex flex-row items-center gap-2">
             <Show when={getIsUserOnFreePlan()}>
-              <Button variant="secondary" onClick={openCheckout}>
-                {t('layout.upgrade-to-pro')}
-              </Button>
+              <GoProDialog>
+                {props => (
+                  <Button variant="secondary" {...props}>
+                    {t('layout.upgrade-to-pro')}
+                  </Button>
+                )}
+              </GoProDialog>
             </Show>
 
             <DropdownMenu>

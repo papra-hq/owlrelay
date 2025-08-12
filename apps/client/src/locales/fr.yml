@@ -120,3 +120,36 @@ api-keys:
       description: Êtes-vous sûr de vouloir supprimer cette clé API ? Cette action est irréversible.
       confirm-button: Supprimer la clé API
       cancel-button: Annuler
+
+payments:
+  go-pro:
+    title: Passer à la version Pro
+    description: Passer à la version Pro pour débloquer toutes les fonctionnalités et bénéfices.
+    checkout: Passer à la version Pro
+    cancel: Annuler
+    contact-us: Nous contacter
+    sponsor-us: 'Si vous voulez soutenir ce projet open source, vous pouvez également nous sponsoriser sur GitHub:'
+    sponsor-us-link: Nous soutenir
+  plans:
+    free:
+      name: Gratuit
+      description: Le plan gratuit est limité à 10 emails par mois.
+      max-emails: 10 adresses
+      price: 0$ /mois
+      retention-days: 30 jours
+      support: Communautaire
+    pro:
+      name: Pro
+      description: Le plan Pro est illimité.
+      max-emails: 100 adresses
+      price: 12$ /mois
+      retention-days: 90 jours
+      support: Support par email
+    features:
+      max-emails: Nombre max d'emails
+      ingestion-limit: Nombre max d'emails reçus par mois
+      invocation-retention-days: Retention des logs de réception
+      support: Support
+      yes: Oui
+      no: Non
+      unlimited: Illimité
