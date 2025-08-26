@@ -1,6 +1,6 @@
 import type { EmailCallback } from './email-callbacks.types';
 import { describe, expect, test } from 'vitest';
-import { checkEmailCallbackUsernameIsAllowed, formatEmailCallbackForApi, isEmailCallbackUsernameAllowed, parseEmailAddress } from './email-callbacks.models';
+import { checkEmailCallbackUsernameIsAllowed, filterEmailAddressesCandidates, formatEmailCallbackForApi, isEmailCallbackUsernameAllowed, parseEmailAddress } from './email-callbacks.models';
 
 describe('email-callbacks models', () => {
   describe('formatEmailCallbackForApi', () => {
@@ -96,6 +96,36 @@ describe('email-callbacks models', () => {
       expect(() => checkEmailCallbackUsernameIsAllowed({ username: 'owlrelay' })).to.throw('Email callback username not allowed');
 
       expect(() => checkEmailCallbackUsernameIsAllowed({ username: 'normal-user' })).not.to.throw();
+    });
+  });
+
+  describe('filterEmailAddressesCandidates', () => {
+    test('given the list of receipient address, filters and parse only the ones matching the allowed domains and removes duplicates', () => {
+      expect(filterEmailAddressesCandidates({
+        emailAddresses: [
+          'test@callback.email',
+          'test@callback.email',
+          'test-2@callback.email',
+          'test-3+extra@callback.email',
+          'unrelated@other-domain.com',
+        ],
+        allowedDomains: ['callback.email'],
+      })).to.deep.equal({
+        emailAddresses: [
+          { username: 'test', domain: 'callback.email', extra: undefined },
+          { username: 'test-2', domain: 'callback.email', extra: undefined },
+          { username: 'test-3', domain: 'callback.email', extra: 'extra' },
+        ],
+      });
+    });
+
+    test('when the email addresses are empty, an empty array is returned', () => {
+      expect(filterEmailAddressesCandidates({
+        emailAddresses: [],
+        allowedDomains: ['callback.email'],
+      })).to.deep.equal({
+        emailAddresses: [],
+      });
     });
   });
 });

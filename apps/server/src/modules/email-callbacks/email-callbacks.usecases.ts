@@ -161,12 +161,20 @@ export function createEmailHandler({ logger = createLogger({ namespace: 'email-c
 
     const { email } = await parseEmail({ rawMessage: message.raw });
 
-    logger.info({ from: email.from, to: email.to, cc: email.cc, bcc: email.bcc, deliveredTo: email.deliveredTo, sender: email.sender }, 'Parsed email');
+    logger.info({ from: email.from, to: email.to }, 'Parsed email');
+
+    const parsedRecipientAddresses = email.to?.map(to => to.address).filter(Boolean) ?? [];
 
     const { emailAddresses } = filterEmailAddressesCandidates({
-      emailAddresses: email.to,
+      // Using message.to as fallback as in some forward cases, the owlrelay destination email does not appears in the parsed to field
+      emailAddresses: [message.to, ...parsedRecipientAddresses],
       allowedDomains: config.emailCallbacks.availableDomains,
     });
+
+    if (emailAddresses.length === 0) {
+      logger.info({ from: message.from, to: message.to }, 'No matching domains found');
+      return;
+    }
 
     for (const { username, domain } of emailAddresses) {
       const [, error] = await safely(processEmail({ email, username, domain, emailCallbacksRepository, emailProcessingsRepository }));
