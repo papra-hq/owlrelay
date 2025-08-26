@@ -152,12 +152,16 @@ async function processEmail({
 
 export function createEmailHandler({ logger = createLogger({ namespace: 'email-callbacks' }) }: { logger?: Logger } = {}) {
   return async (message: ForwardableEmailMessage, env: Record<string, string | undefined>) => {
+    logger.info({ from: message.from, to: message.to }, 'Email received');
+
     const { config } = parseConfig({ env });
     const { db } = setupDatabase(config.database);
     const emailCallbacksRepository = createEmailCallbacksRepository({ db });
     const emailProcessingsRepository = createEmailProcessingsRepository({ db });
 
     const { email } = await parseEmail({ rawMessage: message.raw });
+
+    logger.info({ from: email.from, to: email.to, cc: email.cc, bcc: email.bcc, deliveredTo: email.deliveredTo, sender: email.sender }, 'Parsed email');
 
     const { emailAddresses } = filterEmailAddressesCandidates({
       emailAddresses: email.to,
