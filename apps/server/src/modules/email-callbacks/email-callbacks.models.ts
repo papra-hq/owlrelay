@@ -1,4 +1,3 @@
-import type { Address } from 'postal-mime';
 import type { EmailCallback } from './email-callbacks.types';
 
 import { emailCallbackIdRegex, forbiddenUsernames } from './email-callbacks.constants';
@@ -35,7 +34,7 @@ export function filterEmailAddressesCandidates({
   emailAddresses,
   allowedDomains,
 }: {
-  emailAddresses?: Address[];
+  emailAddresses?: string[];
   allowedDomains: string[];
 }) {
   if (!emailAddresses) {
@@ -44,13 +43,9 @@ export function filterEmailAddressesCandidates({
     };
   }
 
-  const filteredEmailAddresses = emailAddresses
-    .map(({ address }) => address ? parseEmailAddress({ emailAddress: address }) : undefined)
-    .filter(emailAddress => emailAddress !== undefined && allowedDomains.includes(emailAddress.domain)) as {
-    username: string;
-    domain: string;
-    extra?: string;
-  }[];
+  const filteredEmailAddresses = [...new Set(emailAddresses)]
+    .map(emailAddress => parseEmailAddress({ emailAddress }))
+    .filter(emailAddress => allowedDomains.includes(emailAddress.domain));
 
   return {
     emailAddresses: filteredEmailAddresses,
