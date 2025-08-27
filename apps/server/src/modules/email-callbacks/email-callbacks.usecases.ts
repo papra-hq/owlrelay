@@ -58,7 +58,10 @@ async function parseEmail({ rawMessage, initialTo }: { rawMessage: ReadableStrea
   const emailBuffer = await rawEmail.arrayBuffer();
   const email = await parser.parse(emailBuffer);
 
-  return { email: { ...email, to: [...(email.to ?? []), { address: initialTo, name: 'Sender' }] } };
+  const tos = email.to ?? [];
+  const consolidatedTos = tos.find(to => to.address === initialTo) ? tos : [...tos, { address: initialTo, name: 'Recipient' }];
+
+  return { email: { ...email, to: consolidatedTos } };
 }
 
 async function processEmail({
@@ -169,6 +172,8 @@ export function createEmailHandler({ logger = createLogger({ namespace: 'email-c
       emailAddresses: parsedRecipientAddresses,
       allowedDomains: config.emailCallbacks.availableDomains,
     });
+
+    logger.info({ emailAddresses }, 'Filtered email addresses');
 
     if (emailAddresses.length === 0) {
       logger.info({ from: message.from, to: message.to }, 'No matching domains found');
