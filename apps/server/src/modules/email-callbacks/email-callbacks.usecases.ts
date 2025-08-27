@@ -51,14 +51,14 @@ export async function checkUserCanCreateEmailCallback({ userId, usersRepository,
   }
 }
 
-async function parseEmail({ rawMessage }: { rawMessage: ReadableStream<Uint8Array> }) {
+async function parseEmail({ rawMessage, initialTo }: { rawMessage: ReadableStream<Uint8Array>; initialTo: string }): Promise<{ email: Email }> {
   const rawEmail = new Response(rawMessage);
   const parser = new PostalMime();
 
   const emailBuffer = await rawEmail.arrayBuffer();
   const email = await parser.parse(emailBuffer);
 
-  return { email };
+  return { email: { ...email, to: [...(email.to ?? []), { address: initialTo, name: 'Sender' }] } };
 }
 
 async function processEmail({
@@ -159,15 +159,14 @@ export function createEmailHandler({ logger = createLogger({ namespace: 'email-c
     const emailCallbacksRepository = createEmailCallbacksRepository({ db });
     const emailProcessingsRepository = createEmailProcessingsRepository({ db });
 
-    const { email } = await parseEmail({ rawMessage: message.raw });
+    const { email } = await parseEmail({ rawMessage: message.raw, initialTo: message.to });
 
     logger.info({ from: email.from, to: email.to }, 'Parsed email');
 
     const parsedRecipientAddresses = email.to?.map(to => to.address).filter(Boolean) ?? [];
 
     const { emailAddresses } = filterEmailAddressesCandidates({
-      // Using message.to as fallback as in some forward cases, the owlrelay destination email does not appears in the parsed to field
-      emailAddresses: [message.to, ...parsedRecipientAddresses],
+      emailAddresses: parsedRecipientAddresses,
       allowedDomains: config.emailCallbacks.availableDomains,
     });
 
