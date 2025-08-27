@@ -1,5 +1,5 @@
 import type { Logger } from '@crowlog/logger';
-import type { Email } from 'postal-mime';
+import type { Address, Email } from 'postal-mime';
 import type { EmailProcessingsRepository } from '../email-processings/email-processings.repository';
 import type { PlansRepository } from '../plans/plans.respository';
 import type { UsersRepository } from '../users/users.repository';
@@ -51,17 +51,30 @@ export async function checkUserCanCreateEmailCallback({ userId, usersRepository,
   }
 }
 
-async function parseEmail({ rawMessage, initialTo }: { rawMessage: ReadableStream<Uint8Array>; initialTo: string }): Promise<{ email: Email }> {
+async function parseEmail({ rawMessage, realTo, realFrom }: { rawMessage: ReadableStream<Uint8Array>; realTo: string; realFrom: string }): Promise<{ email: Email & { originalTo: Address[]; originalFrom: Address } }> {
   const rawEmail = new Response(rawMessage);
   const parser = new PostalMime();
 
   const emailBuffer = await rawEmail.arrayBuffer();
   const email = await parser.parse(emailBuffer);
 
-  const tos = email.to ?? [];
-  const consolidatedTos = tos.find(to => to.address === initialTo) ? tos : [...tos, { address: initialTo, name: 'Recipient' }];
-
-  return { email: { ...email, to: consolidatedTos } };
+  return {
+    email: {
+      ...email,
+      originalTo: email.to ?? [],
+      originalFrom: email.from,
+      to: [
+        {
+          address: realTo,
+          name: email.to?.find(to => to.address === realTo)?.name ?? '',
+        },
+      ],
+      from: {
+        address: realFrom,
+        name: email.from.address === realFrom ? email.from.name : '',
+      },
+    },
+  };
 }
 
 async function processEmail({
@@ -162,7 +175,7 @@ export function createEmailHandler({ logger = createLogger({ namespace: 'email-c
     const emailCallbacksRepository = createEmailCallbacksRepository({ db });
     const emailProcessingsRepository = createEmailProcessingsRepository({ db });
 
-    const { email } = await parseEmail({ rawMessage: message.raw, initialTo: message.to });
+    const { email } = await parseEmail({ rawMessage: message.raw, realTo: message.to, realFrom: message.from });
 
     logger.info({ from: email.from, to: email.to }, 'Parsed email');
 
