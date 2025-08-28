@@ -22,7 +22,7 @@ export const trackingConfig = {
     },
     host: {
       doc: 'The host for PostHog',
-      schema: z.string().url(),
+      schema: z.url(),
       default: 'https://eu.i.posthog.com',
       env: 'POSTHOG_HOST',
     },

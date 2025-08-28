@@ -71,7 +71,7 @@ export const EmailCallbackForm: Component<{
         v.array(
           v.pipe(
             v.string(),
-            v.email(t('email-callbacks.form.validation.allowed-origins.invalid')),
+            v.rfcEmail(t('email-callbacks.form.validation.allowed-origins.invalid')),
           ),
         ),
       ),
