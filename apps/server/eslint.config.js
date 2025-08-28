@@ -5,12 +5,17 @@ export default antfu({
     semi: true,
   },
 
+  // typescript: {
+  //   tsconfigPath: 'tsconfig.json',
+  // },
+
   rules: {
     // To allow export on top of files
     'ts/no-use-before-define': ['error', { allowNamedExports: true, functions: false }],
     'curly': ['error', 'all'],
     'vitest/consistent-test-it': ['error', { fn: 'test' }],
     'ts/consistent-type-definitions': ['error', 'type'],
+    // 'ts/no-deprecated': ['error'],
     'style/brace-style': ['error', '1tbs', { allowSingleLine: false }],
     'unused-imports/no-unused-vars': ['error', {
       argsIgnorePattern: '^_',

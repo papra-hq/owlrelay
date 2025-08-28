@@ -12,7 +12,7 @@ import { createUsersRepository } from '../users/users.repository';
 import { createEmailCallbackNotFoundError } from './email-callbacks.errors';
 import { checkEmailCallbackUsernameIsAllowed, formatEmailCallbackForApi } from './email-callbacks.models';
 import { createEmailCallbacksRepository } from './email-callbacks.repository';
-import { emailCallbackIdSchema } from './email-callbacks.schemas';
+import { emailCallbackIdSchema, permissiveEmailSchema } from './email-callbacks.schemas';
 import { checkUserCanCreateEmailCallback, deleteEmailCallback } from './email-callbacks.usecases';
 
 export async function registerEmailCallbacksPrivateRoutes({ app }: { app: ServerInstance }) {
@@ -50,11 +50,9 @@ function setupCreateEmailCallbackRoute({ app }: { app: ServerInstance }) {
       return z.object({
         domain: z.enum(availableDomains as [string, ...string[]]).optional().default(availableDomains[0]),
         username: z.string().regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i).min(3).max(32),
-        webhookUrl: z.string().url(),
+        webhookUrl: z.url(),
         webhookSecret: z.string().min(16).max(128).optional(),
-        allowedOrigins: z.array(
-          z.string().email(),
-        ).optional().default([]),
+        allowedOrigins: z.array(permissiveEmailSchema).optional().default([]),
       });
     },
     ),
@@ -94,7 +92,7 @@ function setupDeleteEmailCallbackRoute({ app }: { app: ServerInstance }) {
       z.object({
         emailCallbackIdOrAddress: z.union([
           emailCallbackIdSchema,
-          z.string().email(),
+          z.email(),
         ]),
       }),
     ),
@@ -128,10 +126,8 @@ function setupUpdateEmailCallbackRoute({ app }: { app: ServerInstance }) {
         isEnabled: z.boolean().optional(),
         domain: z.enum(availableDomains as [string, ...string[]]).optional(),
         username: z.string().regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i).min(3).max(32).optional(),
-        allowedOrigins: z.array(
-          z.string().email(),
-        ).optional().default([]),
-        webhookUrl: z.string().url().optional(),
+        allowedOrigins: z.array(permissiveEmailSchema).optional().default([]),
+        webhookUrl: z.url().optional(),
         webhookSecret: z.string().min(16).max(128).optional(),
       });
     }),

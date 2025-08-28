@@ -4,7 +4,7 @@ import type { Context } from '../../app/server.types';
 import { validator } from 'hono/validator';
 
 function formatValidationError({ error }: { error: z.ZodError }) {
-  const details = (error.errors ?? []).map((e) => {
+  const details = (error.issues ?? []).map((e) => {
     return {
       ...(e.path.length === 0 ? {} : { path: e.path.join('.') }),
       message: e.message,
@@ -20,12 +20,12 @@ function buildValidator<Target extends keyof ValidationTargets>({ target, error 
       const schema = typeof schemaOrFactory === 'function' ? schemaOrFactory({ context }) : schemaOrFactory;
 
       // @ts-expect-error try to enforce strict mode
-      const refinedSchema = allowAdditionalFields ? schema : (schema.strict?.() ?? schema);
+      const refinedSchema: Schema = allowAdditionalFields ? schema : (schema.strict?.() ?? schema);
 
       const result = refinedSchema.safeParse(value);
 
       if (result.success) {
-        return result.data as z.infer<Schema>;
+        return result.data;
       }
 
       const details = formatValidationError({ error: result.error });

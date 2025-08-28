@@ -20,7 +20,7 @@ export const configDefinition = {
   server: {
     baseUrl: {
       doc: 'The base URL of the server',
-      schema: z.string().url(),
+      schema: z.url(),
       default: 'http://localhost:1222',
       env: 'SERVER_BASE_URL',
     },
@@ -43,13 +43,13 @@ export const configDefinition = {
   client: {
     baseUrl: {
       doc: 'The URL of the client',
-      schema: z.string().url(),
+      schema: z.url(),
       default: 'http://localhost:3000',
       env: 'CLIENT_BASE_URL',
     },
     oauthRedirectUrl: {
       doc: 'The URL to redirect to after OAuth',
-      schema: z.string().url(),
+      schema: z.url(),
       default: 'http://localhost:3000/confirm',
       env: 'CLIENT_OAUTH_REDIRECT_URL',
     },

@@ -4,7 +4,7 @@ import { z } from 'zod';
 export const databaseConfig = {
   url: {
     doc: 'The URL of the database',
-    schema: z.string().url(),
+    schema: z.url(),
     default: 'http://127.0.0.1:8080',
     env: 'DATABASE_URL',
   },

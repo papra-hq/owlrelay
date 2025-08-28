@@ -50,7 +50,7 @@
     "resend": "^4.1.2",
     "stripe": "^17.6.0",
     "tsx": "^4.19.2",
-    "zod": "^3.24.1"
+    "zod": "^4.1.4"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
