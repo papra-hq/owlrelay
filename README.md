@@ -26,7 +26,7 @@
 **[OwlRelay](https://owlrelay.email)** is a simple service that allows you to trigger webhooks or APIs by sending emails to generated addresses, with a focus on simplicity and ease of use.
 
 1. Login with your favorite OAuth provider
-2. Create a new email, with you webhook url
+2. Create a new email, with your webhook url
 3. Send an email to the generated address
 4. The webhook will be triggered with the email data and attachments
 
