@@ -67,7 +67,7 @@ pnpm script:generate-i18n-types
 ### Prerequisites
 
 - Node.js (v22 or higher)
-- pnpm (v9 or higher)
+- pnpm (v11 or higher)
 - Turso client
 
 ### Local Environment Setup
