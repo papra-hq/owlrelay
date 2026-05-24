@@ -12,8 +12,8 @@ import { createUsersRepository } from '../users/users.repository';
 import { createEmailCallbackNotFoundError } from './email-callbacks.errors';
 import { checkEmailCallbackUsernameIsAllowed, formatEmailCallbackForApi } from './email-callbacks.models';
 import { createEmailCallbacksRepository } from './email-callbacks.repository';
-import { emailCallbackIdSchema, permissiveEmailSchema } from './email-callbacks.schemas';
-import { checkUserCanCreateEmailCallback, deleteEmailCallback } from './email-callbacks.usecases';
+import { emailCallbackIdOrAddressSchema, emailCallbackIdSchema, permissiveEmailSchema } from './email-callbacks.schemas';
+import { checkUserCanCreateEmailCallback, deleteEmailCallback, resolveUserEmailCallbackId } from './email-callbacks.usecases';
 
 export async function registerEmailCallbacksPrivateRoutes({ app }: { app: ServerInstance }) {
   setupGetEmailCallbacksRoute({ app });
@@ -90,10 +90,7 @@ function setupDeleteEmailCallbackRoute({ app }: { app: ServerInstance }) {
     '/api/email-callbacks/:emailCallbackIdOrAddress',
     validateParams(
       z.object({
-        emailCallbackIdOrAddress: z.union([
-          emailCallbackIdSchema,
-          z.email(),
-        ]),
+        emailCallbackIdOrAddress: emailCallbackIdOrAddressSchema,
       }),
     ),
     async (context) => {
@@ -112,10 +109,10 @@ function setupDeleteEmailCallbackRoute({ app }: { app: ServerInstance }) {
 
 function setupUpdateEmailCallbackRoute({ app }: { app: ServerInstance }) {
   app.put(
-    '/api/email-callbacks/:emailCallbackId',
+    '/api/email-callbacks/:emailCallbackIdOrAddress',
     validateParams(
       z.object({
-        emailCallbackId: emailCallbackIdSchema,
+        emailCallbackIdOrAddress: emailCallbackIdOrAddressSchema,
       }),
     ),
     validateJsonBody(({ context }) => {
@@ -132,7 +129,7 @@ function setupUpdateEmailCallbackRoute({ app }: { app: ServerInstance }) {
       });
     }),
     async (context) => {
-      const { emailCallbackId } = context.req.valid('param');
+      const { emailCallbackIdOrAddress } = context.req.valid('param');
       const { userId } = getUser({ context });
       const { db } = getDb({ context });
       const { isEnabled, domain, username, allowedOrigins, webhookUrl, webhookSecret } = context.req.valid('json');
@@ -142,6 +139,8 @@ function setupUpdateEmailCallbackRoute({ app }: { app: ServerInstance }) {
       }
 
       const emailCallbacksRepository = createEmailCallbacksRepository({ db });
+
+      const { emailCallbackId } = await resolveUserEmailCallbackId({ emailCallbackIdOrAddress, userId, emailCallbacksRepository });
 
       const { emailCallback } = await emailCallbacksRepository.updateUserEmailCallback({
         userId,

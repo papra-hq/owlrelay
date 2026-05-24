@@ -3,3 +3,8 @@ import { emailCallbackIdRegex } from './email-callbacks.constants';
 
 export const emailCallbackIdSchema = z.string().regex(emailCallbackIdRegex);
 export const permissiveEmailSchema = z.email({ pattern: regexes.rfc5322Email });
+
+export const emailCallbackIdOrAddressSchema = z.union([
+  emailCallbackIdSchema,
+  z.email(),
+]);
