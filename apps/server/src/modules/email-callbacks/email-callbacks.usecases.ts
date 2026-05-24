@@ -203,31 +203,36 @@ export function createEmailHandler({ logger = createLogger({ namespace: 'email-c
   };
 }
 
-export async function deleteEmailCallback({ emailCallbackIdOrAddress, emailCallbacksRepository, userId }: { emailCallbackIdOrAddress: string; emailCallbacksRepository: EmailCallbacksRepository; userId: string }) {
+export async function resolveUserEmailCallbackId({ emailCallbackIdOrAddress, userId, emailCallbacksRepository }: { emailCallbackIdOrAddress: string; userId: string; emailCallbacksRepository: EmailCallbacksRepository }) {
   if (isEmailCallbackId(emailCallbackIdOrAddress)) {
-    const { deletedId } = await emailCallbacksRepository.deleteUserEmailCallback({ userId, emailCallbackId: emailCallbackIdOrAddress });
+    const { emailCallback } = await emailCallbacksRepository.getUserEmailCallback({ emailCallbackId: emailCallbackIdOrAddress, userId });
 
-    if (!deletedId) {
+    if (!emailCallback) {
       throw createEmailCallbackNotFoundError();
     }
 
-    return;
+    return { emailCallbackId: emailCallback.id };
   }
 
   const { username, domain } = parseEmailAddress({ emailAddress: emailCallbackIdOrAddress });
 
   if (!username || !domain) {
-    // Should not happen, has emailCallbackIdOrAddress is validated by the route
     throw createInvalidEmailCallbackAddressError();
   }
 
   const { emailCallback } = await emailCallbacksRepository.getEmailCallbackByUsernameAndDomain({ username, domain });
 
-  if (!emailCallback) {
+  if (!emailCallback || emailCallback.userId !== userId) {
     throw createEmailCallbackNotFoundError();
   }
 
-  const { deletedId } = await emailCallbacksRepository.deleteUserEmailCallback({ userId, emailCallbackId: emailCallback.id });
+  return { emailCallbackId: emailCallback.id };
+}
+
+export async function deleteEmailCallback({ emailCallbackIdOrAddress, emailCallbacksRepository, userId }: { emailCallbackIdOrAddress: string; emailCallbacksRepository: EmailCallbacksRepository; userId: string }) {
+  const { emailCallbackId } = await resolveUserEmailCallbackId({ emailCallbackIdOrAddress, userId, emailCallbacksRepository });
+
+  const { deletedId } = await emailCallbacksRepository.deleteUserEmailCallback({ userId, emailCallbackId });
 
   if (!deletedId) {
     throw createEmailCallbackNotFoundError();
