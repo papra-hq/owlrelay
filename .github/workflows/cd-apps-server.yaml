@@ -5,6 +5,13 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
+concurrency:
+  group: cd-apps-server
+  cancel-in-progress: false
+
 jobs:
   deploy-app-prod:
     runs-on: ubuntu-latest
