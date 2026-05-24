@@ -7,6 +7,6 @@ export const ssoProviders = [
   {
     key: 'github',
     name: 'GitHub',
-    icon: 'i-tabler-brand-github',
+    icon: 'i-tabler-brand-github-filled',
   },
 ] as const;

@@ -1,3 +1,4 @@
+import { ssoProviders } from '@/modules/auth/auth.constants';
 import {
   defineConfig,
   presetIcons,
@@ -109,5 +110,5 @@ export default defineConfig({
       },
     },
   },
-  // safelist: [...ssoProviders.map(p => p.icon)],
+  safelist: [...ssoProviders.map(p => p.icon)],
 });
