@@ -5,4 +5,7 @@ export default defineConfig({
     typeAware: true,
     typeCheck: true,
   },
+  rules: {
+    'typescript/consistent-type-imports': 'error',
+  },
 });
