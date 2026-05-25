@@ -4,9 +4,11 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "module": "ESNext",
+    "moduleResolution": "bundler",
     "paths": {
       "@/*": ["./src/*"]
     },
+    "resolveJsonModule": true,
     "types": ["vite/client"],
     "strict": true,
     "noEmit": true,
