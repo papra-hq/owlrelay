@@ -88,9 +88,32 @@ Get all processings for an email address.
 const processings = await client.getEmailProcessings({ emailId: '...' });
 ```
 
+### updateEmail
+
+Update an email address. The first argument identifies the email (by id, by full address, or by username + domain). The second argument holds the fields to update — any field you omit is left unchanged.
+
+```ts
+const updatedEmail = await client.updateEmail(
+  // Identifier (pick one shape):
+  { emailId: '...' },
+  // { emailAddress: 'john.doe@callback.email' },
+  // { username: 'john.doe', domain: 'callback.email' },
+
+  // Update fields (all optional):
+  {
+    username: 'john.doe',
+    domain: 'callback.email',
+    webhookUrl: 'https://my-app.invalid/new-webhook',
+    webhookSecret: 'my-new-webhook-secret',
+    allowedOrigins: ['foo@bar.com'],
+    isEnabled: true,
+  },
+);
+```
+
 ### disableEmail
 
-Disable an email address. This will stop the email address from forwarding emails to your webhook.
+Disable an email address. This will stop the email address from forwarding emails to your webhook. Accepts the same identifier shapes as `updateEmail`.
 
 ```ts
 const disabledEmail = await client.disableEmail({ emailId: '...' });
@@ -98,7 +121,7 @@ const disabledEmail = await client.disableEmail({ emailId: '...' });
 
 ### enableEmail
 
-Enable an email address.
+Enable an email address. Accepts the same identifier shapes as `updateEmail`.
 
 ```ts
 const enabledEmail = await client.enableEmail({ emailId: '...' });
