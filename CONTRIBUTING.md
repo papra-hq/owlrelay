@@ -43,24 +43,17 @@ We welcome contributions to improve and expand the app's internationalization (i
 
 ### Adding a New Language
 
-1. **Create a Language File**: To add a new language, create a YAML file named with the appropriate [ISO language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g., `fr.yml` for French) in the [`apps/papra-client/src/locales`](./apps/papra-client/src/locales) directory.
+1. **Create a Language File**: To add a new language, create a TypeScript file named with the appropriate [ISO language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g., `fr.ts` for French) in the [`apps/client/src/locales`](./apps/client/src/locales) directory. The file must export a `translations` object typed as `Partial<TranslationsDictionary>`.
 
-2. **Use the Reference File**: Refer to the [`en.yml`](./apps/papra-client/src/locales/en.yml) file, which contains all keys used in the app. Use it as a base to ensure consistency when creating your new language file. And act as a fallback if a key is missing in the new language file.
+2. **Use the Reference File**: Refer to the [`en.ts`](./apps/client/src/locales/en.ts) file, which contains all keys used in the app. Use it as a base to ensure consistency when creating your new language file. It also acts as a fallback if a key is missing in the new language file.
 
-3. **Update the Locale List**: After adding the new language file, include the language code in the `locales` array found in the [`apps/papra-client/src/modules/i18n/i18n.constants.ts`](./apps/papra-client/src/modules/i18n/i18n.constants.ts) file.
+3. **Update the Locale List**: After adding the new language file, include the language code in the `locales` array found in the [`apps/client/src/modules/i18n/i18n.constants.ts`](./apps/client/src/modules/i18n/i18n.constants.ts) file.
 
 4. **Submit a Pull Request**: Once you've added the file and updated `i18n.constants.ts`, create a pull request (PR) with your changes. Ensure that your PR is clearly titled with the language being added (e.g., "Add French translations").
 
 ### Updating an Existing Language
 
-If you want to update an existing language file, you can do so directly in the corresponding JSON file in the [`apps/papra-client/src/locales`](./apps/papra-client/src/locales) directory. If you're adding or removing keys in the default language file ([`en.yml`](./apps/papra-client/src/locales/en.yml)), please run the following command to update the types (used for type checking the translations keys in the app):
-
-```bash
-pnpm script:generate-i18n-types
-```
-
-- This command will update the file [`locales.types.ts`](./apps/client/src/modules/i18n/locales.types.ts) with the new/removed keys.
-- Will developing you can use `pnpm script:generate-i18n-types:watch` to automatically update the types when you touch the [`en.yml`](./apps/client/src/locales/en.yml) file.
+If you want to update an existing language file, you can do so directly in the corresponding TypeScript file in the [`apps/client/src/locales`](./apps/client/src/locales) directory. Translation keys are derived directly from [`en.ts`](./apps/client/src/locales/en.ts), so adding or removing keys there automatically updates the types used to type-check translations across the app — no codegen step is required.
 
 ## Development Setup
 

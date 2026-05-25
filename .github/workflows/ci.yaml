@@ -43,9 +43,3 @@ jobs:
 
       - name: Build the apps
         run: pnpm -r --parallel -F "./apps/*" build
-
-      # Ensure client app locales types are up to date
-      - name: Check locales types
-        run: |
-          pnpm -F "./apps/client" script:generate-i18n-types
-          git diff --exit-code -- apps/client/src/modules/i18n/locales.types.ts > /dev/null || (echo "Locales types are outdated, please run 'pnpm script:generate-i18n-types' and commit the changes." && exit 1)
