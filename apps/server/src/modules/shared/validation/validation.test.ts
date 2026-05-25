@@ -60,7 +60,7 @@ describe('validation', () => {
             message: 'Invalid request body',
             code: 'server.invalid_request.body',
             details: [{
-              message: 'Unrecognized key: \"foo\"',
+              message: 'Unrecognized key: "foo"',
             }],
           },
         });

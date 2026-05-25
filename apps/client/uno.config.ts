@@ -110,5 +110,5 @@ export default defineConfig({
       },
     },
   },
-  safelist: [...ssoProviders.map(p => p.icon)],
+  safelist: ssoProviders.map(p => p.icon),
 });
