@@ -60,7 +60,7 @@ pnpm script:generate-i18n-types
 ```
 
 - This command will update the file [`locales.types.ts`](./apps/client/src/modules/i18n/locales.types.ts) with the new/removed keys.
-- Will developing you can use `pnpm script:generate-i18n-types:watch` to automatically update the types when you touch the [`en.yml`](./apps/client/src/locales/en.yml) file.
+- While developing you can use `pnpm script:generate-i18n-types:watch` to automatically update the types when you touch the [`en.yml`](./apps/client/src/locales/en.yml) file.
 
 ## Development Setup
 
