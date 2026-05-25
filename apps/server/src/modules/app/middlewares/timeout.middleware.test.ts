@@ -15,22 +15,14 @@ describe('middlewares', () => {
         await next();
       });
 
-      app.get(
-        '/should-timeout',
-        timeoutMiddleware,
-        async (context) => {
-          await new Promise(resolve => setTimeout(resolve, 100));
-          return context.json({ status: 'ok' });
-        },
-      );
+      app.get('/should-timeout', timeoutMiddleware, async context => {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        return context.json({ status: 'ok' });
+      });
 
-      app.get(
-        '/should-not-timeout',
-        timeoutMiddleware,
-        async (context) => {
-          return context.json({ status: 'ok' });
-        },
-      );
+      app.get('/should-not-timeout', timeoutMiddleware, async context => {
+        return context.json({ status: 'ok' });
+      });
 
       const response1 = await app.request('/should-timeout', { method: 'GET' });
 

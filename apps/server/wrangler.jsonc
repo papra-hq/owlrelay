@@ -3,16 +3,12 @@
   "name": "owlrelay-app-server",
   "main": "src/index.ts",
   "compatibility_date": "2025-02-14",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
+  "compatibility_flags": ["nodejs_compat"],
   "triggers": {
-    "crons": [
-      "38 4 * * *"
-    ]
+    "crons": ["38 4 * * *"],
   },
   "observability": {
     "enabled": true,
-    "head_sampling_rate": 1
-  }
+    "head_sampling_rate": 1,
+  },
 }

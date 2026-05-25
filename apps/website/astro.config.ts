@@ -5,8 +5,5 @@ import UnoCSS from 'unocss/astro';
 
 export default defineConfig({
   site: 'https://owlrelay.email',
-  integrations: [
-    UnoCSS({ injectReset: true }),
-    sitemap(),
-  ],
+  integrations: [UnoCSS({ injectReset: true }), sitemap()],
 });

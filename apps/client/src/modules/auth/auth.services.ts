@@ -22,12 +22,4 @@ function signOut() {
   return result;
 }
 
-export {
-  forgetPassword,
-  resetPassword,
-  sendVerificationEmail,
-  signIn,
-  signOut,
-  signUp,
-  useSession,
-};
+export { forgetPassword, resetPassword, sendVerificationEmail, signIn, signOut, signUp, useSession };

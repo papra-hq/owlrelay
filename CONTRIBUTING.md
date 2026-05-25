@@ -60,7 +60,7 @@ pnpm script:generate-i18n-types
 ```
 
 - This command will update the file [`locales.types.ts`](./apps/client/src/modules/i18n/locales.types.ts) with the new/removed keys.
-- Will developing you can use `pnpm script:generate-i18n-types:watch` to automatically update the types when you touch the  [`en.yml`](./apps/client/src/locales/en.yml) file.
+- Will developing you can use `pnpm script:generate-i18n-types:watch` to automatically update the types when you touch the [`en.yml`](./apps/client/src/locales/en.yml) file.
 
 ## Development Setup
 
@@ -98,7 +98,7 @@ We recommend running the app locally for development. Follow these steps:
    ```bash
    cd apps/server
    # Run the migration script to create the database schema
-   pnpm migrate:up 
+   pnpm migrate:up
    # Start the server
    pnpm dev
    ```
@@ -119,15 +119,15 @@ We use **Vitest** for testing. Each package comes with its own testing commands.
 
 - To run the tests for any package:
 
-   ```bash
-   pnpm test
-   ```
+  ```bash
+  pnpm test
+  ```
 
 - To run tests in watch mode:
 
-   ```bash
-   pnpm test:watch
-   ```
+  ```bash
+  pnpm test:watch
+  ```
 
 All new features must be covered by unit or integration tests. Be sure to use business-oriented test names (avoid vague descriptions like `it('should return true')`).
 

@@ -1,12 +1,4 @@
-import {
-  defineConfig,
-  presetIcons,
-  presetTypography,
-  presetUno,
-  presetWebFonts,
-  transformerDirectives,
-  transformerVariantGroup,
-} from 'unocss';
+import { defineConfig, presetIcons, presetTypography, presetUno, presetWebFonts, transformerDirectives, transformerVariantGroup } from 'unocss';
 import presetAnimations from 'unocss-preset-animations';
 
 export default defineConfig({
@@ -78,14 +70,10 @@ export default defineConfig({
     },
     animation: {
       keyframes: {
-        'accordion-down':
-            '{ from { height: 0 } to { height: var(--kb-accordion-content-height) } }',
-        'accordion-up':
-            '{ from { height: var(--kb-accordion-content-height) } to { height: 0 } }',
-        'collapsible-down':
-            '{ from { height: 0 } to { height: var(--kb-collapsible-content-height) } }',
-        'collapsible-up':
-            '{ from { height: var(--kb-collapsible-content-height) } to { height: 0 } }',
+        'accordion-down': '{ from { height: 0 } to { height: var(--kb-accordion-content-height) } }',
+        'accordion-up': '{ from { height: var(--kb-accordion-content-height) } to { height: 0 } }',
+        'collapsible-down': '{ from { height: 0 } to { height: var(--kb-collapsible-content-height) } }',
+        'collapsible-up': '{ from { height: var(--kb-collapsible-content-height) } to { height: 0 } }',
         'caret-blink': '{ 0%,70%,100% { opacity: 1 } 20%,50% { opacity: 0 } }',
       },
       timingFns: {

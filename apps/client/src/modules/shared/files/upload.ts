@@ -3,7 +3,7 @@ export function promptUploadFiles({
 }: {
   acceptedTypes?: string;
 } = {}): Promise<{ files: File[] }> {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const input = document.createElement('input');
     input.type = 'file';
     input.multiple = true;
@@ -13,7 +13,7 @@ export function promptUploadFiles({
     }
 
     input.onchange = () => {
-      resolve({ files: [...input.files ?? []] });
+      resolve({ files: [...(input.files ?? [])] });
     };
 
     input.click();

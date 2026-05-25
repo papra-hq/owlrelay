@@ -3,16 +3,14 @@ export function arrayBufferToBase64(arrayBuffer: ArrayBuffer) {
 }
 
 export function base64ToArrayBuffer(base64: string) {
-  return new Uint8Array(atob(base64).split('').map(char => char.charCodeAt(0))).buffer;
+  return new Uint8Array(
+    atob(base64)
+      .split('')
+      .map(char => char.charCodeAt(0)),
+  ).buffer;
 }
 
-export async function signBody({
-  bodyBuffer,
-  secret,
-}: {
-  bodyBuffer: ArrayBuffer;
-  secret: string;
-}) {
+export async function signBody({ bodyBuffer, secret }: { bodyBuffer: ArrayBuffer; secret: string }) {
   const encoder = new TextEncoder();
   const keyData = encoder.encode(secret);
   const key = await crypto.subtle.importKey('raw', keyData, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
@@ -23,15 +21,7 @@ export async function signBody({
   return { signature: signatureBase64 };
 }
 
-export async function verifySignature({
-  bodyBuffer,
-  signature: base64Signature,
-  secret,
-}: {
-  bodyBuffer: ArrayBuffer;
-  signature: string;
-  secret: string;
-}): Promise<boolean> {
+export async function verifySignature({ bodyBuffer, signature: base64Signature, secret }: { bodyBuffer: ArrayBuffer; signature: string; secret: string }): Promise<boolean> {
   const encoder = new TextEncoder();
   const keyData = encoder.encode(secret);
   const key = await crypto.subtle.importKey('raw', keyData, { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']);

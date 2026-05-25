@@ -50,7 +50,6 @@ describe('hooks', () => {
         expect(handler2.getArgs()).toEqual([
           {
             data: 'hello',
-
           },
         ]);
       });

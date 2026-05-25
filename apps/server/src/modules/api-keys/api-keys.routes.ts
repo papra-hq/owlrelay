@@ -17,10 +17,12 @@ export async function registerApiKeysPrivateRoutes({ app }: { app: ServerInstanc
 function setupCreateApiKeyRoute({ app }: { app: ServerInstance }) {
   app.post(
     '/api/api-keys',
-    validateJsonBody(z.object({
-      name: z.string().min(1).max(128),
-    })),
-    async (context) => {
+    validateJsonBody(
+      z.object({
+        name: z.string().min(1).max(128),
+      }),
+    ),
+    async context => {
       const { userId } = getUser({ context });
       const { db } = getDb({ context });
       const { eventsServices } = getEventsServices({ context });
@@ -42,10 +44,12 @@ function setupCreateApiKeyRoute({ app }: { app: ServerInstance }) {
 function setupDeleteApiKeyRoute({ app }: { app: ServerInstance }) {
   app.delete(
     '/api/api-keys/:apiKeyId',
-    validateParams(z.object({
-      apiKeyId: z.string(),
-    })),
-    async (context) => {
+    validateParams(
+      z.object({
+        apiKeyId: z.string(),
+      }),
+    ),
+    async context => {
       const { userId } = getUser({ context });
       const { db } = getDb({ context });
 
@@ -61,19 +65,16 @@ function setupDeleteApiKeyRoute({ app }: { app: ServerInstance }) {
 }
 
 function setupGetApiKeysRoute({ app }: { app: ServerInstance }) {
-  app.get(
-    '/api/api-keys',
-    async (context) => {
-      const { userId } = getUser({ context });
-      const { db } = getDb({ context });
+  app.get('/api/api-keys', async context => {
+    const { userId } = getUser({ context });
+    const { db } = getDb({ context });
 
-      const apiKeysRepository = createApiKeysRepository({ db });
+    const apiKeysRepository = createApiKeysRepository({ db });
 
-      const { apiKeys } = await apiKeysRepository.getUserApiKeys({ userId });
+    const { apiKeys } = await apiKeysRepository.getUserApiKeys({ userId });
 
-      return context.json({
-        apiKeys,
-      });
-    },
-  );
+    return context.json({
+      apiKeys,
+    });
+  });
 }

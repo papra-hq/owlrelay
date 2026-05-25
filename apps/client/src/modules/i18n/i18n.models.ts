@@ -6,13 +6,7 @@ import type { Locale } from './i18n.provider';
 // For example:
 // en-GB -> en
 // pt-BR -> pt-BR
-export function findMatchingLocale({
-  preferredLocales,
-  supportedLocales,
-}: {
-  preferredLocales: Intl.Locale[];
-  supportedLocales: Intl.Locale[];
-}) {
+export function findMatchingLocale({ preferredLocales, supportedLocales }: { preferredLocales: Intl.Locale[]; supportedLocales: Intl.Locale[] }) {
   for (const locale of preferredLocales) {
     const localeMatchRegion = supportedLocales.find(x => x.baseName === locale.baseName);
 

@@ -25,12 +25,7 @@ export function createEmailCallbacksRepository({ db }: { db: Database }) {
 }
 
 async function getUserEmailCallbacks({ userId, db }: { userId: string; db: Database }) {
-  const emailCallbacks = await db
-    .select()
-    .from(emailsCallbacksTable)
-    .where(
-      eq(emailsCallbacksTable.userId, userId),
-    );
+  const emailCallbacks = await db.select().from(emailsCallbacksTable).where(eq(emailsCallbacksTable.userId, userId));
 
   return { emailCallbacks };
 }
@@ -38,29 +33,21 @@ async function getUserEmailCallbacks({ userId, db }: { userId: string; db: Datab
 async function deleteUserEmailCallback({ userId, emailCallbackId, db }: { userId: string; emailCallbackId: string; db: Database }): Promise<{ deletedId?: string }> {
   const [{ deletedId } = {}] = await db
     .delete(emailsCallbacksTable)
-    .where(
-      and(
-        eq(emailsCallbacksTable.userId, userId),
-        eq(emailsCallbacksTable.id, emailCallbackId),
-      ),
-    )
+    .where(and(eq(emailsCallbacksTable.userId, userId), eq(emailsCallbacksTable.id, emailCallbackId)))
     .returning({ deletedId: emailsCallbacksTable.id });
 
   return { deletedId };
 }
 
-async function createUserEmailCallback({
-  userId,
-  emailCallback: emailCallbackToCreate,
-  db,
-}: { userId: string; emailCallback: DbInsertableEmailCallback; db: Database }) {
-  const [emailCallbacks, error] = await safely(db
-    .insert(emailsCallbacksTable)
-    .values({
-      ...emailCallbackToCreate,
-      userId,
-    })
-    .returning(),
+async function createUserEmailCallback({ userId, emailCallback: emailCallbackToCreate, db }: { userId: string; emailCallback: DbInsertableEmailCallback; db: Database }) {
+  const [emailCallbacks, error] = await safely(
+    db
+      .insert(emailsCallbacksTable)
+      .values({
+        ...emailCallbackToCreate,
+        userId,
+      })
+      .returning(),
   );
 
   if (isUniqueConstraintError({ error })) {
@@ -92,12 +79,7 @@ async function updateUserEmailCallback({
     .set({
       ...pick(emailCallbackToUpdate, ['domain', 'username', 'webhookUrl', 'webhookSecret', 'allowedOrigins', 'isEnabled']),
     })
-    .where(
-      and(
-        eq(emailsCallbacksTable.id, emailCallbackId),
-        eq(emailsCallbacksTable.userId, userId),
-      ),
-    )
+    .where(and(eq(emailsCallbacksTable.id, emailCallbackId), eq(emailsCallbacksTable.userId, userId)))
     .returning();
 
   return { emailCallback };
@@ -107,12 +89,7 @@ async function getEmailCallbackByUsernameAndDomain({ username, domain, db }: { u
   const [emailCallback] = await db
     .select()
     .from(emailsCallbacksTable)
-    .where(
-      and(
-        eq(emailsCallbacksTable.username, username),
-        eq(emailsCallbacksTable.domain, domain),
-      ),
-    );
+    .where(and(eq(emailsCallbacksTable.username, username), eq(emailsCallbacksTable.domain, domain)));
 
   return { emailCallback };
 }
@@ -121,23 +98,13 @@ async function getUserEmailCallback({ userId, emailCallbackId, db }: { userId: s
   const [emailCallback] = await db
     .select()
     .from(emailsCallbacksTable)
-    .where(
-      and(
-        eq(emailsCallbacksTable.id, emailCallbackId),
-        eq(emailsCallbacksTable.userId, userId),
-      ),
-    );
+    .where(and(eq(emailsCallbacksTable.id, emailCallbackId), eq(emailsCallbacksTable.userId, userId)));
 
   return { emailCallback };
 }
 
 async function getUserEmailCallbacksCount({ userId, db }: { userId: string; db: Database }) {
-  const [{ count: emailCallbacksCount }] = await db
-    .select({ count: count() })
-    .from(emailsCallbacksTable)
-    .where(
-      eq(emailsCallbacksTable.userId, userId),
-    );
+  const [{ count: emailCallbacksCount }] = await db.select({ count: count() }).from(emailsCallbacksTable).where(eq(emailsCallbacksTable.userId, userId));
 
   return { emailCallbacksCount };
 }

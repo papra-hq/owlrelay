@@ -32,9 +32,7 @@ describe('health check routes e2e', () => {
         const response = await app.request('/api/health');
 
         expect(response.status).to.eql(500);
-        expect(
-          await response.json(),
-        ).to.eql({
+        expect(await response.json()).to.eql({
           isDatabaseHealthy: false,
           isEverythingOk: false,
           status: 'error',

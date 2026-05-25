@@ -10,15 +10,11 @@ export function formatEmailCallbackForApi({ emailCallback }: { emailCallback: Em
   };
 }
 
-export function parseEmailAddress({
-  emailAddress,
-}: {
-  emailAddress: string;
-}): {
-    username: string;
-    domain: string;
-    extra?: string;
-  } {
+export function parseEmailAddress({ emailAddress }: { emailAddress: string }): {
+  username: string;
+  domain: string;
+  extra?: string;
+} {
   const [localPart, domain] = emailAddress.split('@');
 
   const [username, extra] = localPart.split('+');
@@ -30,35 +26,21 @@ export function parseEmailAddress({
   };
 }
 
-export function filterEmailAddressesCandidates({
-  emailAddresses,
-  allowedDomains,
-}: {
-  emailAddresses?: string[];
-  allowedDomains: string[];
-}) {
+export function filterEmailAddressesCandidates({ emailAddresses, allowedDomains }: { emailAddresses?: string[]; allowedDomains: string[] }) {
   if (!emailAddresses) {
     return {
       emailAddresses: [],
     };
   }
 
-  const filteredEmailAddresses = [...new Set(emailAddresses)]
-    .map(emailAddress => parseEmailAddress({ emailAddress }))
-    .filter(emailAddress => allowedDomains.includes(emailAddress.domain));
+  const filteredEmailAddresses = [...new Set(emailAddresses)].map(emailAddress => parseEmailAddress({ emailAddress })).filter(emailAddress => allowedDomains.includes(emailAddress.domain));
 
   return {
     emailAddresses: filteredEmailAddresses,
   };
 }
 
-export function getIsFromAllowedAddress({
-  fromAddress,
-  allowedOrigins,
-}: {
-  fromAddress?: string;
-  allowedOrigins: string[];
-}) {
+export function getIsFromAllowedAddress({ fromAddress, allowedOrigins }: { fromAddress?: string; allowedOrigins: string[] }) {
   if (!fromAddress) {
     return false;
   }
@@ -67,9 +49,7 @@ export function getIsFromAllowedAddress({
     return true;
   }
 
-  return allowedOrigins
-    .map(allowedOrigin => allowedOrigin.toLowerCase())
-    .includes(fromAddress.toLowerCase());
+  return allowedOrigins.map(allowedOrigin => allowedOrigin.toLowerCase()).includes(fromAddress.toLowerCase());
 }
 
 export function isEmailCallbackId(emailCallbackIdOrAddress: string) {

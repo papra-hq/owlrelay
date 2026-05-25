@@ -20,24 +20,21 @@ export const sessionsTable = sqliteTable(
   ],
 );
 
-export const accountsTable = sqliteTable(
-  'auth_accounts',
-  {
-    ...createPrimaryKeyField({ prefix: 'auth_acc' }),
-    ...createTimestampColumns(),
+export const accountsTable = sqliteTable('auth_accounts', {
+  ...createPrimaryKeyField({ prefix: 'auth_acc' }),
+  ...createTimestampColumns(),
 
-    userId: text('user_id').references(() => usersTable.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-    accountId: text('account_id').notNull(),
-    providerId: text('provider_id').notNull(),
-    accessToken: text('access_token'),
-    refreshToken: text('refresh_token'),
-    accessTokenExpiresAt: integer('access_token_expires_at', { mode: 'timestamp' }),
-    refreshTokenExpiresAt: integer('refresh_token_expires_at', { mode: 'timestamp' }),
-    scope: text('scope'),
-    idToken: text('id_token'),
-    password: text('password'),
-  },
-);
+  userId: text('user_id').references(() => usersTable.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+  accountId: text('account_id').notNull(),
+  providerId: text('provider_id').notNull(),
+  accessToken: text('access_token'),
+  refreshToken: text('refresh_token'),
+  accessTokenExpiresAt: integer('access_token_expires_at', { mode: 'timestamp' }),
+  refreshTokenExpiresAt: integer('refresh_token_expires_at', { mode: 'timestamp' }),
+  scope: text('scope'),
+  idToken: text('id_token'),
+  password: text('password'),
+});
 
 export const verificationsTable = sqliteTable(
   'auth_verifications',
@@ -50,7 +47,7 @@ export const verificationsTable = sqliteTable(
     expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
   },
   table => [
-  // To select verifications by identifier
+    // To select verifications by identifier
     index('auth_verifications_identifier_index').on(table.identifier),
   ],
 );

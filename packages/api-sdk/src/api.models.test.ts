@@ -28,23 +28,29 @@ describe('api models', () => {
     });
 
     test('if multiple arguments are provided, the email identifier is the one of the email id, then the address, then the username and domain', () => {
-      expect(getEmailIdentifier({
-        emailId: 'ecb_a111111',
-        emailAddress: 'foo@example.fr',
-        username: 'foo',
-        domain: 'example.fr',
-      })).to.deep.equal({ emailIdentifier: 'ecb_a111111' });
+      expect(
+        getEmailIdentifier({
+          emailId: 'ecb_a111111',
+          emailAddress: 'foo@example.fr',
+          username: 'foo',
+          domain: 'example.fr',
+        }),
+      ).to.deep.equal({ emailIdentifier: 'ecb_a111111' });
 
-      expect(getEmailIdentifier({
-        emailAddress: 'foo@example.fr',
-        username: 'foo',
-        domain: 'example.fr',
-      })).to.deep.equal({ emailIdentifier: 'foo@example.fr' });
+      expect(
+        getEmailIdentifier({
+          emailAddress: 'foo@example.fr',
+          username: 'foo',
+          domain: 'example.fr',
+        }),
+      ).to.deep.equal({ emailIdentifier: 'foo@example.fr' });
 
-      expect(getEmailIdentifier({
-        username: 'foo',
-        domain: 'example.fr',
-      })).to.deep.equal({ emailIdentifier: 'foo@example.fr' });
+      expect(
+        getEmailIdentifier({
+          username: 'foo',
+          domain: 'example.fr',
+        }),
+      ).to.deep.equal({ emailIdentifier: 'foo@example.fr' });
     });
   });
 });

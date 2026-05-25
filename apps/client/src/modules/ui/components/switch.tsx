@@ -1,8 +1,5 @@
 import type { PolymorphicProps } from '@kobalte/core/polymorphic';
-import type {
-  SwitchControlProps,
-  SwitchThumbProps,
-} from '@kobalte/core/switch';
+import type { SwitchControlProps, SwitchThumbProps } from '@kobalte/core/switch';
 import type { ParentProps, ValidComponent, VoidProps } from 'solid-js';
 import { cn } from '@/modules/shared/style/cn';
 import { Switch as SwitchPrimitive } from '@kobalte/core/switch';
@@ -16,10 +13,7 @@ export const SwitchDescription = SwitchPrimitive.Description;
 type switchControlProps<T extends ValidComponent = 'input'> = ParentProps<SwitchControlProps<T> & { class?: string }>;
 
 export function SwitchControl<T extends ValidComponent = 'input'>(props: PolymorphicProps<T, switchControlProps<T>>) {
-  const [local, rest] = splitProps(props as switchControlProps, [
-    'class',
-    'children',
-  ]);
+  const [local, rest] = splitProps(props as switchControlProps, ['class', 'children']);
 
   return (
     <>
@@ -44,10 +38,7 @@ export function SwitchThumb<T extends ValidComponent = 'div'>(props: Polymorphic
 
   return (
     <SwitchPrimitive.Thumb
-      class={cn(
-        'pointer-events-none block h-4 w-4 translate-x-0 rounded-full bg-background shadow-lg transition-transform data-[checked]:translate-x-4',
-        local.class,
-      )}
+      class={cn('pointer-events-none block h-4 w-4 translate-x-0 rounded-full bg-background shadow-lg transition-transform data-[checked]:translate-x-4', local.class)}
       {...rest}
     />
   );

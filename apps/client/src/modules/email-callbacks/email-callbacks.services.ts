@@ -13,13 +13,7 @@ export async function getEmailCallbacks() {
   };
 }
 
-export async function createEmailCallback(emailCallback: {
-  domain: string;
-  username: string;
-  allowedOrigins: string[];
-  webhookUrl: string;
-  webhookSecret?: string;
-}) {
+export async function createEmailCallback(emailCallback: { domain: string; username: string; allowedOrigins: string[]; webhookUrl: string; webhookSecret?: string }) {
   const { emailCallback: createdEmailCallback } = await apiClient<{ emailCallback: EmailCallback }>({
     path: '/api/email-callbacks',
     method: 'POST',

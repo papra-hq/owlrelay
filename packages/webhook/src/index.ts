@@ -1,12 +1,5 @@
-export {
-  signBody,
-  verifySignature,
-} from './signature';
+export { signBody, verifySignature } from './signature';
 
-export {
-  triggerWebhook,
-} from './webhook.services';
+export { triggerWebhook } from './webhook.services';
 
-export {
-  serializeEmailForWebhook,
-} from './webhooks.models';
+export { serializeEmailForWebhook } from './webhooks.models';

@@ -23,7 +23,6 @@ export function Toaster(props: Parameters<typeof Sonner>[0]) {
         error: <div class="i-tabler-alert-octagon size-5 text-red"></div>,
         loading: <div class="i-tabler-loader size-5 text-primary"></div>,
       }}
-
       {...props}
     />
   );

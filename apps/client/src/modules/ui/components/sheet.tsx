@@ -1,8 +1,4 @@
-import type {
-  DialogContentProps,
-  DialogDescriptionProps,
-  DialogTitleProps,
-} from '@kobalte/core/dialog';
+import type { DialogContentProps, DialogDescriptionProps, DialogTitleProps } from '@kobalte/core/dialog';
 import type { PolymorphicProps } from '@kobalte/core/polymorphic';
 import type { VariantProps } from 'class-variance-authority';
 import type { ComponentProps, ParentProps, ValidComponent } from 'solid-js';
@@ -33,46 +29,23 @@ export const sheetVariants = cva(
 
 type sheetContentProps<T extends ValidComponent = 'div'> = ParentProps<
   DialogContentProps<T> &
-  VariantProps<typeof sheetVariants> & {
-    class?: string;
-  }
+    VariantProps<typeof sheetVariants> & {
+      class?: string;
+    }
 >;
 
 export function SheetContent<T extends ValidComponent = 'div'>(props: PolymorphicProps<T, sheetContentProps<T>>) {
   const merge = mergeProps<sheetContentProps<T>[]>({ side: 'right' }, props);
-  const [local, rest] = splitProps(merge as sheetContentProps, [
-    'class',
-    'children',
-    'side',
-  ]);
+  const [local, rest] = splitProps(merge as sheetContentProps, ['class', 'children', 'side']);
 
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay
-        class={cn(
-          'fixed inset-0 z-50 bg-background/80 data-[expanded]:(animate-in fade-in-0) data-[closed]:(animate-out fade-out-0)',
-        )}
-        {...rest}
-      />
-      <DialogPrimitive.Content
-        class={sheetVariants({ side: local.side, class: local.class })}
-        {...rest}
-      >
+      <DialogPrimitive.Overlay class={cn('fixed inset-0 z-50 bg-background/80 data-[expanded]:(animate-in fade-in-0) data-[closed]:(animate-out fade-out-0)')} {...rest} />
+      <DialogPrimitive.Content class={sheetVariants({ side: local.side, class: local.class })} {...rest}>
         {local.children}
         <DialogPrimitive.CloseButton class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:(outline-none ring-1.5 ring-ring ring-offset-2) disabled:pointer-events-none bg-inherit transition-property-[opacity,box-shadow]">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            class="h-4 w-4"
-          >
-            <path
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M18 6L6 18M6 6l12 12"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12" />
             <title>Close</title>
           </svg>
         </DialogPrimitive.CloseButton>
@@ -88,54 +61,27 @@ type sheetTitleProps<T extends ValidComponent = 'h2'> = DialogTitleProps<T> & {
 export function SheetTitle<T extends ValidComponent = 'h2'>(props: PolymorphicProps<T, sheetTitleProps<T>>) {
   const [local, rest] = splitProps(props as sheetTitleProps, ['class']);
 
-  return (
-    <DialogPrimitive.Title
-      class={cn('text-lg font-semibold text-foreground', local.class)}
-      {...rest}
-    />
-  );
+  return <DialogPrimitive.Title class={cn('text-lg font-semibold text-foreground', local.class)} {...rest} />;
 }
 
-type sheetDescriptionProps<T extends ValidComponent = 'p'> =
-  DialogDescriptionProps<T> & {
-    class?: string;
-  };
+type sheetDescriptionProps<T extends ValidComponent = 'p'> = DialogDescriptionProps<T> & {
+  class?: string;
+};
 
 export function SheetDescription<T extends ValidComponent = 'p'>(props: PolymorphicProps<T, sheetDescriptionProps<T>>) {
   const [local, rest] = splitProps(props as sheetDescriptionProps, ['class']);
 
-  return (
-    <DialogPrimitive.Description
-      class={cn('text-sm text-muted-foreground', local.class)}
-      {...rest}
-    />
-  );
+  return <DialogPrimitive.Description class={cn('text-sm text-muted-foreground', local.class)} {...rest} />;
 }
 
 export function SheetHeader(props: ComponentProps<'div'>) {
   const [local, rest] = splitProps(props, ['class']);
 
-  return (
-    <div
-      class={cn(
-        'flex flex-col space-y-2 text-center sm:text-left',
-        local.class,
-      )}
-      {...rest}
-    />
-  );
+  return <div class={cn('flex flex-col space-y-2 text-center sm:text-left', local.class)} {...rest} />;
 }
 
 export function SheetFooter(props: ComponentProps<'div'>) {
   const [local, rest] = splitProps(props, ['class']);
 
-  return (
-    <div
-      class={cn(
-        'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
-        local.class,
-      )}
-      {...rest}
-    />
-  );
+  return <div class={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', local.class)} {...rest} />;
 }

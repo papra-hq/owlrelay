@@ -47,11 +47,7 @@ export const LanguageSwitcher: Component = () => {
             {locale.name}
           </span>
           <Show when={getLocale() !== locale.key}>
-            <span class="text-muted-foreground pl-1">
-              (
-              {languageName.of(locale.key)}
-              )
-            </span>
+            <span class="text-muted-foreground pl-1">({languageName.of(locale.key)})</span>
           </Show>
         </DropdownMenuItem>
       ))}
@@ -59,7 +55,7 @@ export const LanguageSwitcher: Component = () => {
   );
 };
 
-export const AppLayout: ParentComponent = (props) => {
+export const AppLayout: ParentComponent = props => {
   const { t } = useI18n();
 
   const query = createQuery(() => ({
@@ -71,14 +67,11 @@ export const AppLayout: ParentComponent = (props) => {
 
   return (
     <div class="flex flex-col min-h-screen">
-
       <div class="w-full h-64px bg-card border-b">
         <div class="max-w-1200px mx-auto flex flex-row items-center justify-between gap-2 h-full px-6">
           <A href="/" class="flex flex-row items-center gap-1 group">
             <div class="i-custom-owl size-6.5 group-hover:rotate-20deg transition-transform"></div>
-            <span class="text-xl font-semibold">
-              OwlRelay
-            </span>
+            <span class="text-xl font-semibold">OwlRelay</span>
           </A>
 
           <div class="flex flex-row items-center gap-2">
@@ -93,11 +86,12 @@ export const AppLayout: ParentComponent = (props) => {
             </Show>
 
             <DropdownMenu>
-              <DropdownMenuTrigger as={(props: DropdownMenuTriggerProps) => (
-                <Button variant="ghost" size="icon" {...props}>
-                  <div class="i-tabler-user size-5"></div>
-                </Button>
-              )}
+              <DropdownMenuTrigger
+                as={(props: DropdownMenuTriggerProps) => (
+                  <Button variant="ghost" size="icon" {...props}>
+                    <div class="i-tabler-user size-5"></div>
+                  </Button>
+                )}
               />
 
               <DropdownMenuContent class="w-56">
@@ -122,15 +116,12 @@ export const AppLayout: ParentComponent = (props) => {
                   </DropdownMenuSubContent>
                 </DropdownMenuSub>
               </DropdownMenuContent>
-
             </DropdownMenu>
           </div>
         </div>
       </div>
 
-      <div class="flex-1">
-        {props.children}
-      </div>
+      <div class="flex-1">{props.children}</div>
 
       {/* <div class="w-full h-64px border-t">
         <div class="max-w-1200px mx-auto flex flex-row items-center justify-between gap-2 h-full px-6">

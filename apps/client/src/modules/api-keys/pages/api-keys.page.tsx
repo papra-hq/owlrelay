@@ -46,7 +46,6 @@ export const ApiKeysPage: Component = () => {
 
   return (
     <div class="mx-auto max-w-2xl p-6 pb-32">
-
       <Button as={A} href="/" variant="outline" class="mb-4">
         <div class="i-tabler-arrow-left size-4 mr-2"></div>
         Back
@@ -66,7 +65,7 @@ export const ApiKeysPage: Component = () => {
 
       <Show
         when={query.data?.apiKeys.length}
-        fallback={(
+        fallback={
           <div class="px-6 py-16 w-full flex flex-col items-center justify-center text-muted-foreground">
             <div class="i-tabler-key size-10"></div>
             <div class="text-center mt-2">{t('api-keys.empty.title')}</div>
@@ -76,7 +75,7 @@ export const ApiKeysPage: Component = () => {
               {t('api-keys.create-api-key')}
             </Button>
           </div>
-        )}
+        }
       >
         <div class="flex flex-col gap-4 mt-6">
           <For each={query.data?.apiKeys}>
@@ -84,17 +83,11 @@ export const ApiKeysPage: Component = () => {
               <div class="flex items-center justify-between bg-card p-4 rounded-lg border">
                 <div>
                   <h2 class="font-semibold">{apiKey.name}</h2>
-                  <p class="text-muted-foreground font-mono text-xs">
-                    {`${apiKey.prefix}...`}
-                  </p>
+                  <p class="text-muted-foreground font-mono text-xs">{`${apiKey.prefix}...`}</p>
                 </div>
 
                 <div class="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => deleteKey({ apiKeyId: apiKey.id })}
-                  >
+                  <Button variant="outline" size="icon" onClick={() => deleteKey({ apiKeyId: apiKey.id })}>
                     <div class="i-tabler-trash size-4"></div>
                   </Button>
                 </div>
@@ -103,7 +96,6 @@ export const ApiKeysPage: Component = () => {
           </For>
         </div>
       </Show>
-
     </div>
   );
 };

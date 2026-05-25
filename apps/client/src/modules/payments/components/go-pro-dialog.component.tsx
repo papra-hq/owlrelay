@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@/modules/ui/components/di
 import { type Component, createSignal, type JSX } from 'solid-js';
 import { getCheckoutUrl } from '../payments.services';
 
-export const GoProDialog: Component<{ children: (props: DialogTriggerProps) => JSX.Element }> = (props) => {
+export const GoProDialog: Component<{ children: (props: DialogTriggerProps) => JSX.Element }> = props => {
   const { t } = useI18n();
   const [getIsOpen, setIsOpen] = createSignal(false);
   const [getIsLoading, setIsLoading] = createSignal(false);
@@ -39,7 +39,6 @@ export const GoProDialog: Component<{ children: (props: DialogTriggerProps) => J
       free: t('payments.plans.free.support'),
       pro: t('payments.plans.pro.support'),
     },
-
   ];
 
   return (
@@ -48,13 +47,9 @@ export const GoProDialog: Component<{ children: (props: DialogTriggerProps) => J
 
       <DialogContent class="max-w-2xl">
         <div>
-          <h2 class="text-lg font-semibold text-foreground mb-0 pb-0">
-            {t('payments.go-pro.title')}
-          </h2>
+          <h2 class="text-lg font-semibold text-foreground mb-0 pb-0">{t('payments.go-pro.title')}</h2>
 
-          <p class="text-sm text-muted-foreground mt-0 pt-0 text-sm">
-            {t('payments.go-pro.description')}
-          </p>
+          <p class="text-sm text-muted-foreground mt-0 pt-0 text-sm">{t('payments.go-pro.description')}</p>
         </div>
 
         <table class="w-full border-collapse border-spacing-0 mb-4">
@@ -62,11 +57,11 @@ export const GoProDialog: Component<{ children: (props: DialogTriggerProps) => J
             <tr class="text-sm">
               <th></th>
               <th class="px-4 py-2 text-left">
-                { t('payments.plans.free.name')}
+                {t('payments.plans.free.name')}
                 <div class="text-muted-foreground font-normal">{t('payments.plans.free.price')}</div>
               </th>
               <th class="px-4 py-2 text-left bg-muted rounded-t-lg">
-                { t('payments.plans.pro.name')}
+                {t('payments.plans.pro.name')}
                 <div class="text-muted-foreground font-normal">{t('payments.plans.pro.price')}</div>
               </th>
             </tr>

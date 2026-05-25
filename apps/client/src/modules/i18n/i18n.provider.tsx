@@ -6,7 +6,7 @@ import defaultDict from '../../locales/en.yml?flattened';
 import { locales } from './i18n.constants';
 import { createFragmentTranslator, createTranslator, findMatchingLocale } from './i18n.models';
 
-export type Locale = typeof locales[number]['key'];
+export type Locale = (typeof locales)[number]['key'];
 type Dictionary = Record<LocaleKeys, string>;
 
 const I18nContext = createContext<{
@@ -36,7 +36,7 @@ async function fetchDictionary(locale: Locale): Promise<Dictionary> {
   };
 }
 
-export const I18nProvider: ParentComponent = (props) => {
+export const I18nProvider: ParentComponent = props => {
   const browserLocale = findMatchingLocale({
     preferredLocales: navigator.languages.map(x => new Intl.Locale(x)),
     supportedLocales: locales.map(x => new Intl.Locale(x.key)),

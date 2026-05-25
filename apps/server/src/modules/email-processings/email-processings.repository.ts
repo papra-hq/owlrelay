@@ -32,21 +32,13 @@ async function getEmailProcessings({ emailCallbackId, userId, pageIndex, pageSiz
   const query = db
     .select()
     .from(emailProcessingsTable)
-    .where(
-      and(
-        eq(emailProcessingsTable.emailCallbackId, emailCallbackId),
-        eq(emailProcessingsTable.userId, userId),
-      ),
-    );
+    .where(and(eq(emailProcessingsTable.emailCallbackId, emailCallbackId), eq(emailProcessingsTable.userId, userId)));
 
-  const emailProcessings = await withPagination(
-    query.$dynamic(),
-    {
-      orderByColumn: desc(emailProcessingsTable.createdAt),
-      pageIndex,
-      pageSize,
-    },
-  );
+  const emailProcessings = await withPagination(query.$dynamic(), {
+    orderByColumn: desc(emailProcessingsTable.createdAt),
+    pageIndex,
+    pageSize,
+  });
 
   return { emailProcessings };
 }
@@ -55,33 +47,20 @@ async function countEmailProcessings({ emailCallbackId, userId, db }: { emailCal
   const [{ count: emailProcessingsCount }] = await db
     .select({ count: count() })
     .from(emailProcessingsTable)
-    .where(
-      and(
-        eq(emailProcessingsTable.emailCallbackId, emailCallbackId),
-        eq(emailProcessingsTable.userId, userId),
-      ),
-    );
+    .where(and(eq(emailProcessingsTable.emailCallbackId, emailCallbackId), eq(emailProcessingsTable.userId, userId)));
 
   return { emailProcessingsCount };
 }
 
 async function deleteOutdatedEmailProcessings({ db, now = new Date() }: { now?: Date; db: Database }) {
   const isOutdatedForPlan = ({ id, maxProcessingRetentionDays }: { id: string; maxProcessingRetentionDays: number }) =>
-    and(
-      lt(emailProcessingsTable.createdAt, subDays(now, maxProcessingRetentionDays)),
-      eq(usersTable.planId, id),
-    );
+    and(lt(emailProcessingsTable.createdAt, subDays(now, maxProcessingRetentionDays)), eq(usersTable.planId, id));
 
   const processingsToDelete = await db
     .select({ id: emailProcessingsTable.id })
     .from(emailProcessingsTable)
     .leftJoin(usersTable, eq(emailProcessingsTable.userId, usersTable.id))
-    .where(
-      or(
-        isOutdatedForPlan(PLANS.FREE),
-        isOutdatedForPlan(PLANS.PRO),
-      ),
-    );
+    .where(or(isOutdatedForPlan(PLANS.FREE), isOutdatedForPlan(PLANS.PRO)));
 
   if (processingsToDelete.length === 0) {
     return {
@@ -91,11 +70,7 @@ async function deleteOutdatedEmailProcessings({ db, now = new Date() }: { now?: 
 
   const processingIdsToDelete = processingsToDelete.map(({ id }) => id);
 
-  await db
-    .delete(emailProcessingsTable)
-    .where(
-      inArray(emailProcessingsTable.id, processingIdsToDelete),
-    );
+  await db.delete(emailProcessingsTable).where(inArray(emailProcessingsTable.id, processingIdsToDelete));
 
   return {
     deletedProcessingCount: processingIdsToDelete.length,

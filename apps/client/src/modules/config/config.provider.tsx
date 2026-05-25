@@ -22,7 +22,7 @@ export function useConfig() {
   return context;
 }
 
-export const ConfigProvider: ParentComponent = (props) => {
+export const ConfigProvider: ParentComponent = props => {
   const query = createQuery(() => ({
     queryKey: ['config'],
     queryFn: fetchPublicConfig,
@@ -52,25 +52,16 @@ export const ConfigProvider: ParentComponent = (props) => {
           description="The server seems to be unreachable, if you are self-hosting, make sure the server is running and properly configured. You may want to check the console for more information."
           icon="i-tabler-server-spark"
           class="p-6 pt-12 sm:pt-32"
-          cta={(
-            <Button
-              onClick={retry}
-              variant="outline"
-            >
+          cta={
+            <Button onClick={retry} variant="outline">
               <span class="i-tabler-refresh size-4 mr-2 text-primary" />
               Retry
             </Button>
-          )}
+          }
         />
       </Match>
 
-      <Match when={query.data?.config}>
-        {getConfig => (
-          <ConfigContext.Provider value={{ config: mergeConfigs(getConfig()) }}>
-            {props.children}
-          </ConfigContext.Provider>
-        )}
-      </Match>
+      <Match when={query.data?.config}>{getConfig => <ConfigContext.Provider value={{ config: mergeConfigs(getConfig()) }}>{props.children}</ConfigContext.Provider>}</Match>
     </Switch>
   );
 };

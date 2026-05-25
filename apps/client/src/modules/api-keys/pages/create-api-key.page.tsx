@@ -15,12 +15,7 @@ export const CreateApiKeyPage: Component = () => {
 
   const { form, Field, Form } = createForm({
     schema: v.object({
-      name: v.pipe(
-        v.string(),
-        v.trim(),
-        v.nonEmpty(t('api-keys.create.name.required')),
-        v.maxLength(128, t('api-keys.create.name.max-length')),
-      ),
+      name: v.pipe(v.string(), v.trim(), v.nonEmpty(t('api-keys.create.name.required')), v.maxLength(128, t('api-keys.create.name.max-length'))),
     }),
     onSubmit: async ({ name }) => {
       const { token } = await createApiKey({ name });
@@ -33,7 +28,6 @@ export const CreateApiKeyPage: Component = () => {
 
   return (
     <div class="mx-auto max-w-2xl pt-6 pb-32">
-
       <div class="border-b pb-4 mb-4 mx-6 pt-6 sm:pt-0 sm:mx-0">
         <Button as={A} href="/api-keys" variant="outline" class="mb-4">
           <div class="i-tabler-arrow-left size-4 mr-2"></div>
@@ -44,7 +38,6 @@ export const CreateApiKeyPage: Component = () => {
       </div>
 
       <Switch>
-
         <Match when={getCreatedApiToken()}>
           {token => (
             <div class="bg-card p-6 border rounded-lg">
@@ -54,9 +47,7 @@ export const CreateApiKeyPage: Component = () => {
               <TextFieldRoot class="mt-4 flex items-center gap-2 space-y-0">
                 <TextField value={token()} readOnly />
 
-                <CopyButton
-                  text={token()}
-                />
+                <CopyButton text={token()} />
               </TextFieldRoot>
             </div>
           )}
@@ -68,17 +59,12 @@ export const CreateApiKeyPage: Component = () => {
               <Field name="name">
                 {(field, inputProps) => (
                   <TextFieldRoot class="flex flex-col gap-1">
-                    <TextFieldLabel for="name" class="text-base font-semibold">{t('api-keys.create.name.label')}</TextFieldLabel>
+                    <TextFieldLabel for="name" class="text-base font-semibold">
+                      {t('api-keys.create.name.label')}
+                    </TextFieldLabel>
                     <TextFieldDescription>{t('api-keys.create.name.description')}</TextFieldDescription>
 
-                    <TextField
-                      {...inputProps}
-                      value={field.value}
-                      aria-invalid={Boolean(field.error)}
-                      type="text"
-                      id="name"
-                      placeholder={t('api-keys.create.name.placeholder')}
-                    />
+                    <TextField {...inputProps} value={field.value} aria-invalid={Boolean(field.error)} type="text" id="name" placeholder={t('api-keys.create.name.placeholder')} />
                     {field.error && <div class="text-red-500 text-sm">{field.error}</div>}
                   </TextFieldRoot>
                 )}
@@ -86,12 +72,7 @@ export const CreateApiKeyPage: Component = () => {
             </div>
 
             <div class="flex justify-end mt-6">
-              <Button
-                type="submit"
-                class="gap-2"
-                disabled={form.invalid || form.submitting || !form.touched}
-                isLoading={form.submitting}
-              >
+              <Button type="submit" class="gap-2" disabled={form.invalid || form.submitting || !form.touched} isLoading={form.submitting}>
                 {t('api-keys.create.submit')}
               </Button>
             </div>

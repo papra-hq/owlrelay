@@ -4,7 +4,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/module
 import { LanguageSwitcher } from '@/modules/ui/layouts/app.layout';
 import { A } from '@solidjs/router';
 
-export const AuthLayout: ParentComponent = (props) => {
+export const AuthLayout: ParentComponent = props => {
   // const themeStore = useThemeStore();
 
   return (
@@ -12,7 +12,6 @@ export const AuthLayout: ParentComponent = (props) => {
       <div class="p-6 flex justify-between items-center gap-2">
         <A href="/" class="group text-base flex gap-2 font-semibold hover:text-foreground transition">
           <div class="i-custom-owl size-6 text-primary transform group-hover:rotate-20deg transition"></div>
-
           OwlRelay
         </A>
 
@@ -36,14 +35,10 @@ export const AuthLayout: ParentComponent = (props) => {
               <LanguageSwitcher />
             </DropdownMenuContent>
           </DropdownMenu>
-
         </div>
       </div>
 
-      <div class="flex-1">
-        {props.children}
-      </div>
-
+      <div class="flex-1">{props.children}</div>
     </div>
   );
 };

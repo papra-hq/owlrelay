@@ -23,11 +23,13 @@ describe('webhooks models', () => {
         subject: 'Test subject',
         text: 'Text content',
         html: 'HTML content',
-        attachments: [{
-          content: 'Test',
-          filename: 'test.txt',
-          mimeType: 'text/plain',
-        }],
+        attachments: [
+          {
+            content: 'Test',
+            filename: 'test.txt',
+            mimeType: 'text/plain',
+          },
+        ],
       } as Email;
 
       const { body } = serializeEmailForWebhook({ email });
@@ -35,7 +37,10 @@ describe('webhooks models', () => {
       const entries = Array.from(body.entries());
       const [emailEntry, ...attachments] = entries;
 
-      expect(emailEntry).to.eql(['email', '{"from":{"address":"from@example.com","name":"John Doe"},"to":[{"address":"jane@example.com","name":"Jane Doe"},{"address":"jack@example.com","name":"Jack Doe"}],"subject":"Test subject","text":"Text content","html":"HTML content"}']);
+      expect(emailEntry).to.eql([
+        'email',
+        '{"from":{"address":"from@example.com","name":"John Doe"},"to":[{"address":"jane@example.com","name":"Jane Doe"},{"address":"jack@example.com","name":"Jack Doe"}],"subject":"Test subject","text":"Text content","html":"HTML content"}',
+      ]);
 
       expect(attachments).to.have.length(1);
 

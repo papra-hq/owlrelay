@@ -8,12 +8,14 @@ describe('email-callbacks repository', () => {
     test('the tuple domain/username must be unique regardless of the user, an error is raised if it already exists', async () => {
       const { db } = await createInMemoryDatabase({
         users: [{ id: 'user-1', email: 'foo@example.fr' }],
-        emailsCallbacks: [{
-          userId: 'user-1',
-          username: 'foo',
-          domain: 'example.fr',
-          webhookUrl: 'https://example.fr/webhook',
-        }],
+        emailsCallbacks: [
+          {
+            userId: 'user-1',
+            username: 'foo',
+            domain: 'example.fr',
+            webhookUrl: 'https://example.fr/webhook',
+          },
+        ],
       });
 
       const emailCallbacksRepository = createEmailCallbacksRepository({ db });

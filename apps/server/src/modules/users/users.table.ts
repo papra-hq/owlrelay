@@ -15,7 +15,5 @@ export const usersTable = sqliteTable(
     customerId: text('customer_id').unique(),
     planId: text('plan_id').notNull().default(PLANS.FREE.id),
   },
-  table => [
-    index('users_email_index').on(table.email),
-  ],
+  table => [index('users_email_index').on(table.email)],
 );

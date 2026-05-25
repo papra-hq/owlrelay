@@ -10,7 +10,5 @@ export const CheckoutCancelPage: Component = () => {
     });
   });
 
-  return (
-    <Navigate href="/" />
-  );
+  return <Navigate href="/" />;
 };

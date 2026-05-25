@@ -23,7 +23,6 @@ export const CreateEmailCallbackPage: Component = () => {
   return (
     <div class="sm:p-6 max-w-2xl mx-auto pb-30">
       <Switch>
-
         <Match when={getCreatedEmailCallback()}>
           {getEmailCallback => (
             <div class="p-6 mx-auto max-w-lg text-center">
@@ -31,27 +30,19 @@ export const CreateEmailCallbackPage: Component = () => {
 
               <h1 class="text-xl font-bold mb-2">{t('email-callbacks.created.title')}</h1>
 
-              <p class="text-sm text-muted-foreground text-pretty mb-4">
-                {t('email-callbacks.created.description')}
-              </p>
+              <p class="text-sm text-muted-foreground text-pretty mb-4">{t('email-callbacks.created.description')}</p>
 
               <TextFieldRoot>
                 <TextField value={formatEmailAddress(getEmailCallback())} class="text-muted-foreground text-center w-full" />
               </TextFieldRoot>
 
               <div class="flex gap-2 mt-4 flex-col sm:flex-row w-full justify-center">
-
                 <Button as={A} href="/" variant="outline" class="gap-2 flex-1">
                   <div class="i-tabler-arrow-left size-4"></div>
                   {t('email-callbacks.created.back-to-emails')}
                 </Button>
 
-                <CopyButton
-                  class="flex-1"
-                  text={formatEmailAddress(getEmailCallback())}
-                  label={t('email-callbacks.created.copy-email-address')}
-                />
-
+                <CopyButton class="flex-1" text={formatEmailAddress(getEmailCallback())} label={t('email-callbacks.created.copy-email-address')} />
               </div>
             </div>
           )}
@@ -60,17 +51,12 @@ export const CreateEmailCallbackPage: Component = () => {
         <Match when={!getCreatedEmailCallback()}>
           <div class="border-b pb-4 mb-4 mx-6 pt-6 sm:pt-0 sm:mx-0">
             <h1 class="text-xl font-bold">New email</h1>
-
           </div>
 
           <EmailCallbackForm
             onSubmit={handleCreateEmailCallback}
             submitButton={({ form }) => (
-              <Button
-                type="submit"
-                disabled={form.submitting}
-                isLoading={form.submitting}
-              >
+              <Button type="submit" disabled={form.submitting} isLoading={form.submitting}>
                 {t('email-callbacks.form.create-email')}
               </Button>
             )}

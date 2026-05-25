@@ -244,7 +244,7 @@ export function getEmailProvider({ email }: { email?: string }) {
   return { provider };
 }
 
-export const OpenEmailProvider: Component<{ email?: string } & ComponentProps<typeof Button>> = (props) => {
+export const OpenEmailProvider: Component<{ email?: string } & ComponentProps<typeof Button>> = props => {
   const [local, rest] = splitProps(props, ['email', 'class']);
 
   const { provider } = getEmailProvider({ email: local.email });
@@ -256,9 +256,7 @@ export const OpenEmailProvider: Component<{ email?: string } & ComponentProps<ty
   return (
     <Button as="a" href={provider.url} target="_blank" rel="noopener noreferrer" class={cn('w-full', local.class)} {...rest}>
       <div class="i-tabler-external-link mr-2 size-4" />
-      Open
-      {' '}
-      {provider.name}
+      Open {provider.name}
     </Button>
   );
 };

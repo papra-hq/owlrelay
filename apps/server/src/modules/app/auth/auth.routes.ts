@@ -1,7 +1,7 @@
 import type { ServerInstance } from '../server.types';
 
 export function registerAuthRoutes({ app }: { app: ServerInstance }) {
-  app.on(['POST', 'GET'], '/api/auth/*', (context) => {
+  app.on(['POST', 'GET'], '/api/auth/*', context => {
     const auth = context.get('auth');
 
     return auth.handler(context.req.raw);

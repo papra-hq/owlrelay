@@ -4,12 +4,7 @@ import { createTooManyApiKeysError } from './api-keys.errors';
 import { getApiKeyHash, getApiKeyUiPrefix } from './api-keys.models';
 import { generateApiToken } from './api-keys.services';
 
-export async function createApiKey({ userId, name, apiKeysRepository, config }: {
-  userId: string;
-  name: string;
-  apiKeysRepository: ApiKeysRepository;
-  config: Config;
-}) {
+export async function createApiKey({ userId, name, apiKeysRepository, config }: { userId: string; name: string; apiKeysRepository: ApiKeysRepository; config: Config }) {
   const { apiKeysCount } = await apiKeysRepository.countUserApiKeys({ userId });
 
   if (apiKeysCount >= config.apiKeys.maxApiKeysPerUser) {

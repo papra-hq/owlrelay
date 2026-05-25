@@ -9,16 +9,18 @@ import { deleteEmailCallback, resolveUserEmailCallbackId } from './email-callbac
 describe('email-callbacks usecases', () => {
   describe('deleteEmailCallback', () => {
     describe('email callbacks can be delete either by id or by address', () => {
-      test('it\'s possible to delete an email callback by id', async () => {
+      test("it's possible to delete an email callback by id", async () => {
         const { db } = await createInMemoryDatabase({
           users: [{ id: 'user-1', email: 'foo@example.fr' }],
-          emailsCallbacks: [{
-            id: 'ecb_a111111', // should be a valid email callback id format
-            userId: 'user-1',
-            username: 'bar',
-            domain: 'callback.email',
-            webhookUrl: 'https://example.fr/webhook',
-          }],
+          emailsCallbacks: [
+            {
+              id: 'ecb_a111111', // should be a valid email callback id format
+              userId: 'user-1',
+              username: 'bar',
+              domain: 'callback.email',
+              webhookUrl: 'https://example.fr/webhook',
+            },
+          ],
         });
 
         const emailCallbacksRepository = createEmailCallbacksRepository({ db });
@@ -30,28 +32,28 @@ describe('email-callbacks usecases', () => {
         expect(emailCallbacks).toEqual([]);
       });
 
-      test('it\'s not possible to delete an email callback by id that does not exist', async () => {
+      test("it's not possible to delete an email callback by id that does not exist", async () => {
         const { db } = await createInMemoryDatabase({
           users: [{ id: 'user-1', email: 'foo@example.fr' }],
         });
 
         const emailCallbacksRepository = createEmailCallbacksRepository({ db });
 
-        await expect(
-          deleteEmailCallback({ userId: 'user-1', emailCallbackIdOrAddress: 'ecb_a111111', emailCallbacksRepository }),
-        ).rejects.toThrow(createEmailCallbackNotFoundError());
+        await expect(deleteEmailCallback({ userId: 'user-1', emailCallbackIdOrAddress: 'ecb_a111111', emailCallbacksRepository })).rejects.toThrow(createEmailCallbackNotFoundError());
       });
 
-      test('it\'s possible to delete an email callback by address', async () => {
+      test("it's possible to delete an email callback by address", async () => {
         const { db } = await createInMemoryDatabase({
           users: [{ id: 'user-1', email: 'foo@example.fr' }],
-          emailsCallbacks: [{
-            id: 'ecb_a111111', // should be a valid email callback id format
-            userId: 'user-1',
-            username: 'bar',
-            domain: 'callback.email',
-            webhookUrl: 'https://example.fr/webhook',
-          }],
+          emailsCallbacks: [
+            {
+              id: 'ecb_a111111', // should be a valid email callback id format
+              userId: 'user-1',
+              username: 'bar',
+              domain: 'callback.email',
+              webhookUrl: 'https://example.fr/webhook',
+            },
+          ],
         });
 
         const emailCallbacksRepository = createEmailCallbacksRepository({ db });
@@ -73,26 +75,26 @@ describe('email-callbacks usecases', () => {
         ).rejects.toThrow(createInvalidEmailCallbackAddressError());
       });
 
-      test('it\'s not possible to delete an email callback of another user', async () => {
+      test("it's not possible to delete an email callback of another user", async () => {
         const { db } = await createInMemoryDatabase({
           users: [
             { id: 'user-1', email: 'foo@example.fr' },
             { id: 'user-2', email: 'bar@example.fr' },
           ],
-          emailsCallbacks: [{
-            id: 'ecb_a111111', // should be a valid email callback id format
-            userId: 'user-1',
-            username: 'bar',
-            domain: 'callback.email',
-            webhookUrl: 'https://example.fr/webhook',
-          }],
+          emailsCallbacks: [
+            {
+              id: 'ecb_a111111', // should be a valid email callback id format
+              userId: 'user-1',
+              username: 'bar',
+              domain: 'callback.email',
+              webhookUrl: 'https://example.fr/webhook',
+            },
+          ],
         });
 
         const emailCallbacksRepository = createEmailCallbacksRepository({ db });
 
-        await expect(
-          deleteEmailCallback({ userId: 'user-2', emailCallbackIdOrAddress: 'bar@callback.email', emailCallbacksRepository }),
-        ).rejects.toThrow(createEmailCallbackNotFoundError());
+        await expect(deleteEmailCallback({ userId: 'user-2', emailCallbackIdOrAddress: 'bar@callback.email', emailCallbacksRepository })).rejects.toThrow(createEmailCallbackNotFoundError());
       });
     });
   });
@@ -101,13 +103,15 @@ describe('email-callbacks usecases', () => {
     test('when given a valid email callback id, it resolves to the email callback id', async () => {
       const { db } = await createInMemoryDatabase({
         users: [{ id: 'user-1', email: 'foo@example.fr' }],
-        emailsCallbacks: [{
-          id: 'ecb_a111111',
-          userId: 'user-1',
-          username: 'bar',
-          domain: 'callback.email',
-          webhookUrl: 'https://example.fr/webhook',
-        }],
+        emailsCallbacks: [
+          {
+            id: 'ecb_a111111',
+            userId: 'user-1',
+            username: 'bar',
+            domain: 'callback.email',
+            webhookUrl: 'https://example.fr/webhook',
+          },
+        ],
       });
 
       const emailCallbacksRepository = createEmailCallbacksRepository({ db });
@@ -124,13 +128,15 @@ describe('email-callbacks usecases', () => {
     test('when given an email address, it resolves to the matching email callback id', async () => {
       const { db } = await createInMemoryDatabase({
         users: [{ id: 'user-1', email: 'foo@example.fr' }],
-        emailsCallbacks: [{
-          id: 'ecb_a111111',
-          userId: 'user-1',
-          username: 'bar',
-          domain: 'callback.email',
-          webhookUrl: 'https://example.fr/webhook',
-        }],
+        emailsCallbacks: [
+          {
+            id: 'ecb_a111111',
+            userId: 'user-1',
+            username: 'bar',
+            domain: 'callback.email',
+            webhookUrl: 'https://example.fr/webhook',
+          },
+        ],
       });
 
       const emailCallbacksRepository = createEmailCallbacksRepository({ db });
@@ -192,13 +198,15 @@ describe('email-callbacks usecases', () => {
           { id: 'user-1', email: 'foo@example.fr' },
           { id: 'user-2', email: 'bar@example.fr' },
         ],
-        emailsCallbacks: [{
-          id: 'ecb_a111111',
-          userId: 'user-1',
-          username: 'bar',
-          domain: 'callback.email',
-          webhookUrl: 'https://example.fr/webhook',
-        }],
+        emailsCallbacks: [
+          {
+            id: 'ecb_a111111',
+            userId: 'user-1',
+            username: 'bar',
+            domain: 'callback.email',
+            webhookUrl: 'https://example.fr/webhook',
+          },
+        ],
       });
 
       const emailCallbacksRepository = createEmailCallbacksRepository({ db });
@@ -218,13 +226,15 @@ describe('email-callbacks usecases', () => {
           { id: 'user-1', email: 'foo@example.fr' },
           { id: 'user-2', email: 'bar@example.fr' },
         ],
-        emailsCallbacks: [{
-          id: 'ecb_a111111',
-          userId: 'user-1',
-          username: 'bar',
-          domain: 'callback.email',
-          webhookUrl: 'https://example.fr/webhook',
-        }],
+        emailsCallbacks: [
+          {
+            id: 'ecb_a111111',
+            userId: 'user-1',
+            username: 'bar',
+            domain: 'callback.email',
+            webhookUrl: 'https://example.fr/webhook',
+          },
+        ],
       });
 
       const emailCallbacksRepository = createEmailCallbacksRepository({ db });

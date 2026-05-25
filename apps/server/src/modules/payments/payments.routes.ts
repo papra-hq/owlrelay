@@ -35,13 +35,13 @@ async function setupCreateCheckoutSessionRoute({ app }: { app: ServerInstance })
         planId: z.enum([PLANS.PRO.id]),
       }),
     ),
-    async (context) => {
+    async context => {
       const { config } = getConfig({ context });
       const { db } = getDb({ context });
       const { userId } = getUser({ context });
 
       const usersRepository = createUsersRepository({ db });
-      const plansRepository = createPlansRepository ({ config });
+      const plansRepository = createPlansRepository({ config });
       const paymentServices = createPaymentServices({ config });
 
       const { planId } = context.req.valid('json');
@@ -67,7 +67,7 @@ async function setupCreateCheckoutSessionRoute({ app }: { app: ServerInstance })
 }
 
 function setupStripeWebhookRoute({ app }: { app: ServerInstance }) {
-  app.post('/api/payments/webhook', async (context) => {
+  app.post('/api/payments/webhook', async context => {
     const { config } = getConfig({ context });
     const signature = getHeader({ context, name: 'stripe-signature' });
     const payload = await context.req.text();
@@ -83,10 +83,13 @@ function setupStripeWebhookRoute({ app }: { app: ServerInstance }) {
 
     const { event } = await paymentServices.parseWebhookEvent({ payload, secret: config.stripe.webhookSecret, signature });
 
-    logger.info({
-      event: pick(event, ['id', 'type']),
-      customerId: get(event, 'data.object.customer'),
-    }, 'Stripe webhook received');
+    logger.info(
+      {
+        event: pick(event, ['id', 'type']),
+        customerId: get(event, 'data.object.customer'),
+      },
+      'Stripe webhook received',
+    );
 
     await handleStripeWebhookEvent({
       event,
@@ -100,7 +103,7 @@ function setupStripeWebhookRoute({ app }: { app: ServerInstance }) {
 }
 
 function setupGetCustomerPortalRoute({ app }: { app: ServerInstance }) {
-  app.get('/api/payments/customer-portal', async (context) => {
+  app.get('/api/payments/customer-portal', async context => {
     const { db } = getDb({ context });
     const { config } = getConfig({ context });
     const { userId } = getUser({ context });
@@ -117,7 +120,7 @@ function setupGetCustomerPortalRoute({ app }: { app: ServerInstance }) {
 }
 
 function setupCheckCheckoutSessionRoute({ app }: { app: ServerInstance }) {
-  app.get('/api/payments/checkout-session/:sessionId', async (context) => {
+  app.get('/api/payments/checkout-session/:sessionId', async context => {
     const { config } = getConfig({ context });
     const sessionId = context.req.param('sessionId');
 

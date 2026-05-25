@@ -5,15 +5,7 @@ import type { PaymentServices } from './payments.services';
 import { get } from 'lodash-es';
 import { PLANS } from '../plans/plans.constants';
 
-export async function getOrCreateCustomerId({
-  userId,
-  paymentServices,
-  usersRepository,
-}: {
-  userId: string;
-  paymentServices: PaymentServices;
-  usersRepository: UsersRepository;
-}) {
+export async function getOrCreateCustomerId({ userId, paymentServices, usersRepository }: { userId: string; paymentServices: PaymentServices; usersRepository: UsersRepository }) {
   const { user } = await usersRepository.getUserByIdOrThrow({ userId });
 
   if (user.customerId) {

@@ -2,17 +2,11 @@ import posthog from 'posthog-js';
 import { buildTimeConfig, isDev } from '../config/config';
 
 type TrackingServices = {
-  capture: (args: {
-    event: string;
-    properties?: Record<string, unknown>;
-  }) => void;
+  capture: (args: { event: string; properties?: Record<string, unknown> }) => void;
 
   reset: () => void;
 
-  identify: (args: {
-    userId: string;
-    email: string;
-  }) => void;
+  identify: (args: { userId: string; email: string }) => void;
 };
 
 const dummyTrackingServices: TrackingServices = {
@@ -38,13 +32,10 @@ function createTrackingServices(): TrackingServices {
     return dummyTrackingServices;
   }
 
-  posthog.init(
-    apiKey,
-    {
-      api_host: host,
-      capture_pageview: false,
-    },
-  );
+  posthog.init(apiKey, {
+    api_host: host,
+    capture_pageview: false,
+  });
 
   return {
     capture: ({ event, properties }) => {

@@ -25,7 +25,7 @@ export async function registerEmailCallbacksPrivateRoutes({ app }: { app: Server
 }
 
 function setupGetEmailCallbacksRoute({ app }: { app: ServerInstance }) {
-  app.get('/api/email-callbacks', async (context) => {
+  app.get('/api/email-callbacks', async context => {
     const { userId } = getUser({ context });
     const { db } = getDb({ context });
 
@@ -48,15 +48,21 @@ function setupCreateEmailCallbackRoute({ app }: { app: ServerInstance }) {
       const { availableDomains } = config.emailCallbacks;
 
       return z.object({
-        domain: z.enum(availableDomains as [string, ...string[]]).optional().default(availableDomains[0]),
-        username: z.string().regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i).min(3).max(32),
+        domain: z
+          .enum(availableDomains as [string, ...string[]])
+          .optional()
+          .default(availableDomains[0]),
+        username: z
+          .string()
+          .regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i)
+          .min(3)
+          .max(32),
         webhookUrl: z.url(),
         webhookSecret: z.string().min(16).max(128).optional(),
         allowedOrigins: z.array(permissiveEmailSchema).optional().default([]),
       });
-    },
-    ),
-    async (context) => {
+    }),
+    async context => {
       const { config } = getConfig({ context });
       const { userId } = getUser({ context });
       const { eventsServices } = getEventsServices({ context });
@@ -93,7 +99,7 @@ function setupDeleteEmailCallbackRoute({ app }: { app: ServerInstance }) {
         emailCallbackIdOrAddress: emailCallbackIdOrAddressSchema,
       }),
     ),
-    async (context) => {
+    async context => {
       const { emailCallbackIdOrAddress } = context.req.valid('param');
       const { userId } = getUser({ context });
       const { db } = getDb({ context });
@@ -122,13 +128,18 @@ function setupUpdateEmailCallbackRoute({ app }: { app: ServerInstance }) {
       return z.object({
         isEnabled: z.boolean().optional(),
         domain: z.enum(availableDomains as [string, ...string[]]).optional(),
-        username: z.string().regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i).min(3).max(32).optional(),
+        username: z
+          .string()
+          .regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i)
+          .min(3)
+          .max(32)
+          .optional(),
         allowedOrigins: z.array(permissiveEmailSchema).optional().default([]),
         webhookUrl: z.url().optional(),
         webhookSecret: z.string().min(16).max(128).optional(),
       });
     }),
-    async (context) => {
+    async context => {
       const { emailCallbackIdOrAddress } = context.req.valid('param');
       const { userId } = getUser({ context });
       const { db } = getDb({ context });
@@ -170,7 +181,7 @@ function setupGetEmailCallbackRoute({ app }: { app: ServerInstance }) {
         emailCallbackId: emailCallbackIdSchema,
       }),
     ),
-    async (context) => {
+    async context => {
       const { emailCallbackId } = context.req.valid('param');
       const { userId } = getUser({ context });
       const { db } = getDb({ context });
@@ -200,7 +211,7 @@ function setupGetEmailProcessingsRoute({ app }: { app: ServerInstance }) {
         pageSize: z.coerce.number().min(1).max(100).int().optional().default(100),
       }),
     ),
-    async (context) => {
+    async context => {
       const { emailCallbackId } = context.req.valid('param');
       const { userId } = getUser({ context });
       const { db } = getDb({ context });

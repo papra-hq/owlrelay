@@ -83,10 +83,7 @@
       "indexes": {
         "emails_callbacks_domain_username_index": {
           "name": "emails_callbacks_domain_username_index",
-          "columns": [
-            "domain",
-            "username"
-          ],
+          "columns": ["domain", "username"],
           "isUnique": true
         }
       },
@@ -95,12 +92,8 @@
           "name": "emails_callbacks_user_id_users_id_fk",
           "tableFrom": "emails_callbacks",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -193,10 +186,7 @@
       "indexes": {
         "email_processings_created_at_emailCallbackId_index": {
           "name": "email_processings_created_at_emailCallbackId_index",
-          "columns": [
-            "created_at",
-            "email_callback_id"
-          ],
+          "columns": ["created_at", "email_callback_id"],
           "isUnique": false
         }
       },
@@ -205,12 +195,8 @@
           "name": "email_processings_email_callback_id_emails_callbacks_id_fk",
           "tableFrom": "email_processings",
           "tableTo": "emails_callbacks",
-          "columnsFrom": [
-            "email_callback_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["email_callback_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
@@ -218,12 +204,8 @@
           "name": "email_processings_user_id_users_id_fk",
           "tableFrom": "email_processings",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -304,23 +286,17 @@
       "indexes": {
         "users_email_unique": {
           "name": "users_email_unique",
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": true
         },
         "users_customer_id_unique": {
           "name": "users_customer_id_unique",
-          "columns": [
-            "customer_id"
-          ],
+          "columns": ["customer_id"],
           "isUnique": true
         },
         "users_email_index": {
           "name": "users_email_index",
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": false
         }
       },
@@ -430,12 +406,8 @@
           "name": "auth_accounts_user_id_users_id_fk",
           "tableFrom": "auth_accounts",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -507,9 +479,7 @@
       "indexes": {
         "auth_sessions_token_index": {
           "name": "auth_sessions_token_index",
-          "columns": [
-            "token"
-          ],
+          "columns": ["token"],
           "isUnique": false
         }
       },
@@ -518,12 +488,8 @@
           "name": "auth_sessions_user_id_users_id_fk",
           "tableFrom": "auth_sessions",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "cascade"
         }
@@ -581,9 +547,7 @@
       "indexes": {
         "auth_verifications_identifier_index": {
           "name": "auth_verifications_identifier_index",
-          "columns": [
-            "identifier"
-          ],
+          "columns": ["identifier"],
           "isUnique": false
         }
       },

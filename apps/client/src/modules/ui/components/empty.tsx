@@ -1,12 +1,14 @@
 import { cn } from '@/modules/shared/style/cn';
 import { type Component, type ComponentProps, type JSX, splitProps } from 'solid-js';
 
-export const EmptyState: Component<{
-  title: JSX.Element;
-  icon: string;
-  description: JSX.Element;
-  cta?: JSX.Element;
-} & ComponentProps<'div'>> = (props) => {
+export const EmptyState: Component<
+  {
+    title: JSX.Element;
+    icon: string;
+    description: JSX.Element;
+    cta?: JSX.Element;
+  } & ComponentProps<'div'>
+> = props => {
   const [local, rest] = splitProps(props, ['title', 'icon', 'description', 'cta', 'class']);
 
   return (

@@ -32,16 +32,8 @@ export const EmailLoginForm: Component = () => {
       }
     },
     schema: v.object({
-      email: v.pipe(
-        v.string(),
-        v.trim(),
-        v.nonEmpty('Please enter your email address'),
-        v.email('This is not a valid email address'),
-      ),
-      password: v.pipe(
-        v.string('Password is required'),
-        v.nonEmpty('Please enter your password'),
-      ),
+      email: v.pipe(v.string(), v.trim(), v.nonEmpty('Please enter your email address'), v.email('This is not a valid email address')),
+      password: v.pipe(v.string('Password is required'), v.nonEmpty('Please enter your password')),
       rememberMe: v.boolean(),
     }),
     initialValues: {
@@ -77,9 +69,7 @@ export const EmailLoginForm: Component = () => {
           {(field, inputProps) => (
             <Checkbox class="flex items-center gap-2" defaultChecked={field.value}>
               <CheckboxControl inputProps={inputProps} />
-              <CheckboxLabel class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Remember me
-              </CheckboxLabel>
+              <CheckboxLabel class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Remember me</CheckboxLabel>
             </Checkbox>
           )}
         </Field>
@@ -89,10 +79,11 @@ export const EmailLoginForm: Component = () => {
         </Button>
       </div>
 
-      <Button type="submit" class="w-full" isLoading={form.submitting}>Login</Button>
+      <Button type="submit" class="w-full" isLoading={form.submitting}>
+        Login
+      </Button>
 
       <div class="text-red-500 text-sm mt-4">{form.response.message}</div>
-
     </Form>
   );
 };
@@ -116,14 +107,14 @@ export const LoginPage: Component = () => {
           <h1 class="text-xl font-bold">{t('auth.login.title')}</h1>
           <p class="text-muted-foreground mt-1 mb-4">{t('auth.login.description')}</p>
 
-          {getShowEmailLogin() || !getHasSsoProviders()
-            ? <EmailLoginForm />
-            : (
-                <Button onClick={() => setShowEmailLogin(true)} class="w-full">
-                  <div class="i-tabler-mail mr-2 size-4.5" />
-                  {t('auth.login.login-with-provider', { provider: 'Email' })}
-                </Button>
-              )}
+          {getShowEmailLogin() || !getHasSsoProviders() ? (
+            <EmailLoginForm />
+          ) : (
+            <Button onClick={() => setShowEmailLogin(true)} class="w-full">
+              <div class="i-tabler-mail mr-2 size-4.5" />
+              {t('auth.login.login-with-provider', { provider: 'Email' })}
+            </Button>
+          )}
 
           <Show when={getHasSsoProviders()}>
             <Separator class="my-4" />
@@ -131,20 +122,14 @@ export const LoginPage: Component = () => {
             <div class="flex flex-col gap-2">
               <For each={getEnabledSsoProviderConfigs({ config })}>
                 {provider => (
-                  <SsoProviderButton
-                    name={provider.name}
-                    icon={provider.icon}
-                    onClick={() => loginWithProvider(provider)}
-                    label={t('auth.login.login-with-provider', { provider: provider.name })}
-                  />
+                  <SsoProviderButton name={provider.name} icon={provider.icon} onClick={() => loginWithProvider(provider)} label={t('auth.login.login-with-provider', { provider: provider.name })} />
                 )}
               </For>
             </div>
           </Show>
 
           <p class="text-muted-foreground mt-4">
-            {t('auth.login.no-account')}
-            {' '}
+            {t('auth.login.no-account')}{' '}
             <Button variant="link" as={A} class="inline px-0" href="/register">
               {t('auth.login.register')}
             </Button>
