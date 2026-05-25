@@ -8,7 +8,7 @@ export const NotFoundPage: Component = () => {
       <div class="flex items-center flex-row sm:gap-24">
         <div class="max-w-350px">
           <h1 class="text-xl mr-4 py-2">404 - Not Found</h1>
-          <p class="text-muted-foreground">Sorry, the page you are looking for does seem to exist. Please check the URL and try again.</p>
+          <p class="text-muted-foreground">Sorry, the page you are looking for does not seem to exist. Please check the URL and try again.</p>
           <Button as={A} href="/" class="mt-4" variant="default">
             <div class="i-tabler-arrow-left mr-2"></div>
             Go back to home
