@@ -3,7 +3,7 @@ import { EMAIL_PROCESSING_ERRORS, EMAIL_PROCESSING_STATUS } from '../modules/ema
 import { emailProcessingsTable } from '../modules/email-processings/email-processings.table';
 import { runScript } from './commons/run-script';
 
-runScript({ scriptName: 'migrate-up' }, async ({ db }) => {
+runScript({ scriptName: 'seed-processings' }, async ({ db }) => {
   const emailCallbacks = await db.select().from(emailsCallbacksTable);
 
   for (const emailCallback of emailCallbacks) {
