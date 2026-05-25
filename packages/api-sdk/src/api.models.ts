@@ -1,3 +1,5 @@
+import type { OwlRelayEmailIdentifier } from './api.types';
+
 export function coerceDate<T extends { createdAt: string; updatedAt: string }>(obj: T): T & { createdAt: Date; updatedAt: Date } {
   return {
     ...obj,
@@ -6,7 +8,7 @@ export function coerceDate<T extends { createdAt: string; updatedAt: string }>(o
   } as T & { createdAt: Date; updatedAt: Date };
 }
 
-export function getEmailIdentifier(args: { emailId: string } | { emailAddress: string } | { username: string; domain: string }) {
+export function getEmailIdentifier(args: OwlRelayEmailIdentifier) {
   if ('emailId' in args) {
     return { emailIdentifier: args.emailId };
   }

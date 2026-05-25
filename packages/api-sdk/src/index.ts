@@ -1,45 +1,18 @@
 import { createApiClient } from './api';
 import { coerceDate, getEmailIdentifier } from './api.models';
+import type { AsDto, OwlRelayEmail, OwlRelayEmailIdentifier, OwlRelayEmailProcessing, OwlRelayEmailUpdate } from './api.types';
 
 export const OWLRELAY_API_BASE_URL = 'https://api.owlrelay.email';
-
-type AsDto<T> = {
-  [K in keyof T]: T[K] extends Date ? string : T[K];
-};
-
-export type OwlRelayEmail = {
-  id: string;
-  domain: string;
-  username: string;
-  webhookUrl: string;
-  webhookSecret: string;
-  isEnabled: boolean;
-  allowedOrigins: string[];
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-export type OwlRelayEmailProcessing = {
-  id: string;
-  emailId: string;
-  status: string;
-  error?: string;
-  fromAddress: string;
-  subject: string;
-  webhookUrl?: string;
-  webhookResponseStatusCode?: number;
-
-  createdAt: Date;
-  updatedAt: Date;
-};
 
 export function createClient({ apiKey, baseApiUrl = OWLRELAY_API_BASE_URL }: { apiKey: string; baseApiUrl?: string }) {
   const { apiClient } = createApiClient({ apiKey, baseApiUrl });
 
-  const updateEmail = async ({ emailId, ...body }: { emailId: string } & Partial<Omit<OwlRelayEmail, 'id' | 'createdAt' | 'updatedAt'>>): Promise<OwlRelayEmail> => {
-    const { emailCallback } = await apiClient<{ emailCallback: AsDto<OwlRelayEmail> }>(`/api/email-callbacks/${emailId}`, {
+  const updateEmail = async (identifier: OwlRelayEmailIdentifier, update: OwlRelayEmailUpdate): Promise<OwlRelayEmail> => {
+    const { emailIdentifier } = getEmailIdentifier(identifier);
+
+    const { emailCallback } = await apiClient<{ emailCallback: AsDto<OwlRelayEmail> }>(`/api/email-callbacks/${emailIdentifier}`, {
       method: 'PUT',
-      body,
+      body: update,
     });
 
     return coerceDate(emailCallback);
@@ -48,12 +21,12 @@ export function createClient({ apiKey, baseApiUrl = OWLRELAY_API_BASE_URL }: { a
   return {
     updateEmail,
 
-    enableEmail: async ({ emailId }: { emailId: string }) => {
-      return updateEmail({ emailId, isEnabled: true });
+    enableEmail: async (identifier: OwlRelayEmailIdentifier) => {
+      return updateEmail(identifier, { isEnabled: true });
     },
 
-    disableEmail: async ({ emailId }: { emailId: string }) => {
-      return updateEmail({ emailId, isEnabled: false });
+    disableEmail: async (identifier: OwlRelayEmailIdentifier) => {
+      return updateEmail(identifier, { isEnabled: false });
     },
 
     getEmails: async (): Promise<OwlRelayEmail[]> => {
@@ -73,8 +46,8 @@ export function createClient({ apiKey, baseApiUrl = OWLRELAY_API_BASE_URL }: { a
       return coerceDate(emailCallback);
     },
 
-    deleteEmail: async (args: { emailId: string } | { emailAddress: string } | { username: string; domain: string }) => {
-      const { emailIdentifier } = getEmailIdentifier(args);
+    deleteEmail: async (identifier: OwlRelayEmailIdentifier) => {
+      const { emailIdentifier } = getEmailIdentifier(identifier);
 
       await apiClient(`/api/email-callbacks/${emailIdentifier}`, { method: 'DELETE' });
     },
