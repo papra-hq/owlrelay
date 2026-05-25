@@ -23,16 +23,14 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
-    }
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "unbuild",
+    "build": "tsdown",
+    "build:watch": "tsdown --watch",
     "test": "pnpm run test:unit",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest watch",
@@ -48,9 +46,9 @@
     "@vitest/coverage-v8": "^2.0.5",
     "bumpp": "^9.8.1",
     "dotenv": "^16.4.5",
+    "tsdown": "catalog:",
     "tsx": "^4.17.0",
     "typescript": "^5.7.3",
-    "unbuild": "^2.0.0",
     "vitest": "catalog:"
   },
   "engines": {
