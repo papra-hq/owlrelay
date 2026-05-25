@@ -1,15 +1,23 @@
 {
   "name": "@owlrelay/root",
   "version": "0.0.0",
-  "packageManager": "pnpm@11.3.0",
   "description": "Email to http relay monorepo root",
-  "author": "Corentin Thomasset <corentinth@proton.me> (https://corentin.tech)",
-  "license": "AGPL-3.0-or-later",
   "keywords": [],
+  "license": "AGPL-3.0-or-later",
+  "author": "Corentin Thomasset <corentinth@proton.me> (https://corentin.tech)",
+  "type": "module",
   "scripts": {
-    "release": "bumpp --commit --tag --push --recursive"
+    "release": "bumpp --commit --tag --push --recursive",
+    "lint": "oxlint && oxfmt --check",
+    "lint:fix": "oxlint --fix && oxfmt"
   },
   "dependencies": {
     "bumpp": "^9.10.0"
-  }
+  },
+  "devDependencies": {
+    "oxfmt": "^0.51.0",
+    "oxlint": "^1.66.0",
+    "oxlint-tsgolint": "^0.23.0"
+  },
+  "packageManager": "pnpm@11.3.0"
 }
