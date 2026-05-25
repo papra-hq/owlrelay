@@ -19,13 +19,7 @@ export function createApiKeysRepository({ db }: { db: Database }) {
   );
 }
 
-async function saveApiKey({ db, userId, name, prefix, keyHash }: {
-  db: Database;
-  userId: string;
-  name: string;
-  prefix: string;
-  keyHash: string;
-}) {
+async function saveApiKey({ db, userId, name, prefix, keyHash }: { db: Database; userId: string; name: string; prefix: string; keyHash: string }) {
   const [apiKey] = await db
     .insert(apiKeysTable)
     .values({ userId, name, prefix, keyHash })
@@ -36,65 +30,34 @@ async function saveApiKey({ db, userId, name, prefix, keyHash }: {
   return { apiKey };
 }
 
-async function getUserApiKeys({ db, userId }: {
-  db: Database;
-  userId: string;
-}) {
+async function getUserApiKeys({ db, userId }: { db: Database; userId: string }) {
   const apiKeys = await db
     .select({
       ...omit(getTableColumns(apiKeysTable), ['keyHash']),
     })
     .from(apiKeysTable)
-    .where(
-      eq(apiKeysTable.userId, userId),
-    );
+    .where(eq(apiKeysTable.userId, userId));
 
   return { apiKeys };
 }
 
-async function deleteUserApiKey({
-  db,
-  apiKeyId,
-  userId,
-}: {
-  db: Database;
-  apiKeyId: string;
-  userId: string;
-}) {
-  await db.delete(apiKeysTable).where(
-    and(
-      eq(apiKeysTable.id, apiKeyId),
-      eq(apiKeysTable.userId, userId),
-    ),
-  );
+async function deleteUserApiKey({ db, apiKeyId, userId }: { db: Database; apiKeyId: string; userId: string }) {
+  await db.delete(apiKeysTable).where(and(eq(apiKeysTable.id, apiKeyId), eq(apiKeysTable.userId, userId)));
 }
 
-async function getApiKeyByHash({ db, keyHash }: {
-  db: Database;
-  keyHash: string;
-}) {
+async function getApiKeyByHash({ db, keyHash }: { db: Database; keyHash: string }) {
   const [apiKey] = await db
     .select({
       ...omit(getTableColumns(apiKeysTable), ['keyHash']),
     })
     .from(apiKeysTable)
-    .where(
-      eq(apiKeysTable.keyHash, keyHash),
-    );
+    .where(eq(apiKeysTable.keyHash, keyHash));
 
   return { apiKey };
 }
 
-async function countUserApiKeys({ db, userId }: {
-  db: Database;
-  userId: string;
-}) {
-  const [{ apiKeysCount }] = await db
-    .select({ apiKeysCount: count() })
-    .from(apiKeysTable)
-    .where(
-      eq(apiKeysTable.userId, userId),
-    );
+async function countUserApiKeys({ db, userId }: { db: Database; userId: string }) {
+  const [{ apiKeysCount }] = await db.select({ apiKeysCount: count() }).from(apiKeysTable).where(eq(apiKeysTable.userId, userId));
 
   return { apiKeysCount };
 }

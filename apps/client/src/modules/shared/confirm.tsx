@@ -28,7 +28,7 @@ export function useConfirmModal() {
   return context;
 }
 
-export const ConfirmModalProvider: ParentComponent = (props) => {
+export const ConfirmModalProvider: ParentComponent = props => {
   const [getIsOpen, setIsOpen] = createSignal(false);
   const [getConfig, setConfig] = createSignal<ConfirmModalConfig | undefined>();
   const [getResolve, setResolve] = createSignal<((isConfirmed: boolean) => void) | undefined>();
@@ -48,7 +48,7 @@ export const ConfirmModalProvider: ParentComponent = (props) => {
     });
     setIsOpen(true);
 
-    return new Promise<boolean>((resolve) => {
+    return new Promise<boolean>(resolve => {
       setResolve(() => resolve);
     });
   };
@@ -77,7 +77,6 @@ export const ConfirmModalProvider: ParentComponent = (props) => {
 
           <DialogFooter>
             <div class="flex gap-2 justify-end flex-col-reverse sm:flex-row">
-
               <Button onClick={() => handleConfirm({ isConfirmed: false })} variant={getConfig()?.cancelButton?.variant ?? 'secondary'}>
                 {getConfig()?.cancelButton?.text ?? 'Cancel'}
               </Button>

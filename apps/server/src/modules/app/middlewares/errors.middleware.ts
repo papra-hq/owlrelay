@@ -9,10 +9,7 @@ export function registerErrorMiddleware({ app }: { app: ServerInstance }) {
     logger.error({ error }, error.message ?? 'An error occurred');
 
     if (isCustomError(error) && !error.isInternal) {
-      return context.json(
-        formatPublicErrorPayload(error),
-        error.statusCode,
-      );
+      return context.json(formatPublicErrorPayload(error), error.statusCode);
     }
 
     if (error.message === 'Malformed JSON in request body') {
@@ -34,7 +31,7 @@ export function registerErrorMiddleware({ app }: { app: ServerInstance }) {
     );
   });
 
-  app.notFound((context) => {
+  app.notFound(context => {
     return context.json(
       formatPublicErrorPayload({
         message: 'API route not found',

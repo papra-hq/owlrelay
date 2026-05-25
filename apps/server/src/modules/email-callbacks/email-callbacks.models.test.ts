@@ -63,17 +63,13 @@ describe('email-callbacks models', () => {
 
   describe('parseEmailAddress', () => {
     test('extracts the username, domain and extra from an email address', () => {
-      expect(
-        parseEmailAddress({ emailAddress: 'test+extra@test.com' }),
-      ).to.deep.equal({
+      expect(parseEmailAddress({ emailAddress: 'test+extra@test.com' })).to.deep.equal({
         username: 'test',
         domain: 'test.com',
         extra: 'extra',
       });
 
-      expect(
-        parseEmailAddress({ emailAddress: 'test@test.com' }),
-      ).to.deep.equal({
+      expect(parseEmailAddress({ emailAddress: 'test@test.com' })).to.deep.equal({
         username: 'test',
         domain: 'test.com',
         extra: undefined,
@@ -101,16 +97,12 @@ describe('email-callbacks models', () => {
 
   describe('filterEmailAddressesCandidates', () => {
     test('given the list of receipient address, filters and parse only the ones matching the allowed domains and removes duplicates', () => {
-      expect(filterEmailAddressesCandidates({
-        emailAddresses: [
-          'test@callback.email',
-          'test@callback.email',
-          'test-2@callback.email',
-          'test-3+extra@callback.email',
-          'unrelated@other-domain.com',
-        ],
-        allowedDomains: ['callback.email'],
-      })).to.deep.equal({
+      expect(
+        filterEmailAddressesCandidates({
+          emailAddresses: ['test@callback.email', 'test@callback.email', 'test-2@callback.email', 'test-3+extra@callback.email', 'unrelated@other-domain.com'],
+          allowedDomains: ['callback.email'],
+        }),
+      ).to.deep.equal({
         emailAddresses: [
           { username: 'test', domain: 'callback.email', extra: undefined },
           { username: 'test-2', domain: 'callback.email', extra: undefined },
@@ -120,10 +112,12 @@ describe('email-callbacks models', () => {
     });
 
     test('when the email addresses are empty, an empty array is returned', () => {
-      expect(filterEmailAddressesCandidates({
-        emailAddresses: [],
-        allowedDomains: ['callback.email'],
-      })).to.deep.equal({
+      expect(
+        filterEmailAddressesCandidates({
+          emailAddresses: [],
+          allowedDomains: ['callback.email'],
+        }),
+      ).to.deep.equal({
         emailAddresses: [],
       });
     });

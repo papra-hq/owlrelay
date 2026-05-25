@@ -12,30 +12,16 @@ export async function registerUsersPrivateRoutes({ app }: { app: ServerInstance 
 }
 
 function setupGetCurrentUserRoute({ app }: { app: ServerInstance }) {
-  app.get('/api/users/me', async (context) => {
+  app.get('/api/users/me', async context => {
     const { userId } = getUser({ context });
     const { db } = getDb({ context });
 
     const usersRepository = createUsersRepository({ db });
 
-    const [
-      { user },
-    ] = await Promise.all([
-      usersRepository.getUserByIdOrThrow({ userId }),
-    ]);
+    const [{ user }] = await Promise.all([usersRepository.getUserByIdOrThrow({ userId })]);
 
     return context.json({
-      user: pick(
-        user,
-        [
-          'id',
-          'email',
-          'name',
-          'createdAt',
-          'updatedAt',
-          'planId',
-        ],
-      ),
+      user: pick(user, ['id', 'email', 'name', 'createdAt', 'updatedAt', 'planId']),
     });
   });
 }
@@ -43,10 +29,12 @@ function setupGetCurrentUserRoute({ app }: { app: ServerInstance }) {
 function setupUpdateUserRoute({ app }: { app: ServerInstance }) {
   app.put(
     '/api/users/me',
-    validateJsonBody(z.object({
-      name: z.string().min(1).max(50),
-    })),
-    async (context) => {
+    validateJsonBody(
+      z.object({
+        name: z.string().min(1).max(50),
+      }),
+    ),
+    async context => {
       const { userId } = getUser({ context });
       const { db } = getDb({ context });
 

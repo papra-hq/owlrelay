@@ -11,13 +11,7 @@ async function invalidateEmailCallbacks() {
 
 export function useCreateEmailCallback() {
   return {
-    createEmailCallback: async (emailCallback: {
-      domain: string;
-      username: string;
-      allowedOrigins: string[];
-      webhookUrl: string;
-      webhookSecret: string;
-    }) => {
+    createEmailCallback: async (emailCallback: { domain: string; username: string; allowedOrigins: string[]; webhookUrl: string; webhookSecret: string }) => {
       await createEmailCallback(emailCallback);
 
       await invalidateEmailCallbacks();

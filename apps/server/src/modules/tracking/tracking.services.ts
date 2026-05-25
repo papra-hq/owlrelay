@@ -25,17 +25,7 @@ export function createTrackingServices({ config, defer }: { config: Config; defe
   );
 }
 
-function captureEvent({
-  userId,
-  event,
-  properties,
-  postHogClient,
-}: {
-  userId: string;
-  event: string;
-  properties?: Record<string, unknown>;
-  postHogClient: PostHogClient;
-}) {
+function captureEvent({ userId, event, properties, postHogClient }: { userId: string; event: string; properties?: Record<string, unknown>; postHogClient: PostHogClient }) {
   postHogClient.capture({
     distinctId: userId,
     event,

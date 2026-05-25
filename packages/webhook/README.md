@@ -15,11 +15,14 @@ yarn add @owlrelay/webhook
 ## Usage
 
 To trigger a webhook, you can use the `triggerWebhook` function.
+
 ```ts
 import { triggerWebhook } from '@owlrelay/webhook';
 
 await triggerWebhook({
-  email: { /* ...*/},
+  email: {
+    /* ...*/
+  },
   webhookUrl: 'https://my-app.invalid/webhook',
   webhookSecret: 'my-webhook-secret',
 });
@@ -36,6 +39,7 @@ const isValid = verifySignature({
   secret: 'my-webhook-secret',
 });
 ```
+
 ## License
 
 This library is licensed under the AGPL-3.0 License. See the [LICENSE](./LICENSE) file for details.

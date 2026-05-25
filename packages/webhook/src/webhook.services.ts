@@ -3,17 +3,7 @@ import { fetch, type Fetch } from 'ofetch';
 import { signBody } from './signature';
 import { serializeEmailForWebhook } from './webhooks.models';
 
-export async function triggerWebhook({
-  email,
-  webhookUrl,
-  webhookSecret,
-  httpClient = fetch,
-}: {
-  email: Email;
-  webhookUrl: string;
-  webhookSecret?: string | null;
-  httpClient?: Fetch;
-}) {
+export async function triggerWebhook({ email, webhookUrl, webhookSecret, httpClient = fetch }: { email: Email; webhookUrl: string; webhookSecret?: string | null; httpClient?: Fetch }) {
   const { body } = serializeEmailForWebhook({ email });
   const bodyResponse = new Response(body);
 
@@ -25,17 +15,14 @@ export async function triggerWebhook({
     headers['X-Signature'] = signature;
   }
 
-  const response = await httpClient(
-    webhookUrl,
-    {
-      method: 'POST',
-      body: bodyBuffer,
-      headers: {
-        'User-Agent': 'owlrelay-webhook-client',
-        ...headers,
-      },
+  const response = await httpClient(webhookUrl, {
+    method: 'POST',
+    body: bodyBuffer,
+    headers: {
+      'User-Agent': 'owlrelay-webhook-client',
+      ...headers,
     },
-  );
+  });
 
   return response;
 }

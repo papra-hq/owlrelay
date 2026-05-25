@@ -12,7 +12,7 @@ function setupPingRoute({ app }: { app: ServerInstance }) {
 }
 
 function setupHealthCheckRoute({ app }: { app: ServerInstance }) {
-  app.get('/api/health', async (context) => {
+  app.get('/api/health', async context => {
     const { db } = getDb({ context });
 
     const isHealthy = await isDatabaseHealthy({ db });

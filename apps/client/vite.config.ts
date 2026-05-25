@@ -6,11 +6,7 @@ import { version } from './package.json';
 import { yamlFlattenPlugin } from './src/plugins/yaml-flattened/yaml-flattened.plugin';
 
 export default defineConfig({
-  plugins: [
-    yamlFlattenPlugin(),
-    unoCssPlugin(),
-    solidPlugin(),
-  ],
+  plugins: [yamlFlattenPlugin(), unoCssPlugin(), solidPlugin()],
   define: {
     'import.meta.env.VITE_OWLRELAY_VERSION': JSON.stringify(version),
   },

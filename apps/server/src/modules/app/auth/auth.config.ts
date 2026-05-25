@@ -103,6 +103,5 @@ export const authConfig = {
         env: 'AUTH_PROVIDERS_GOOGLE_CLIENT_SECRET',
       },
     },
-
   },
 } as const satisfies ConfigDefinition;

@@ -29,8 +29,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build the packages
+        run: pnpm -r --parallel -F "./packages/*" build
+
       - name: Run linters
-        run: pnpm -r --parallel lint --quiet
+        run: pnpm lint
 
       - name: Type check
         run: pnpm -r --parallel typecheck
@@ -38,8 +41,8 @@ jobs:
       - name: Run unit test
         run: pnpm -r --parallel test
 
-      - name: Build the packages
-        run: pnpm -r --parallel build
+      - name: Build the apps
+        run: pnpm -r --parallel -F "./apps/*" build
 
       # Ensure client app locales types are up to date
       - name: Check locales types

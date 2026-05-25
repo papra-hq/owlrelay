@@ -32,10 +32,7 @@ export const configDefinition = {
     },
     corsOrigins: {
       doc: 'The CORS origin for the api server',
-      schema: z.union([
-        z.string(),
-        z.array(z.string()),
-      ]).transform(value => (typeof value === 'string' ? value.split(',') : value)),
+      schema: z.union([z.string(), z.array(z.string())]).transform(value => (typeof value === 'string' ? value.split(',') : value)),
       default: ['http://localhost:3000'],
       env: 'SERVER_CORS_ORIGINS',
     },
@@ -87,12 +84,11 @@ export const configDefinition = {
 const logger = createLogger({ namespace: 'config' });
 
 export function parseConfig({ env }: { env?: Record<string, string | undefined> } = {}) {
-  const [configResult, configError] = safelySync(() => defineConfig(
-    configDefinition,
-    {
+  const [configResult, configError] = safelySync(() =>
+    defineConfig(configDefinition, {
       envSource: env,
-    },
-  ));
+    }),
+  );
 
   if (configError) {
     logger.error({ error: configError }, `Invalid config: ${configError.message}`);

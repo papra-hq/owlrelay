@@ -6,7 +6,7 @@ export async function registerConfigPublicRoutes({ app }: { app: ServerInstance 
 }
 
 function setupGetPublicConfigRoute({ app }: { app: ServerInstance }) {
-  app.get('/api/config', async (context) => {
+  app.get('/api/config', async context => {
     const { config } = getConfig({ context });
 
     const { publicConfig } = getPublicConfig({ config });

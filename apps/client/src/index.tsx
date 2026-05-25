@@ -18,44 +18,37 @@ import '@unocss/reset/tailwind.css';
 import 'virtual:uno.css';
 import './app.css';
 
-render(
-  () => {
-    const initialColorMode: ConfigColorMode = 'light';
-    // const colorModeStorageKey = 'owlrelay_color_mode';
-    // const localStorageManager = createLocalStorageManager(colorModeStorageKey);
+render(() => {
+  const initialColorMode: ConfigColorMode = 'light';
+  // const colorModeStorageKey = 'owlrelay_color_mode';
+  // const localStorageManager = createLocalStorageManager(colorModeStorageKey);
 
-    return (
-      <Router
-        children={routes}
-        root={props => (
-          <QueryClientProvider client={queryClient}>
-            <Suspense>
-              <I18nProvider>
-                <ConfirmModalProvider>
-                  {/* <ColorModeScript storageType={localStorageManager.type} storageKey={colorModeStorageKey} initialColorMode={initialColorMode} /> */}
-                  <ColorModeProvider
-                    initialColorMode={initialColorMode}
-                    // storageManager={localStorageManager}
-                  >
-                    <Toaster />
-                    <IdentifyUser />
-                    <PageViewTracker />
+  return (
+    <Router
+      children={routes}
+      root={props => (
+        <QueryClientProvider client={queryClient}>
+          <Suspense>
+            <I18nProvider>
+              <ConfirmModalProvider>
+                {/* <ColorModeScript storageType={localStorageManager.type} storageKey={colorModeStorageKey} initialColorMode={initialColorMode} /> */}
+                <ColorModeProvider
+                  initialColorMode={initialColorMode}
+                  // storageManager={localStorageManager}
+                >
+                  <Toaster />
+                  <IdentifyUser />
+                  <PageViewTracker />
 
-                    <ConfigProvider>
-                      <div class="min-h-screen font-sans text-sm font-normal">
-                        {props.children}
-                      </div>
-                    </ConfigProvider>
-
-                  </ColorModeProvider>
-
-                </ConfirmModalProvider>
-              </I18nProvider>
-            </Suspense>
-          </QueryClientProvider>
-        )}
-      />
-    );
-  },
-  document.getElementById('root')!,
-);
+                  <ConfigProvider>
+                    <div class="min-h-screen font-sans text-sm font-normal">{props.children}</div>
+                  </ConfigProvider>
+                </ColorModeProvider>
+              </ConfirmModalProvider>
+            </I18nProvider>
+          </Suspense>
+        </QueryClientProvider>
+      )}
+    />
+  );
+}, document.getElementById('root')!);

@@ -45,13 +45,7 @@ describe('signature', () => {
     });
 
     test('a buffer can be converted to a base64 encoded string and back to a buffer', () => {
-      expect(
-        base64ToArrayBuffer(
-          arrayBufferToBase64(
-            arrayBuffer('test'),
-          ),
-        ),
-      ).to.deep.equal(arrayBuffer('test'));
+      expect(base64ToArrayBuffer(arrayBufferToBase64(arrayBuffer('test')))).to.deep.equal(arrayBuffer('test'));
     });
   });
 });

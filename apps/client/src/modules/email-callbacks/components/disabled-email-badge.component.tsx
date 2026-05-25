@@ -7,16 +7,11 @@ export const DisabledEmailBadge: Component = () => {
 
   return (
     <Tooltip>
-      <TooltipTrigger
-        as="span"
-        class="text-muted-foreground bg-muted text-xs px-2 py-1 rounded-md border leading-tight inline-flex flex-row gap-2 items-center"
-      >
+      <TooltipTrigger as="span" class="text-muted-foreground bg-muted text-xs px-2 py-1 rounded-md border leading-tight inline-flex flex-row gap-2 items-center">
         <div class="i-tabler-alert-triangle size-3.5" />
         {t('email-callbacks.disabled.label')}
       </TooltipTrigger>
-      <TooltipContent>
-        {t('email-callbacks.disabled.tooltip')}
-      </TooltipContent>
+      <TooltipContent>{t('email-callbacks.disabled.tooltip')}</TooltipContent>
     </Tooltip>
   );
 };

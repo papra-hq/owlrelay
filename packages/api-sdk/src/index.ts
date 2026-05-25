@@ -3,9 +3,9 @@ import { coerceDate, getEmailIdentifier } from './api.models';
 
 export const OWLRELAY_API_BASE_URL = 'https://api.owlrelay.email';
 
- type AsDto<T> = {
-   [K in keyof T]: T[K] extends Date ? string : T[K];
- };
+type AsDto<T> = {
+  [K in keyof T]: T[K] extends Date ? string : T[K];
+};
 
 export type OwlRelayEmail = {
   id: string;
@@ -33,13 +33,7 @@ export type OwlRelayEmailProcessing = {
   updatedAt: Date;
 };
 
-export function createClient({
-  apiKey,
-  baseApiUrl = OWLRELAY_API_BASE_URL,
-}: {
-  apiKey: string;
-  baseApiUrl?: string;
-}) {
+export function createClient({ apiKey, baseApiUrl = OWLRELAY_API_BASE_URL }: { apiKey: string; baseApiUrl?: string }) {
   const { apiClient } = createApiClient({ apiKey, baseApiUrl });
 
   const updateEmail = async ({ emailId, ...body }: { emailId: string } & Partial<Omit<OwlRelayEmail, 'id' | 'createdAt' | 'updatedAt'>>): Promise<OwlRelayEmail> => {
@@ -70,13 +64,7 @@ export function createClient({
       return emailCallbacks.map(coerceDate);
     },
 
-    createEmail: async (body: {
-      domain?: string;
-      username: string;
-      webhookUrl: string;
-      webhookSecret?: string;
-      allowedOrigins?: string[];
-    }): Promise<OwlRelayEmail> => {
+    createEmail: async (body: { domain?: string; username: string; webhookUrl: string; webhookSecret?: string; allowedOrigins?: string[] }): Promise<OwlRelayEmail> => {
       const { emailCallback } = await apiClient<{ emailCallback: AsDto<OwlRelayEmail> }>('/api/email-callbacks', {
         method: 'POST',
         body,

@@ -2,8 +2,4 @@ import { registerApiKeyCreatedTrackingEvent } from '../../api-keys/events/api-ke
 import { registerEmailCallbackCreatedTrackingEvent } from '../../email-callbacks/events/email-callbacks.tracking.events';
 import { registerUserCreatedTrackingEvent } from '../../users/events/users.tracking.events';
 
-export const eventsHandlers = [
-  registerUserCreatedTrackingEvent,
-  registerEmailCallbackCreatedTrackingEvent,
-  registerApiKeyCreatedTrackingEvent,
-];
+export const eventsHandlers = [registerUserCreatedTrackingEvent, registerEmailCallbackCreatedTrackingEvent, registerApiKeyCreatedTrackingEvent];

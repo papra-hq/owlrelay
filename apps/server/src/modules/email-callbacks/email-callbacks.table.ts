@@ -10,7 +10,9 @@ export const emailsCallbacksTable = sqliteTable(
     ...createTimestampColumns(),
 
     isEnabled: integer('is_enabled', { mode: 'boolean' }).notNull().default(true),
-    userId: text('user_id').notNull().references(() => usersTable.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+    userId: text('user_id')
+      .notNull()
+      .references(() => usersTable.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
 
     domain: text('domain').notNull(),
     username: text('username').notNull(),
@@ -19,7 +21,5 @@ export const emailsCallbacksTable = sqliteTable(
     webhookUrl: text('webhook_url').notNull(),
     webhookSecret: text('webhook_secret'),
   },
-  table => [
-    uniqueIndex('emails_callbacks_domain_username_index').on(table.domain, table.username),
-  ],
+  table => [uniqueIndex('emails_callbacks_domain_username_index').on(table.domain, table.username)],
 );

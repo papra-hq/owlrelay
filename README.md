@@ -54,7 +54,6 @@ This project is licensed under the AGPL-3.0 License - see the [LICENSE](./LICENS
 This project is part of the [Papra ecosystem](https://github.com/papra-hq).
 Join the community on [Papra's Discord server](https://discord.gg/8UPjzsrBNF) to discuss the project, ask questions, or get help.
 
-
 ### Stack
 
 OwlRelay is built with the following technologies:

@@ -1,44 +1,54 @@
 ---
-import { cn } from '../utils/cn';
+import { cn } from "../utils/cn";
 
 const socials = [
   {
-    name: 'Bluesky',
-    url: 'https://bsky.app/profile/owlrelay.email',
-    icon: 'i-tabler-brand-bluesky',
+    name: "Bluesky",
+    url: "https://bsky.app/profile/owlrelay.email",
+    icon: "i-tabler-brand-bluesky",
   },
   {
-    name: 'GitHub',
-    url: 'https://github.com/papra-hq/owlrelay',
-    icon: 'i-tabler-brand-github',
+    name: "GitHub",
+    url: "https://github.com/papra-hq/owlrelay",
+    icon: "i-tabler-brand-github",
   },
   {
-    name: 'Discord',
-    url: 'https://discord.gg/8UPjzsrBNF',
-    icon: 'i-tabler-brand-discord',
+    name: "Discord",
+    url: "https://discord.gg/8UPjzsrBNF",
+    icon: "i-tabler-brand-discord",
   },
 ];
 
 const navigation: { name: string; url: string }[] = [];
-
 ---
 
 <nav
-  class={cn('z-60 border-0 border-b md:max-w-4xl pl-4 pr-3 py-4 mx-auto flex items-center justify-between md:(py-2 border-1px rounded-full mt-4) fixed top-0 left-0 right-0 z-70 bg-card bg-op-40 backdrop-blur-sm')}
+  class={cn(
+    "z-60 border-0 border-b md:max-w-4xl pl-4 pr-3 py-4 mx-auto flex items-center justify-between md:(py-2 border-1px rounded-full mt-4) fixed top-0 left-0 right-0 z-70 bg-card bg-op-40 backdrop-blur-sm",
+  )}
 >
   <div class="flex items-center gap-4">
     <a href="/" class="text-lg font-bold flex items-center group">
-      <div class="i-custom-owl size-6 group-hover:rotate-25deg transition transform"></div>
+      <div
+        class="i-custom-owl size-6 group-hover:rotate-25deg transition transform"
+      >
+      </div>
       <span class="ml-2">OwlRelay</span>
     </a>
 
-    <p class="hidden md:block text-sm text-foreground font-medium">Simple email to HTTP service</p>
+    <p class="hidden md:block text-sm text-foreground font-medium">
+      Simple email to HTTP service
+    </p>
   </div>
 
   <div class="items-center gap-6 hidden md:flex">
     {
-      navigation.map(nav => (
-        <a href={nav.url} class="text-sm font-bold hover:text-primary transition" target="_blank">
+      navigation.map((nav) => (
+        <a
+          href={nav.url}
+          class="text-sm font-bold hover:text-primary transition"
+          target="_blank"
+        >
           {nav.name}
         </a>
       ))
@@ -48,16 +58,28 @@ const navigation: { name: string; url: string }[] = [];
   <div class="flex items-center gap-4">
     <div class="hidden md:flex items-center gap-4">
       {
-        socials.map(social => (
-          <a href={social.url} target="_blank" rel="noopener noreferrer" class=" hover:text-foreground/60 transition" aria-label={social.name}>
-            <div class={cn('size-5', social.icon)} />
+        socials.map((social) => (
+          <a
+            href={social.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class=" hover:text-foreground/60 transition"
+            aria-label={social.name}
+          >
+            <div class={cn("size-5", social.icon)} />
           </a>
         ))
       }
     </div>
 
     <div class="flex items-center gap-2">
-      <a class="flex gap-1.5 items-center font-bold py-1.5 px-3 text-sm transition hover:underline" href="https://app.owlrelay.email/login" target="_blank"> Login </a>
+      <a
+        class="flex gap-1.5 items-center font-bold py-1.5 px-3 text-sm transition hover:underline"
+        href="https://app.owlrelay.email/login"
+        target="_blank"
+      >
+        Login
+      </a>
 
       <a
         class="flex gap-1.5 items-center bg-primary font-bold py-1.25 px-3 rounded-xl text-primary-foreground text-sm transition hover:bg-primary/80"

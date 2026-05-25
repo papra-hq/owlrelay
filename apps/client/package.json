@@ -1,25 +1,19 @@
 {
   "name": "@owlrelay/owlrelay-app-client",
-  "type": "module",
   "version": "0.0.0",
-  "packageManager": "pnpm@11.3.0",
   "description": "OwlRelay frontend client",
-  "author": "Corentin Thomasset <corentinth@proton.me> (https://corentin.tech)",
   "license": "AGPL-3.0-or-later",
+  "author": "Corentin Thomasset <corentinth@proton.me> (https://corentin.tech)",
   "repository": {
     "type": "git",
     "url": "https://github.com/papra-hq/owlrelay"
   },
-  "engines": {
-    "node": ">=26.0.0"
-  },
+  "type": "module",
   "scripts": {
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:e2e": "playwright test",
@@ -53,12 +47,10 @@
     "valibot": "1.0.0-rc.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "catalog:",
     "@iconify-json/tabler": "^1.1.120",
     "@playwright/test": "^1.46.1",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "catalog:",
-    "eslint": "catalog:",
     "jsdom": "^25.0.0",
     "tsx": "^4.19.1",
     "typescript": "catalog:",
@@ -67,5 +59,9 @@
     "vite-plugin-solid": "^2.8.2",
     "vitest": "catalog:",
     "yaml": "^2.7.0"
-  }
+  },
+  "engines": {
+    "node": ">=26.0.0"
+  },
+  "packageManager": "pnpm@11.3.0"
 }

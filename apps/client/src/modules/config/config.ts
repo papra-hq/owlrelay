@@ -1,6 +1,6 @@
 export const isDev = import.meta.env.MODE === 'development';
 
-const asBoolean = (value: string | undefined, defaultValue: boolean) => value === undefined ? defaultValue : value.trim().toLowerCase() === 'true';
+const asBoolean = (value: string | undefined, defaultValue: boolean) => (value === undefined ? defaultValue : value.trim().toLowerCase() === 'true');
 function asString<T extends string | undefined>(value: string | undefined, defaultValue?: T): T extends undefined ? string | undefined : string {
   return (value ?? defaultValue) as T extends undefined ? string | undefined : string;
 }

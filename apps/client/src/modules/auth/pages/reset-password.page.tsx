@@ -9,7 +9,7 @@ import * as v from 'valibot';
 import { resetPassword } from '../auth.services';
 import { AuthLayout } from '../components/auth-layout.component';
 
-export const ResetPasswordForm: Component<{ onSubmit: (args: { newPassword: string }) => Promise<void> }> = (props) => {
+export const ResetPasswordForm: Component<{ onSubmit: (args: { newPassword: string }) => Promise<void> }> = props => {
   const { form, Form, Field } = createForm({
     onSubmit: props.onSubmit,
     schema: v.object({
@@ -39,7 +39,6 @@ export const ResetPasswordForm: Component<{ onSubmit: (args: { newPassword: stri
       </Button>
 
       <div class="text-red-500 text-sm mt-2">{form.response.message}</div>
-
     </Form>
   );
 };
@@ -79,33 +78,24 @@ export const ResetPasswordPage: Component = () => {
     <AuthLayout>
       <div class="flex items-center justify-center p-6 sm:pb-32">
         <div class="max-w-sm w-full">
-          <h1 class="text-xl font-bold">
-            Reset your password
-          </h1>
+          <h1 class="text-xl font-bold">Reset your password</h1>
 
-          {getHasPasswordBeenReset()
-            ? (
-                <>
-                  <div class="text-muted-foreground mt-1 mb-4">
-                    Your password has been reset.
-                  </div>
+          {getHasPasswordBeenReset() ? (
+            <>
+              <div class="text-muted-foreground mt-1 mb-4">Your password has been reset.</div>
 
-                  <Button as={A} href="/login" class="w-full">
-                    Go to login
-                    <div class="i-tabler-login-2 ml-2 size-4" />
-                  </Button>
-                </>
-              )
-            : (
-                <>
-                  <p class="text-muted-foreground mt-1 mb-4">
-                    Enter your new password.
-                  </p>
+              <Button as={A} href="/login" class="w-full">
+                Go to login
+                <div class="i-tabler-login-2 ml-2 size-4" />
+              </Button>
+            </>
+          ) : (
+            <>
+              <p class="text-muted-foreground mt-1 mb-4">Enter your new password.</p>
 
-                  <ResetPasswordForm onSubmit={onPasswordResetRequested} />
-                </>
-              )}
-
+              <ResetPasswordForm onSubmit={onPasswordResetRequested} />
+            </>
+          )}
         </div>
       </div>
     </AuthLayout>

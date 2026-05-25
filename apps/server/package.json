@@ -1,20 +1,17 @@
 {
   "name": "@owlrelay/owlrelay-app-server",
-  "type": "module",
   "version": "0.0.0",
-  "packageManager": "pnpm@11.3.0",
   "description": "OwlRelay app server",
-  "author": "Corentin Thomasset <corentinth@proton.me> (https://corentin.tech)",
-  "license": "AGPL-3.0-or-later",
   "keywords": [],
+  "license": "AGPL-3.0-or-later",
+  "author": "Corentin Thomasset <corentinth@proton.me> (https://corentin.tech)",
+  "type": "module",
   "scripts": {
     "dev": "wrangler dev --test-scheduled --port 1222 | crowlog-pretty",
     "dev:db": "turso dev --db-file local.db",
     "build": "pnpm esbuild --bundle src/index.ts --platform=node --packages=external --format=esm --outfile=dist/index.js --minify",
     "start": "node dist/index.js",
     "start:with-migrations": "pnpm migrate:up && pnpm start",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "typecheck": "tsc --noEmit",
@@ -53,7 +50,6 @@
     "zod": "^4.1.4"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "catalog:",
     "@bomb.sh/args": "^0.3.0",
     "@cloudflare/workers-types": "^4.20250214.0",
     "@crowlog/pretty": "^1.1.1",
@@ -63,9 +59,9 @@
     "@types/node-cron": "^3.0.11",
     "@vitest/coverage-v8": "catalog:",
     "esbuild": "^0.24.2",
-    "eslint": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
     "wrangler": "^3.109.1"
-  }
+  },
+  "packageManager": "pnpm@11.3.0"
 }

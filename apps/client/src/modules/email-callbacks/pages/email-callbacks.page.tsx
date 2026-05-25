@@ -34,11 +34,8 @@ export const EmailsPage: Component = () => {
           </div>
         </Match>
         <Match when={query.data?.emailCallbacks.length}>
-
           <div class="flex flex-row gap-2 mb-2 justify-between items-center">
-            <div class="text-base font-medium">
-              {t('email-callbacks.list.your-emails')}
-            </div>
+            <div class="text-base font-medium">{t('email-callbacks.list.your-emails')}</div>
 
             <Button class="gap-2" as={A} href="/email-callbacks/create">
               <div class="i-tabler-plus size-4"></div>
@@ -57,7 +54,9 @@ export const EmailsPage: Component = () => {
 
                     <div>
                       <span class="flex flex-row gap-2 items-center">
-                        <A href={`/email-callbacks/${emailCallback.id}`} class="leading-tight font-medium hover:underline">{formatEmailAddress(emailCallback)}</A>
+                        <A href={`/email-callbacks/${emailCallback.id}`} class="leading-tight font-medium hover:underline">
+                          {formatEmailAddress(emailCallback)}
+                        </A>
                         <CopyIconButton
                           text={formatEmailAddress(emailCallback)}
                           class="text-muted-foreground size-4.5"
@@ -68,7 +67,6 @@ export const EmailsPage: Component = () => {
                         <Show when={!emailCallback.isEnabled}>
                           <DisabledEmailBadge />
                         </Show>
-
                       </span>
                       <div class="text-xs text-muted-foreground">{emailCallback.webhookUrl}</div>
                     </div>
@@ -81,9 +79,7 @@ export const EmailsPage: Component = () => {
 
                     <DropdownMenuContent class="min-w-48">
                       <DropdownMenuItem
-                        onClick={() => emailCallback.isEnabled
-                          ? disableEmailCallback({ emailCallbackId: emailCallback.id })
-                          : enableEmailCallback({ emailCallbackId: emailCallback.id })}
+                        onClick={() => (emailCallback.isEnabled ? disableEmailCallback({ emailCallbackId: emailCallback.id }) : enableEmailCallback({ emailCallbackId: emailCallback.id }))}
                         class="flex flex-row gap-2 cursor-pointer"
                       >
                         <div class={cn('size-4', emailCallback.isEnabled ? 'i-tabler-circle-x' : 'i-tabler-circle-check')} />

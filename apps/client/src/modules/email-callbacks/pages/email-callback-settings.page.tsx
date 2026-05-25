@@ -34,16 +34,11 @@ export const EmailCallbackSettingsPage: Component = () => {
         showRandomAddressButton={false}
         onSubmit={handleUpdateEmailCallback}
         submitButton={({ form }) => (
-          <Button
-            type="submit"
-            disabled={form.submitting || !form.touched}
-            isLoading={form.submitting}
-          >
+          <Button type="submit" disabled={form.submitting || !form.touched} isLoading={form.submitting}>
             {t('email-callbacks.form.update.save-changes')}
           </Button>
         )}
       />
     </div>
-
   );
 };

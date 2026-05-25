@@ -41,8 +41,8 @@ Create a new email address that will forward emails to a webhook.
 ```ts
 const createdEmail = await client.createEmail({
   // The username of the email address.
-  username: 'john.doe', 
-  
+  username: 'john.doe',
+
   // The domain of the email address.
   // optional, defaults to 'callback.email'
   domain: 'callback.email',

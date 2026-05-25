@@ -39,7 +39,17 @@ export async function canUserCreateEmailCallback({
   return true;
 }
 
-export async function checkUserCanCreateEmailCallback({ userId, usersRepository, plansRepository, emailCallbacksRepository }: { userId: string; usersRepository: UsersRepository; plansRepository: PlansRepository; emailCallbacksRepository: EmailCallbacksRepository }) {
+export async function checkUserCanCreateEmailCallback({
+  userId,
+  usersRepository,
+  plansRepository,
+  emailCallbacksRepository,
+}: {
+  userId: string;
+  usersRepository: UsersRepository;
+  plansRepository: PlansRepository;
+  emailCallbacksRepository: EmailCallbacksRepository;
+}) {
   const userCanCreateEmailCallback = await canUserCreateEmailCallback({ userId, usersRepository, plansRepository, emailCallbacksRepository });
 
   if (!userCanCreateEmailCallback) {
@@ -51,7 +61,15 @@ export async function checkUserCanCreateEmailCallback({ userId, usersRepository,
   }
 }
 
-async function parseEmail({ rawMessage, realTo, realFrom }: { rawMessage: ReadableStream<Uint8Array>; realTo: string; realFrom: string }): Promise<{ email: Email & { originalTo: Address[]; originalFrom: Address } }> {
+async function parseEmail({
+  rawMessage,
+  realTo,
+  realFrom,
+}: {
+  rawMessage: ReadableStream<Uint8Array>;
+  realTo: string;
+  realFrom: string;
+}): Promise<{ email: Email & { originalTo: Address[]; originalFrom: Address } }> {
   const rawEmail = new Response(rawMessage);
   const parser = new PostalMime();
 
@@ -203,7 +221,15 @@ export function createEmailHandler({ logger = createLogger({ namespace: 'email-c
   };
 }
 
-export async function resolveUserEmailCallbackId({ emailCallbackIdOrAddress, userId, emailCallbacksRepository }: { emailCallbackIdOrAddress: string; userId: string; emailCallbacksRepository: EmailCallbacksRepository }) {
+export async function resolveUserEmailCallbackId({
+  emailCallbackIdOrAddress,
+  userId,
+  emailCallbacksRepository,
+}: {
+  emailCallbackIdOrAddress: string;
+  userId: string;
+  emailCallbacksRepository: EmailCallbacksRepository;
+}) {
   if (isEmailCallbackId(emailCallbackIdOrAddress)) {
     const { emailCallback } = await emailCallbacksRepository.getUserEmailCallback({ emailCallbackId: emailCallbackIdOrAddress, userId });
 
@@ -229,7 +255,15 @@ export async function resolveUserEmailCallbackId({ emailCallbackIdOrAddress, use
   return { emailCallbackId: emailCallback.id };
 }
 
-export async function deleteEmailCallback({ emailCallbackIdOrAddress, emailCallbacksRepository, userId }: { emailCallbackIdOrAddress: string; emailCallbacksRepository: EmailCallbacksRepository; userId: string }) {
+export async function deleteEmailCallback({
+  emailCallbackIdOrAddress,
+  emailCallbacksRepository,
+  userId,
+}: {
+  emailCallbackIdOrAddress: string;
+  emailCallbacksRepository: EmailCallbacksRepository;
+  userId: string;
+}) {
   const { emailCallbackId } = await resolveUserEmailCallbackId({ emailCallbackIdOrAddress, userId, emailCallbacksRepository });
 
   const { deletedId } = await emailCallbacksRepository.deleteUserEmailCallback({ userId, emailCallbackId });

@@ -9,8 +9,12 @@ export const emailProcessingsTable = sqliteTable(
     ...createPrimaryKeyField({ prefix: 'ep' }),
     ...createTimestampColumns(),
 
-    emailCallbackId: text('email_callback_id').notNull().references(() => emailsCallbacksTable.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-    userId: text('user_id').notNull().references(() => usersTable.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+    emailCallbackId: text('email_callback_id')
+      .notNull()
+      .references(() => emailsCallbacksTable.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+    userId: text('user_id')
+      .notNull()
+      .references(() => usersTable.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
     status: text('status').notNull(),
     error: text('error'),
 

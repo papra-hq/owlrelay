@@ -10,16 +10,11 @@ import { forgetPassword } from '../auth.services';
 import { AuthLayout } from '../components/auth-layout.component';
 import { OpenEmailProvider } from '../components/open-email-provider.component';
 
-export const ResetPasswordForm: Component<{ onSubmit: (args: { email: string }) => Promise<void> }> = (props) => {
+export const ResetPasswordForm: Component<{ onSubmit: (args: { email: string }) => Promise<void> }> = props => {
   const { form, Form, Field } = createForm({
     onSubmit: props.onSubmit,
     schema: v.object({
-      email: v.pipe(
-        v.string(),
-        v.trim(),
-        v.nonEmpty('Please enter your email address'),
-        v.email('This is not a valid email address'),
-      ),
+      email: v.pipe(v.string(), v.trim(), v.nonEmpty('Please enter your email address'), v.email('This is not a valid email address')),
     }),
   });
 
@@ -40,7 +35,6 @@ export const ResetPasswordForm: Component<{ onSubmit: (args: { email: string }) 
       </Button>
 
       <div class="text-red-500 text-sm mt-2">{form.response.message}</div>
-
     </Form>
   );
 };
@@ -79,29 +73,21 @@ export const RequestPasswordResetPage: Component = () => {
     <AuthLayout>
       <div class="flex items-center justify-center p-6 sm:pb-32">
         <div class="max-w-sm w-full">
-          <h1 class="text-xl font-bold">
-            Reset your password
-          </h1>
+          <h1 class="text-xl font-bold">Reset your password</h1>
 
-          {getHasPasswordResetBeenRequested()
-            ? (
-                <>
-                  <div class="text-muted-foreground mt-1 mb-4">
-                    If an account exists for this email, we've sent you an email to reset your password.
-                  </div>
+          {getHasPasswordResetBeenRequested() ? (
+            <>
+              <div class="text-muted-foreground mt-1 mb-4">If an account exists for this email, we've sent you an email to reset your password.</div>
 
-                  <OpenEmailProvider email={getEmail()} variant="secondary" class="w-full mb-4" />
-                </>
-              )
-            : (
-                <>
-                  <p class="text-muted-foreground mt-1 mb-4">
-                    Enter your email to reset your password.
-                  </p>
+              <OpenEmailProvider email={getEmail()} variant="secondary" class="w-full mb-4" />
+            </>
+          ) : (
+            <>
+              <p class="text-muted-foreground mt-1 mb-4">Enter your email to reset your password.</p>
 
-                  <ResetPasswordForm onSubmit={onPasswordResetRequested} />
-                </>
-              )}
+              <ResetPasswordForm onSubmit={onPasswordResetRequested} />
+            </>
+          )}
 
           <Button as={A} href="/login" class="w-full" variant={getHasPasswordResetBeenRequested() ? 'default' : 'ghost'}>
             <div class="i-tabler-arrow-left mr-2 size-4" />

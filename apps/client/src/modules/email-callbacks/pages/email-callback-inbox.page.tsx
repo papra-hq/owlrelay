@@ -15,44 +15,39 @@ import { formatEmailAddress } from '../email-callbacks.models';
 import { getEmailProcessings } from '../email-callbacks.services';
 import { useEmailCallback } from './email-callback.page';
 
-const ProcessingStatusBadge: Component<{ status: string }> = (props) => {
+const ProcessingStatusBadge: Component<{ status: string }> = props => {
   const { t } = useI18n();
 
-  const variant = () => ({
-    [EMAIL_PROCESSING_STATUS.SUCCESS]: {
-      text: t('processing.status.success'),
-      variant: 'bg-green-500/10 text-green-600',
-    },
-    [EMAIL_PROCESSING_STATUS.ERROR]: {
-      text: t('processing.status.error'),
-      variant: 'bg-red-500/10 text-red-500',
-    },
-    [EMAIL_PROCESSING_STATUS.NOT_PROCESSED]: {
-      text: t('processing.status.not-processed'),
-      variant: 'bg-gray-500/10 text-gray-500',
-    },
-  })[props.status];
+  const variant = () =>
+    ({
+      [EMAIL_PROCESSING_STATUS.SUCCESS]: {
+        text: t('processing.status.success'),
+        variant: 'bg-green-500/10 text-green-600',
+      },
+      [EMAIL_PROCESSING_STATUS.ERROR]: {
+        text: t('processing.status.error'),
+        variant: 'bg-red-500/10 text-red-500',
+      },
+      [EMAIL_PROCESSING_STATUS.NOT_PROCESSED]: {
+        text: t('processing.status.not-processed'),
+        variant: 'bg-gray-500/10 text-gray-500',
+      },
+    })[props.status];
 
-  return (
-    <span class={cn('px-2 py-1 rounded-md text-xs font-medium', variant()?.variant)}>
-      {variant()?.text}
-    </span>
-  );
+  return <span class={cn('px-2 py-1 rounded-md text-xs font-medium', variant()?.variant)}>{variant()?.text}</span>;
 };
 
-const ProcessingError: Component<{ error?: string | null }> = (props) => {
+const ProcessingError: Component<{ error?: string | null }> = props => {
   const { t } = useI18n();
 
   if (!props.error) {
     return null;
   }
 
-  return (
-    <span class="text-muted-foreground">{t(`processing.error.${props.error as EmailProcessingErrorValue}`) ?? t('processing.error.unknown')}</span>
-  );
+  return <span class="text-muted-foreground">{t(`processing.error.${props.error as EmailProcessingErrorValue}`) ?? t('processing.error.unknown')}</span>;
 };
 
-const ProcessingList: Component<{ emailCallback: EmailCallback }> = (props) => {
+const ProcessingList: Component<{ emailCallback: EmailCallback }> = props => {
   const { t, te } = useI18n();
 
   const [getPagination, setPagination] = createSignal({
@@ -70,7 +65,6 @@ const ProcessingList: Component<{ emailCallback: EmailCallback }> = (props) => {
       return query.data?.emailProcessings ?? [];
     },
     columns: [
-
       {
         header: 'From',
         accessorKey: 'fromAddress',
@@ -95,9 +89,13 @@ const ProcessingList: Component<{ emailCallback: EmailCallback }> = (props) => {
         cell: data => data.getValue<number>() && <span class="text-muted-foreground border rounded-md px-2 py-1 text-xs">{data.getValue<number>()}</span>,
       },
       {
-        header: () => (<span class="block text-right">Received at</span>),
+        header: () => <span class="block text-right">Received at</span>,
         accessorKey: 'createdAt',
-        cell: data => <div class="text-muted-foreground text-right" title={data.getValue<Date>().toLocaleString()}>{capitalize(timeAgo({ date: data.getValue<Date>() }))}</div>,
+        cell: data => (
+          <div class="text-muted-foreground text-right" title={data.getValue<Date>().toLocaleString()}>
+            {capitalize(timeAgo({ date: data.getValue<Date>() }))}
+          </div>
+        ),
       },
     ],
     get rowCount() {
@@ -119,31 +117,23 @@ const ProcessingList: Component<{ emailCallback: EmailCallback }> = (props) => {
         {getEmailProcessings => (
           <Show
             when={getEmailProcessings().length > 0}
-            fallback={(
+            fallback={
               <div class="px-6 py-16 w-full flex flex-col items-center justify-center text-muted-foreground">
                 <div class="i-tabler-mail-x size-10"></div>
                 <div class="text-center mt-2">{t('processing.empty.title')}</div>
                 <div class="text-center mb-4">{te('processing.empty.description', { emailAddress: <span class="font-bold">{formatEmailAddress(props.emailCallback)}</span> })}</div>
               </div>
-            )}
+            }
           >
             <div>
-
               <Table>
-
                 <TableHeader>
                   <For each={table.getHeaderGroups()}>
                     {headerGroup => (
                       <TableRow>
                         <For each={headerGroup.headers}>
-                          {(header) => {
-                            return (
-                              <TableHead>
-                                {header.isPlaceholder
-                                  ? null
-                                  : flexRender(header.column.columnDef.header, header.getContext())}
-                              </TableHead>
-                            );
+                          {header => {
+                            return <TableHead>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>;
                           }}
                         </For>
                       </TableRow>
@@ -156,19 +146,12 @@ const ProcessingList: Component<{ emailCallback: EmailCallback }> = (props) => {
                     <For each={table.getRowModel().rows}>
                       {row => (
                         <TableRow>
-                          <For each={row.getVisibleCells()}>
-                            {cell => (
-                              <TableCell>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                              </TableCell>
-                            )}
-                          </For>
+                          <For each={row.getVisibleCells()}>{cell => <TableCell>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>}</For>
                         </TableRow>
                       )}
                     </For>
                   </Show>
                 </TableBody>
-
               </Table>
 
               <Show when={query.data?.emailProcessingsCount && query.data?.emailProcessingsCount > table.getState().pagination.pageSize}>
@@ -179,14 +162,10 @@ const ProcessingList: Component<{ emailCallback: EmailCallback }> = (props) => {
                       value={table.getState().pagination.pageSize}
                       onChange={value => value && table.setPageSize(value)}
                       options={[15, 50, 100]}
-                      itemComponent={props => (
-                        <SelectItem item={props.item}>{props.item.rawValue}</SelectItem>
-                      )}
+                      itemComponent={props => <SelectItem item={props.item}>{props.item.rawValue}</SelectItem>}
                     >
                       <SelectTrigger class="h-8 w-[4.5rem]">
-                        <SelectValue<string>>
-                          {state => state.selectedOption()}
-                        </SelectValue>
+                        <SelectValue<string>>{state => state.selectedOption()}</SelectValue>
                       </SelectTrigger>
                       <SelectContent />
                     </Select>
@@ -198,33 +177,13 @@ const ProcessingList: Component<{ emailCallback: EmailCallback }> = (props) => {
                     })}
                   </div>
                   <div class="flex items-center space-x-2">
-                    <Button
-                      aria-label="Go to first page"
-                      variant="outline"
-                      class="flex size-8 p-0"
-                      onClick={() => table.setPageIndex(0)}
-                      disabled={!table.getCanPreviousPage()}
-                    >
+                    <Button aria-label="Go to first page" variant="outline" class="flex size-8 p-0" onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()}>
                       <div class="size-4 i-tabler-chevrons-left" />
                     </Button>
-                    <Button
-                      aria-label="Go to previous page"
-                      variant="outline"
-                      size="icon"
-                      class="size-8"
-                      onClick={() => table.previousPage()}
-                      disabled={!table.getCanPreviousPage()}
-                    >
+                    <Button aria-label="Go to previous page" variant="outline" size="icon" class="size-8" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
                       <div class="size-4 i-tabler-chevron-left" />
                     </Button>
-                    <Button
-                      aria-label="Go to next page"
-                      variant="outline"
-                      size="icon"
-                      class="size-8"
-                      onClick={() => table.nextPage()}
-                      disabled={!table.getCanNextPage()}
-                    >
+                    <Button aria-label="Go to next page" variant="outline" size="icon" class="size-8" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
                       <div class="size-4 i-tabler-chevron-right" />
                     </Button>
                     <Button
@@ -251,7 +210,5 @@ const ProcessingList: Component<{ emailCallback: EmailCallback }> = (props) => {
 export const EmailCallbackInboxPage: Component = () => {
   const { emailCallback } = useEmailCallback();
 
-  return (
-    <ProcessingList emailCallback={emailCallback} />
-  );
+  return <ProcessingList emailCallback={emailCallback} />;
 };

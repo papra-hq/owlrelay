@@ -23,7 +23,7 @@ export function useEmailCallback() {
   return context;
 }
 
-export const EmailCallbackPage: ParentComponent = (props) => {
+export const EmailCallbackPage: ParentComponent = props => {
   const { t } = useI18n();
   const params = useParams();
   const navigate = useNavigate();
@@ -73,12 +73,9 @@ export const EmailCallbackPage: ParentComponent = (props) => {
                       <Show when={!getEmailCallback().isEnabled}>
                         <DisabledEmailBadge />
                       </Show>
-
                     </div>
 
-                    <div class="text-muted-foreground">
-                      {getEmailCallback().webhookUrl}
-                    </div>
+                    <div class="text-muted-foreground">{getEmailCallback().webhookUrl}</div>
                   </div>
                 </div>
 
@@ -86,9 +83,7 @@ export const EmailCallbackPage: ParentComponent = (props) => {
                   <Button
                     class="gap-2"
                     variant="outline"
-                    onClick={() => getEmailCallback().isEnabled
-                      ? disableEmailCallback({ emailCallbackId: getEmailCallback().id })
-                      : enableEmailCallback({ emailCallbackId: getEmailCallback().id })}
+                    onClick={() => (getEmailCallback().isEnabled ? disableEmailCallback({ emailCallbackId: getEmailCallback().id }) : enableEmailCallback({ emailCallbackId: getEmailCallback().id }))}
                   >
                     <div class="i-tabler-power size-4" />
                     {getEmailCallback().isEnabled ? t('email-callbacks.disable') : t('email-callbacks.enable')}
@@ -102,23 +97,29 @@ export const EmailCallbackPage: ParentComponent = (props) => {
               </div>
 
               <div class="flex flex-row gap-2 mt-4">
-                <Button variant="ghost" as={A} href={`/email-callbacks/${getEmailCallback().id}/inbox`} activeClass="border-b-2 border-b-primary text-foreground!" class="rounded-b-none text-muted-foreground transition bg-transparent!">
+                <Button
+                  variant="ghost"
+                  as={A}
+                  href={`/email-callbacks/${getEmailCallback().id}/inbox`}
+                  activeClass="border-b-2 border-b-primary text-foreground!"
+                  class="rounded-b-none text-muted-foreground transition bg-transparent!"
+                >
                   {t('email-callbacks.inbox')}
                 </Button>
 
-                <Button variant="ghost" as={A} href={`/email-callbacks/${getEmailCallback().id}/settings`} activeClass="border-b-2 border-b-primary text-foreground!" class="rounded-b-none text-muted-foreground transition bg-transparent!">
+                <Button
+                  variant="ghost"
+                  as={A}
+                  href={`/email-callbacks/${getEmailCallback().id}/settings`}
+                  activeClass="border-b-2 border-b-primary text-foreground!"
+                  class="rounded-b-none text-muted-foreground transition bg-transparent!"
+                >
                   {t('email-callbacks.settings')}
                 </Button>
-
               </div>
             </div>
 
-            <emailCallbackContext.Provider
-              value={{ emailCallback: getEmailCallback() }}
-            >
-              {props.children}
-            </emailCallbackContext.Provider>
-
+            <emailCallbackContext.Provider value={{ emailCallback: getEmailCallback() }}>{props.children}</emailCallbackContext.Provider>
           </div>
         )}
       </Show>

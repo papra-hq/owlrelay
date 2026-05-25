@@ -28,9 +28,7 @@ const LogoutCard: Component = () => {
     <Card class="flex flex-col sm:flex-row justify-between gap-4 sm:items-center p-6 border-destructive">
       <div>
         <div class="font-semibold">Logout</div>
-        <div class="text-sm text-muted-foreground">
-          Disconnect from your account. You can login again later.
-        </div>
+        <div class="text-sm text-muted-foreground">Disconnect from your account. You can login again later.</div>
       </div>
       <Button onClick={handleLogout} variant="destructive" isLoading={getIsLoading()}>
         Logout
@@ -39,7 +37,7 @@ const LogoutCard: Component = () => {
   );
 };
 
-const UserEmailCard: Component<{ email: string }> = (props) => {
+const UserEmailCard: Component<{ email: string }> = props => {
   return (
     <Card>
       <div class="border-b px-6 py-4">
@@ -58,7 +56,7 @@ const UserEmailCard: Component<{ email: string }> = (props) => {
   );
 };
 
-const UpdateFullNameCard: Component<{ name: string }> = (props) => {
+const UpdateFullNameCard: Component<{ name: string }> = props => {
   const { updateCurrentUser } = useUpdateCurrentUser();
 
   const { form, Form, Field } = createForm({
@@ -93,20 +91,8 @@ const UpdateFullNameCard: Component<{ name: string }> = (props) => {
                   Full name
                 </TextFieldLabel>
                 <div class="flex gap-2 flex-col sm:flex-row">
-                  <TextField
-                    type="text"
-                    id="name"
-                    placeholder="Eg. John Doe"
-                    {...inputProps}
-                    value={field.value}
-                    aria-invalid={Boolean(field.error)}
-                  />
-                  <Button
-                    type="submit"
-                    isLoading={form.submitting}
-                    class="flex-shrink-0"
-                    disabled={field.value?.trim() === props.name}
-                  >
+                  <TextField type="text" id="name" placeholder="Eg. John Doe" {...inputProps} value={field.value} aria-invalid={Boolean(field.error)} />
+                  <Button type="submit" isLoading={form.submitting} class="flex-shrink-0" disabled={field.value?.trim() === props.name}>
                     Update name
                   </Button>
                 </div>
@@ -148,9 +134,7 @@ export const SubscriptionCard: Component = () => {
     <Card class="flex flex-col sm:flex-row justify-between gap-4 sm:items-center p-6 ">
       <div>
         <div class="font-semibold">Subscription</div>
-        <div class="text-sm text-muted-foreground">
-          Manage your billing, invoices and payment methods.
-        </div>
+        <div class="text-sm text-muted-foreground">Manage your billing, invoices and payment methods.</div>
       </div>
       <Button onClick={goToCustomerPortal} isLoading={getIsLoading()} class="flex-shrink-0">
         Manage subscription

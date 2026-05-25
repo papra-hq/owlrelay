@@ -38,23 +38,14 @@ export const EmailRegisterForm: Component = () => {
       navigate('/');
     },
     schema: v.object({
-      email: v.pipe(
-        v.string(),
-        v.trim(),
-        v.nonEmpty('Please enter an email address'),
-        v.email('This is not a valid email address'),
-      ),
+      email: v.pipe(v.string(), v.trim(), v.nonEmpty('Please enter an email address'), v.email('This is not a valid email address')),
       password: v.pipe(
         v.string('Password is required'),
         v.nonEmpty('Please enter a password'),
         v.minLength(8, 'Password must be at least 8 characters'),
         v.maxLength(128, 'Password must be at most 128 characters'),
       ),
-      name: v.pipe(
-        v.string('Name is required'),
-        v.nonEmpty('Please enter a name'),
-        v.maxLength(64, 'Name must be at most 64 characters'),
-      ),
+      name: v.pipe(v.string('Name is required'), v.nonEmpty('Please enter a name'), v.maxLength(64, 'Name must be at most 64 characters')),
     }),
   });
 
@@ -91,10 +82,11 @@ export const EmailRegisterForm: Component = () => {
         )}
       </Field>
 
-      <Button type="submit" class="w-full" isLoading={form.submitting}>Register</Button>
+      <Button type="submit" class="w-full" isLoading={form.submitting}>
+        Register
+      </Button>
 
       <div class="text-red-500 text-sm mt-4">{form.response.message}</div>
-
     </Form>
   );
 };
@@ -107,21 +99,18 @@ export const RegisterPage: Component = () => {
       <AuthLayout>
         <div class="flex items-center justify-center h-full p-6 sm:pb-32">
           <div class="max-w-sm w-full">
-            <h1 class="text-xl font-bold">
-              Registration is disabled
-            </h1>
+            <h1 class="text-xl font-bold">Registration is disabled</h1>
             <p class="text-muted-foreground mt-1 mb-4">
-              The creation of new accounts is currently disabled on this instance of OwlRelay. Only users with existing accounts can log in. If you think this is a mistake, please contact the administrator of this instance.
+              The creation of new accounts is currently disabled on this instance of OwlRelay. Only users with existing accounts can log in. If you think this is a mistake, please contact the
+              administrator of this instance.
             </p>
 
             <p class="text-muted-foreground mt-4">
-              Already have an account?
-              {' '}
+              Already have an account?{' '}
               <Button variant="link" as={A} class="inline px-0" href="/login">
                 Login
               </Button>
             </p>
-
           </div>
         </div>
       </AuthLayout>
@@ -130,7 +119,7 @@ export const RegisterPage: Component = () => {
 
   const [getShowEmailRegister, setShowEmailRegister] = createSignal(false);
 
-  const registerWithProvider = async (provider: typeof ssoProviders[number]) => {
+  const registerWithProvider = async (provider: (typeof ssoProviders)[number]) => {
     await signIn.social({ provider: provider.key, callbackURL: config.baseUrl });
   };
 
@@ -140,37 +129,30 @@ export const RegisterPage: Component = () => {
     <AuthLayout>
       <div class="flex items-center justify-center h-full p-6 sm:pb-32">
         <div class="max-w-sm w-full">
-          <h1 class="text-xl font-bold">
-            Register to OwlRelay
-          </h1>
-          <p class="text-muted-foreground mt-1 mb-4">
-            Enter your email or use social login to create your OwlRelay account.
-          </p>
+          <h1 class="text-xl font-bold">Register to OwlRelay</h1>
+          <p class="text-muted-foreground mt-1 mb-4">Enter your email or use social login to create your OwlRelay account.</p>
 
-          {getShowEmailRegister() || !getHasSsoProviders()
-            ? <EmailRegisterForm />
-            : (
-                <Button onClick={() => setShowEmailRegister(true)} class="w-full">
-                  <div class="i-tabler-mail mr-2 size-4.5" />
-                  Register with email
-                </Button>
-              )}
+          {getShowEmailRegister() || !getHasSsoProviders() ? (
+            <EmailRegisterForm />
+          ) : (
+            <Button onClick={() => setShowEmailRegister(true)} class="w-full">
+              <div class="i-tabler-mail mr-2 size-4.5" />
+              Register with email
+            </Button>
+          )}
 
           <Show when={getHasSsoProviders()}>
             <Separator class="my-4" />
 
             <div class="flex flex-col gap-2">
               <For each={getEnabledSsoProviderConfigs({ config })}>
-                {provider => (
-                  <SsoProviderButton name={provider.name} icon={provider.icon} onClick={() => registerWithProvider(provider)} label={`Register with ${provider.name}`} />
-                )}
+                {provider => <SsoProviderButton name={provider.name} icon={provider.icon} onClick={() => registerWithProvider(provider)} label={`Register with ${provider.name}`} />}
               </For>
             </div>
           </Show>
 
           <p class="text-muted-foreground mt-4">
-            Already have an account?
-            {' '}
+            Already have an account?{' '}
             <Button variant="link" as={A} class="inline px-0" href="/login">
               Login
             </Button>

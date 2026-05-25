@@ -17,21 +17,18 @@ export function useCopy() {
   return { copy, getIsJustCopied };
 }
 
-export const CopyButton: ParentComponent<{ text: string; label?: string; copiedLabel?: string } & ComponentProps<typeof Button>> = (props) => {
+export const CopyButton: ParentComponent<{ text: string; label?: string; copiedLabel?: string } & ComponentProps<typeof Button>> = props => {
   const { copy, getIsJustCopied } = useCopy();
 
   return (
-    <Button
-      onClick={() => copy({ text: props.text })}
-      {...props}
-    >
+    <Button onClick={() => copy({ text: props.text })} {...props}>
       <div classList={{ 'i-tabler-copy': !getIsJustCopied(), 'i-tabler-check': getIsJustCopied() }} class="mr-2 text-lg" />
-      {(getIsJustCopied() ? props.copiedLabel ?? 'Copied!' : props.children ?? props.label ?? 'Copy')}
+      {getIsJustCopied() ? (props.copiedLabel ?? 'Copied!') : (props.children ?? props.label ?? 'Copy')}
     </Button>
   );
 };
 
-export const CopyIconButton: ParentComponent<{ text: string; toast?: string; tooltip?: string } & ComponentProps<typeof Button>> = (props) => {
+export const CopyIconButton: ParentComponent<{ text: string; toast?: string; tooltip?: string } & ComponentProps<typeof Button>> = props => {
   const { copy, getIsJustCopied } = useCopy();
 
   const handleClick = () => {
@@ -47,14 +44,7 @@ export const CopyIconButton: ParentComponent<{ text: string; toast?: string; too
 
   return (
     <Tooltip>
-      <TooltipTrigger
-        as={Button}
-        onClick={handleClick}
-        variant="ghost"
-        size="icon"
-        aria-label="Copy"
-        {...props}
-      >
+      <TooltipTrigger as={Button} onClick={handleClick} variant="ghost" size="icon" aria-label="Copy" {...props}>
         <div classList={{ 'i-tabler-copy': !getIsJustCopied(), 'i-tabler-check': getIsJustCopied() }} />
       </TooltipTrigger>
       <TooltipContent>{props.tooltip}</TooltipContent>

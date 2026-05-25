@@ -31,17 +31,7 @@ async function createCustomer({ stripeClient, email, userId }: { stripeClient: S
   return { customerId };
 }
 
-export async function createCheckoutUrl({
-  stripeClient,
-  customerId,
-  priceId,
-  config,
-}: {
-  stripeClient: Stripe;
-  customerId: string;
-  priceId: string;
-  config: Config;
-}) {
+export async function createCheckoutUrl({ stripeClient, customerId, priceId, config }: { stripeClient: Stripe; customerId: string; priceId: string; config: Config }) {
   const { baseUrl } = config.client;
 
   const successUrl = buildUrl({ baseUrl, path: '/checkout-success?sessionId={CHECKOUT_SESSION_ID}' });
@@ -71,17 +61,7 @@ async function parseWebhookEvent({ stripeClient, payload, secret, signature }: {
   return { event };
 }
 
-async function getCustomerPortalUrl({
-  stripeClient,
-  customerId,
-  config,
-  returnUrl = config.client.baseUrl,
-}: {
-  stripeClient: Stripe;
-  customerId: string;
-  returnUrl?: string;
-  config: Config;
-}) {
+async function getCustomerPortalUrl({ stripeClient, customerId, config, returnUrl = config.client.baseUrl }: { stripeClient: Stripe; customerId: string; returnUrl?: string; config: Config }) {
   const session = await stripeClient.billingPortal.sessions.create({
     customer: customerId,
     return_url: returnUrl,

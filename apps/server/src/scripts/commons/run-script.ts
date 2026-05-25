@@ -9,10 +9,7 @@ import { createLogger, wrapWithLoggerContext } from '../../modules/shared/logger
 
 export { runScript };
 
-async function runScript(
-  { scriptName }: { scriptName: string },
-  fn: (args: { logger: Logger; db: Database; config: Config; processArgs: Record<string, unknown> }) => Promise<void> | void,
-) {
+async function runScript({ scriptName }: { scriptName: string }, fn: (args: { logger: Logger; db: Database; config: Config; processArgs: Record<string, unknown> }) => Promise<void> | void) {
   const argv = process.argv.slice(2);
   const processArgs = parse(argv);
 

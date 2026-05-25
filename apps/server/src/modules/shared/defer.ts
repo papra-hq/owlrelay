@@ -8,7 +8,7 @@ export type Defer = (fn: (() => Promise<unknown>) | Promise<unknown>) => void;
 
 export function createDefer({ context, logger = createLogger({ namespace: 'defer' }) }: { context: Context; logger?: Logger }): { defer: Defer } {
   return {
-    defer: async (fn) => {
+    defer: async fn => {
       const handler = async () => {
         const [, error] = await safely(fn instanceof Promise ? fn : fn());
 
@@ -30,16 +30,13 @@ export function createDefer({ context, logger = createLogger({ namespace: 'defer
   };
 }
 
-export function createDeferrableFactory({
-  context,
-  logger = createLogger({ namespace: 'defer' }),
-}: {
-  context: Context;
-  logger?: Logger;
-}) {
+export function createDeferrableFactory({ context, logger = createLogger({ namespace: 'defer' }) }: { context: Context; logger?: Logger }) {
   const { defer } = createDefer({ context, logger });
 
   return {
-    makeDeferrable: <T>(fn: (args: T) => Promise<unknown>) => (args: T) => defer(fn(args)),
+    makeDeferrable:
+      <T>(fn: (args: T) => Promise<unknown>) =>
+      (args: T) =>
+        defer(fn(args)),
   };
 }
