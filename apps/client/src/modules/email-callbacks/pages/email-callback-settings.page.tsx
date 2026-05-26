@@ -8,16 +8,16 @@ import { useUpdateEmailCallback } from '../email-callbacks.composables';
 import { useEmailCallback } from './email-callback.page';
 
 export const EmailCallbackSettingsPage: Component = () => {
-  const { emailCallback } = useEmailCallback();
+  const { getEmailCallback } = useEmailCallback();
   const { t } = useI18n();
   const { updateEmailCallback } = useUpdateEmailCallback();
 
   const handleUpdateEmailCallback = async (args: EmailCallbackFormResult) => {
     await updateEmailCallback({
-      emailCallbackId: emailCallback.id,
+      emailCallbackId: getEmailCallback().id,
       emailCallback: {
         ...args,
-        webhookSecret: args.webhookSecret !== emailCallback.webhookSecret ? args.webhookSecret : undefined,
+        webhookSecret: args.webhookSecret !== getEmailCallback().webhookSecret ? args.webhookSecret : undefined,
       },
     });
 
@@ -30,7 +30,7 @@ export const EmailCallbackSettingsPage: Component = () => {
   return (
     <div class="mx-auto max-w-xl pb-32">
       <EmailCallbackForm
-        emailCallback={emailCallback}
+        emailCallback={getEmailCallback()}
         showRandomAddressButton={false}
         onSubmit={handleUpdateEmailCallback}
         submitButton={({ form }) => (

@@ -208,7 +208,7 @@ const ProcessingList: Component<{ emailCallback: EmailCallback }> = props => {
 };
 
 export const EmailCallbackInboxPage: Component = () => {
-  const { emailCallback } = useEmailCallback();
+  const { getEmailCallback } = useEmailCallback();
 
-  return <ProcessingList emailCallback={emailCallback} />;
+  return <ProcessingList emailCallback={getEmailCallback()} />;
 };
