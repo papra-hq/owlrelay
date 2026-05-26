@@ -12,7 +12,15 @@ import { createUsersRepository } from '../users/users.repository';
 import { createEmailCallbackNotFoundError } from './email-callbacks.errors';
 import { checkEmailCallbackUsernameIsAllowed, formatEmailCallbackForApi } from './email-callbacks.models';
 import { createEmailCallbacksRepository } from './email-callbacks.repository';
-import { emailCallbackIdOrAddressSchema, emailCallbackIdSchema, permissiveEmailSchema } from './email-callbacks.schemas';
+import {
+  createEmailCallbackDomainSchema,
+  emailCallbackAllowedOriginsSchema,
+  emailCallbackIdOrAddressSchema,
+  emailCallbackIdSchema,
+  emailCallbackUsernameSchema,
+  emailCallbackWebhookSecretSchema,
+  emailCallbackWebhookUrlSchema,
+} from './email-callbacks.schemas';
 import { checkUserCanCreateEmailCallback, deleteEmailCallback, resolveUserEmailCallbackId } from './email-callbacks.usecases';
 
 export async function registerEmailCallbacksPrivateRoutes({ app }: { app: ServerInstance }) {
@@ -48,18 +56,11 @@ function setupCreateEmailCallbackRoute({ app }: { app: ServerInstance }) {
       const { availableDomains } = config.emailCallbacks;
 
       return z.object({
-        domain: z
-          .enum(availableDomains as [string, ...string[]])
-          .optional()
-          .default(availableDomains[0]),
-        username: z
-          .string()
-          .regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i)
-          .min(3)
-          .max(32),
-        webhookUrl: z.url(),
-        webhookSecret: z.string().min(16).max(128).optional(),
-        allowedOrigins: z.array(permissiveEmailSchema).optional().default([]),
+        domain: createEmailCallbackDomainSchema({ availableDomains }).optional().default(availableDomains[0]),
+        username: emailCallbackUsernameSchema,
+        webhookUrl: emailCallbackWebhookUrlSchema,
+        webhookSecret: emailCallbackWebhookSecretSchema.optional(),
+        allowedOrigins: emailCallbackAllowedOriginsSchema.optional().default([]),
       });
     }),
     async context => {
@@ -127,16 +128,11 @@ function setupUpdateEmailCallbackRoute({ app }: { app: ServerInstance }) {
 
       return z.object({
         isEnabled: z.boolean().optional(),
-        domain: z.enum(availableDomains as [string, ...string[]]).optional(),
-        username: z
-          .string()
-          .regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i)
-          .min(3)
-          .max(32)
-          .optional(),
-        allowedOrigins: z.array(permissiveEmailSchema).optional().default([]),
-        webhookUrl: z.url().optional(),
-        webhookSecret: z.string().min(16).max(128).optional(),
+        domain: createEmailCallbackDomainSchema({ availableDomains }).optional(),
+        username: emailCallbackUsernameSchema.optional(),
+        allowedOrigins: emailCallbackAllowedOriginsSchema.optional(),
+        webhookUrl: emailCallbackWebhookUrlSchema.optional(),
+        webhookSecret: emailCallbackWebhookSecretSchema.optional(),
       });
     }),
     async context => {
