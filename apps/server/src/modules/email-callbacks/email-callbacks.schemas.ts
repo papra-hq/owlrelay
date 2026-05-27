@@ -10,7 +10,7 @@ export const emailCallbackUsernameSchema = z
   .string()
   .regex(/^[a-z0-9]([\w\-.]*[a-z0-9])?$/i)
   .min(3)
-  .max(32);
+  .max(64);
 
 export const emailCallbackWebhookUrlSchema = z.url();
 export const emailCallbackWebhookSecretSchema = z.string().min(16).max(128);
