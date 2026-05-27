@@ -5,14 +5,14 @@ import { CopyIconButton } from '@/modules/shared/utils/copy';
 import { Button } from '@/modules/ui/components/button';
 import { A, useNavigate, useParams } from '@solidjs/router';
 import { createQuery } from '@tanstack/solid-query';
-import { createContext, type ParentComponent, Show, useContext } from 'solid-js';
+import { type Accessor, createContext, type ParentComponent, Show, useContext } from 'solid-js';
 import { DisabledEmailBadge } from '../components/disabled-email-badge.component';
 import { useDeleteEmailCallback, useUpdateEmailCallback } from '../email-callbacks.composables';
 import { formatEmailAddress } from '../email-callbacks.models';
 import { getEmailCallback } from '../email-callbacks.services';
 
 const emailCallbackContext = createContext<{
-  emailCallback: EmailCallback;
+  getEmailCallback: Accessor<EmailCallback>;
 }>();
 
 export function useEmailCallback() {
@@ -119,7 +119,7 @@ export const EmailCallbackPage: ParentComponent = props => {
               </div>
             </div>
 
-            <emailCallbackContext.Provider value={{ emailCallback: getEmailCallback() }}>{props.children}</emailCallbackContext.Provider>
+            <emailCallbackContext.Provider value={{ getEmailCallback }}>{props.children}</emailCallbackContext.Provider>
           </div>
         )}
       </Show>
