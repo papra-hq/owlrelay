@@ -137,7 +137,7 @@ const deletedEmail = await client.deleteEmail({ emailId: '...' });
 
 ## License
 
-This library is licensed under the AGPL-3.0 License. See the [LICENSE](./LICENSE) file for details.
+This library is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
 
 ## Credits
 

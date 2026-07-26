@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/papra-hq/owlrelay/issues"
   },
-  "license": "AGPL-3.0",
+  "license": "MIT",
   "author": "OwlRelay <hello@owlrelay.email> (https://owlrelay.email)",
   "repository": "github:papra-hq/owlrelay",
   "files": [
