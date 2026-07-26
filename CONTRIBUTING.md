@@ -156,4 +156,4 @@ Look out for issues tagged as [**good first issue**](https://github.com/papra-hq
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the [AGPL3](./LICENSE), the same as the project itself.
+By contributing, you agree that your contributions will be licensed under the [AGPL3](./LICENSE), the same as the project itself. Contributions to the published packages (`packages/api-sdk` and `packages/webhook`) will be licensed under the MIT License, the same as those packages.

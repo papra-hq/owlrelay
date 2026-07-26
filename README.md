@@ -49,6 +49,8 @@ Contributions are welcome! Please refer to the [`CONTRIBUTING.md`](./CONTRIBUTIN
 
 This project is licensed under the AGPL-3.0 License - see the [LICENSE](./LICENSE) file for details.
 
+The published packages ([`@owlrelay/api-sdk`](./packages/api-sdk) and [`@owlrelay/webhook`](./packages/webhook)) are licensed under the MIT License.
+
 ## Community
 
 This project is part of the [Papra ecosystem](https://github.com/papra-hq).
