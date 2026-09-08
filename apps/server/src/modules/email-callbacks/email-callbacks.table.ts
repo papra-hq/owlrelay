@@ -1,4 +1,4 @@
-import { integer, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
+import { index, integer, sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
 import { createPrimaryKeyField, createTimestampColumns } from '../shared/db/columns.helpers';
 import { usersTable } from '../users/users.table';
 import { emailCallbackIdPrefix } from './email-callbacks.constants';
@@ -21,5 +21,5 @@ export const emailsCallbacksTable = sqliteTable(
     webhookUrl: text('webhook_url').notNull(),
     webhookSecret: text('webhook_secret'),
   },
-  table => [uniqueIndex('emails_callbacks_domain_username_index').on(table.domain, table.username)],
+  table => [uniqueIndex('emails_callbacks_domain_username_index').on(table.domain, table.username), index('emails_callbacks_user_id_index').on(table.userId)],
 );
