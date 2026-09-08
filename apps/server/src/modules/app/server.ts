@@ -6,9 +6,7 @@ import { Hono } from 'hono';
 import { secureHeaders } from 'hono/secure-headers';
 import { parseConfig } from '../config/config';
 import { createEmailsServices } from '../emails/emails.services';
-import { createDefer } from '../shared/defer';
 import { loggerMiddleware } from '../shared/logger/logger.middleware';
-import { createTrackingServices } from '../tracking/tracking.services';
 import { createAuthEmailsServices } from './auth/auth.emails.services';
 import { getAuth } from './auth/auth.services';
 import { setupDatabase } from './database/database';
@@ -34,10 +32,6 @@ export function createServer({
   app.use(async (context, next) => {
     const config = overrideConfig ?? parseConfig({ env: context.env as Record<string, string | undefined> }).config;
     const db = overrideDb ?? setupDatabase(config.database).db;
-    const { defer } = createDefer({ context });
-
-    const trackingServices = createTrackingServices({ config, defer });
-    context.set('trackingServices', trackingServices);
 
     const emailsServices = createEmailsServices({ config });
     const authEmailsServices = createAuthEmailsServices({ emailsServices });
@@ -45,15 +39,12 @@ export function createServer({
 
     const auth = overrideAuth ?? getAuth({ db, config, authEmailsServices, eventsServices }).auth;
 
-    context.set('trackingServices', trackingServices);
     context.set('config', config);
     context.set('db', db);
     context.set('auth', auth);
     context.set('eventsServices', eventsServices);
 
     await next();
-
-    trackingServices.flushAndShutdown();
   });
 
   app.use(corsMiddleware);

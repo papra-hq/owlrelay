@@ -1,7 +1,9 @@
 import type { Context } from '../server.types';
 import type { EventsServices } from './events.services';
 
-export function createRegistrableEventHandler(fn: (args: { eventsServices: EventsServices; context: Context }) => void | Promise<void>) {
+export type RegistrableEventHandler = (args: { eventsServices: EventsServices; context: Context }) => void | Promise<void>;
+
+export function createRegistrableEventHandler(fn: RegistrableEventHandler) {
   return fn;
 }
 

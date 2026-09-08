@@ -190,9 +190,6 @@ importers:
       postal-mime:
         specifier: ^2.4.3
         version: 2.4.3
-      posthog-node:
-        specifier: ^4.6.0
-        version: 4.7.0
       resend:
         specifier: ^4.1.2
         version: 4.1.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -2853,9 +2850,6 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  axios@1.7.9:
-    resolution: {integrity: sha512-LhLcE7Hbiryz8oMDdDptSrWowmB4Bl6RCt6sIJKpRB4XtVf0iEgewX3au/pJqm+Py1kCASkb/FFKjxQaLtxJvw==}
-
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
     engines: {node: '>= 0.4'}
@@ -3478,15 +3472,6 @@ packages:
   flattie@1.1.1:
     resolution: {integrity: sha512-9UbaD6XdAL97+k/n+N7JwX46K/M6Zc6KcFYskrYL8wbBV/Uyk0CTAMY0VT+qiK5PM7AIc9aTWYtq65U7T+aCNQ==}
     engines: {node: '>=8'}
-
-  follow-redirects@1.15.9:
-    resolution: {integrity: sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
 
   foreground-child@3.3.1:
     resolution: {integrity: sha512-gIXjKqtFuWEgzFRJA9WCQeSJLZDjgJUOMCMzxtvFq/37KojM1BFGufqsCy0r4qSQmYLsZYMeyRqzIWOMup03sw==}
@@ -4321,10 +4306,6 @@ packages:
     peerDependencies:
       '@rrweb/types': 2.0.0-alpha.17
 
-  posthog-node@4.7.0:
-    resolution: {integrity: sha512-RgdUKSW8MfMOkjUa8cYVqWndNjPePNuuxlGbrZC6z1WRBsVc6TdGl8caidmC10RW8mu/BOfmrGbP4cRTo2jARg==}
-    engines: {node: '>=15.0.0'}
-
   preact@10.26.2:
     resolution: {integrity: sha512-0gNmv4qpS9HaN3+40CLBAnKe0ZfyE4ZWo5xKlC1rVrr0ckkEvJvAQqKaHANdFKsGstoxrY4AItZ7kZSGVoVjgg==}
 
@@ -4351,9 +4332,6 @@ packages:
 
   proto-list@1.2.4:
     resolution: {integrity: sha512-vtK/94akxsTMhe0/cbfpR+syPuszcuwhqVjJq26CuNDgFGj682oRBXOP5MJpv2r7JtE8MsiepGIqvvOTBwn2vA==}
-
-  proxy-from-env@1.1.0:
-    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
 
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
@@ -7531,14 +7509,6 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  axios@1.7.9:
-    dependencies:
-      follow-redirects: 1.15.9
-      form-data: 4.0.2
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-
   axobject-query@4.1.0: {}
 
   babel-plugin-jsx-dom-expressions@0.39.3(@babel/core@7.26.0):
@@ -8165,8 +8135,6 @@ snapshots:
       pkg-dir: 4.2.0
 
   flattie@1.1.1: {}
-
-  follow-redirects@1.15.9: {}
 
   foreground-child@3.3.1:
     dependencies:
@@ -9278,12 +9246,6 @@ snapshots:
       preact: 10.26.2
       web-vitals: 4.2.4
 
-  posthog-node@4.7.0:
-    dependencies:
-      axios: 1.7.9
-    transitivePeerDependencies:
-      - debug
-
   preact@10.26.2: {}
 
   preferred-pm@4.1.1:
@@ -9306,8 +9268,6 @@ snapshots:
   property-information@6.5.0: {}
 
   proto-list@1.2.4: {}
-
-  proxy-from-env@1.1.0: {}
 
   punycode@2.3.1: {}
 

@@ -43,7 +43,6 @@
     "hono": "^4.6.15",
     "lodash-es": "^4.17.21",
     "postal-mime": "^2.4.3",
-    "posthog-node": "^4.6.0",
     "resend": "^4.1.2",
     "stripe": "^17.6.0",
     "tsx": "^4.19.2",
