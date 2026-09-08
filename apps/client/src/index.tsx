@@ -10,8 +10,6 @@ import { ConfigProvider } from './modules/config/config.provider';
 import { I18nProvider } from './modules/i18n/i18n.provider';
 import { ConfirmModalProvider } from './modules/shared/confirm';
 import { queryClient } from './modules/shared/query/query-client';
-import { IdentifyUser } from './modules/tracking/components/identify-user.component';
-import { PageViewTracker } from './modules/tracking/components/pageview-tracker.component';
 import { Toaster } from './modules/ui/components/sonner';
 import { routes } from './routes';
 import '@unocss/reset/tailwind.css';
@@ -37,8 +35,6 @@ render(() => {
                   // storageManager={localStorageManager}
                 >
                   <Toaster />
-                  <IdentifyUser />
-                  <PageViewTracker />
 
                   <ConfigProvider>
                     <div class="min-h-screen font-sans text-sm font-normal">{props.children}</div>
