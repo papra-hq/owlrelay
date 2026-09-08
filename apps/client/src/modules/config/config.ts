@@ -26,11 +26,6 @@ export const buildTimeConfig = {
   emailCallbacks: {
     availableDomains: asStringArray(import.meta.env.VITE_EMAIL_CALLBACKS_AVAILABLE_DOMAINS),
   },
-  posthog: {
-    apiKey: asString(import.meta.env.VITE_POSTHOG_API_KEY),
-    host: asString(import.meta.env.VITE_POSTHOG_HOST),
-    isEnabled: asBoolean(import.meta.env.VITE_POSTHOG_ENABLED, false),
-  },
 } as const;
 
 export type Config = typeof buildTimeConfig;
