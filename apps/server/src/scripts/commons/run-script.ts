@@ -13,7 +13,7 @@ async function runScript({ scriptName }: { scriptName: string }, fn: (args: { lo
   const argv = process.argv.slice(2);
   const processArgs = parse(argv);
 
-  wrapWithLoggerContext(
+  await wrapWithLoggerContext(
     {
       scriptName,
     },

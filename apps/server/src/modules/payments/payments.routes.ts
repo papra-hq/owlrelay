@@ -27,7 +27,7 @@ export function registerPublicPaymentsRoutes({ app }: { app: ServerInstance }) {
   setupStripeWebhookRoute({ app });
 }
 
-async function setupCreateCheckoutSessionRoute({ app }: { app: ServerInstance }) {
+function setupCreateCheckoutSessionRoute({ app }: { app: ServerInstance }) {
   app.post(
     '/api/payments/checkout-session',
     validateJsonBody(

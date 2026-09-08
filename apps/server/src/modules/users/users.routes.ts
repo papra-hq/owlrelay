@@ -6,7 +6,7 @@ import { getDb } from '../app/database/database.models';
 import { validateJsonBody } from '../shared/validation/validation';
 import { createUsersRepository } from './users.repository';
 
-export async function registerUsersPrivateRoutes({ app }: { app: ServerInstance }) {
+export function registerUsersPrivateRoutes({ app }: { app: ServerInstance }) {
   setupGetCurrentUserRoute({ app });
   setupUpdateUserRoute({ app });
 }

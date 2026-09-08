@@ -22,7 +22,7 @@ import {
 } from './email-callbacks.schemas';
 import { checkUserCanCreateEmailCallback, deleteEmailCallback, resolveUserEmailCallbackId } from './email-callbacks.usecases';
 
-export async function registerEmailCallbacksPrivateRoutes({ app }: { app: ServerInstance }) {
+export function registerEmailCallbacksPrivateRoutes({ app }: { app: ServerInstance }) {
   setupGetEmailCallbacksRoute({ app });
   setupCreateEmailCallbackRoute({ app });
   setupDeleteEmailCallbackRoute({ app });

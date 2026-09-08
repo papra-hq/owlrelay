@@ -7,7 +7,7 @@ import { validateJsonBody, validateParams } from '../shared/validation/validatio
 import { createApiKeysRepository } from './api-keys.repository';
 import { createApiKey } from './api-keys.usecases';
 
-export async function registerApiKeysPrivateRoutes({ app }: { app: ServerInstance }) {
+export function registerApiKeysPrivateRoutes({ app }: { app: ServerInstance }) {
   setupCreateApiKeyRoute({ app });
   setupDeleteApiKeyRoute({ app });
   setupGetApiKeysRoute({ app });
