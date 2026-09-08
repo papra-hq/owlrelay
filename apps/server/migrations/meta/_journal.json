@@ -29,6 +29,13 @@
       "when": 1746041936048,
       "tag": "0003_api-keys-remove-token",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1788872897487,
+      "tag": "0004_missing-query-indexes",
+      "breakpoints": true
     }
   ]
 }
