@@ -1,7 +1,7 @@
 import type { ServerInstance } from '../app/server.types';
 import { getConfig, getPublicConfig } from './config.models';
 
-export async function registerConfigPublicRoutes({ app }: { app: ServerInstance }) {
+export function registerConfigPublicRoutes({ app }: { app: ServerInstance }) {
   setupGetPublicConfigRoute({ app });
 }
 
