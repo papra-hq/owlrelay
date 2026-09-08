@@ -1,7 +1,6 @@
-import type { FetchError } from 'ofetch';
 import { get } from 'lodash-es';
 
-export function shouldRefreshAuthTokens({ error }: { error: FetchError | unknown | undefined }) {
+export function shouldRefreshAuthTokens({ error }: { error: unknown }) {
   if (!error) {
     return false;
   }
