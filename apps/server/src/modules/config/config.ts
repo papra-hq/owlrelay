@@ -8,7 +8,6 @@ import { databaseConfig } from '../app/database/database.config';
 import { emailCallbacksConfig } from '../email-callbacks/email-callbacks.config';
 import { emailsConfig } from '../emails/emails.config';
 import { createLogger } from '../shared/logger/logger';
-import { trackingConfig } from '../tracking/tracking.config';
 
 export const configDefinition = {
   env: {
@@ -74,7 +73,6 @@ export const configDefinition = {
     },
   },
   database: databaseConfig,
-  tracking: trackingConfig,
   emails: emailsConfig,
   auth: authConfig,
   emailCallbacks: emailCallbacksConfig,
