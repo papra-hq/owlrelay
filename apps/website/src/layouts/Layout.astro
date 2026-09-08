@@ -1,6 +1,4 @@
 ---
-import CookieConsentBanner from '../components/CookieConsentBanner.astro';
-import PosthogAnalytics from '../components/PosthogAnalytics.astro';
 import '../styles/app.css';
 
 const appName = 'OwlRelay';
@@ -48,11 +46,8 @@ const ogImageHeight = '630';
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-
-    <PosthogAnalytics />
   </head>
   <body class="bg-background font-sans antialiased min-h-screen text-foreground text-sm relative" data-kb-theme="light">
     <slot />
-    <CookieConsentBanner />
   </body>
 </html>
